@@ -261,10 +261,96 @@ Com a definição de todas as condições, a variável categórica está pronta 
 
 Para consolidar esse aprendizado, sugerimos que pratique o processo de criação de categorias com outros conjuntos de dados e exemplos. Lembre-se, a prática é uma parte importante do aprendizado. Quanto mais você praticar, mais natural o processo se tornará.
 
-\section{Tratamento de Dados Faltantes}
-Dados faltantes ou incompletos são uma realidade em análise de dados. Nesta seção, ensinaremos como identificar e tratar esses dados no Jamovi.
+\section{Inserindo descrição nas variáveis}
 
-\section{Filtragem de Dados}
+Ao trabalhar com conjuntos de dados complexos, é fundamental compreender o significado de cada variável presente. Uma prática essencial para facilitar esse entendimento é adicionar descrições detalhadas às variáveis. Nesta seção, aprenderemos como inserir descrições nas variáveis do Jamovi, um recurso simples mas que pode melhorar significativamente a organização e compreensão dos seus dados.
+
+\subsection{Importância das descrições de variáveis}
+
+Antes de aprendermos o processo propriamente dito, é importante entender por que a inserção de descrições nas variáveis é uma prática recomendada:
+
+\begin{itemize}
+    \item \textbf{Clareza de entendimento}: Evita confusões sobre o significado de cada variável, principalmente quando o nome das variáveis é abreviado ou codificado.
+    \item \textbf{Documentação integrada}: Funciona como um dicionário de dados embutido no próprio arquivo.
+    \item \textbf{Colaboração eficiente}: Facilita o compartilhamento de dados com colegas que não estão familiarizados com o conjunto de dados.
+    \item \textbf{Memória futura}: Ajuda você mesmo a relembrar o significado das variáveis quando revisitar o projeto meses depois.
+    \item \textbf{Especificação de códigos}: Permite documentar o significado de códigos numéricos (ex: 0 = Não, 1 = Sim).
+\end{itemize}
+
+\subsection{Adicionando descrições às variáveis}
+
+O processo de inserção de descrições no Jamovi é bastante simples e intuitivo:
+
+\begin{enumerate}
+    \item Abra o conjunto de dados no Jamovi.
+    \item Clique no menu \textbf{Variáveis} na barra superior.
+    \item Para cada variável na lista que aparece, você verá um campo de descrição à direita do nome da variável.
+    \item Clique neste campo e digite a descrição desejada.
+    \item Após inserir a descrição, clique em qualquer outra área para confirmar.
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Menu para inserção de descrições nas variáveis}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/descricao_variaveis_1.jpg}
+%     \label{fig:descricao_variaveis_1}
+% \end{figure}
+
+\subsection{Boas práticas para descrição de variáveis}
+
+Para maximizar a utilidade das descrições de variáveis, considere as seguintes recomendações:
+
+\begin{itemize}
+    \item \textbf{Seja conciso mas completo}: Inclua informações essenciais sem escrever parágrafos extensos.
+    \item \textbf{Especifique unidades de medida}: Para variáveis numéricas, indique a unidade (ex: idade em anos, peso em kg).
+    \item \textbf{Documente códigos}: Para variáveis categóricas, especifique o significado dos códigos (ex: "0 = Não, 1 = Sim").
+    \item \textbf{Mencione dados ausentes}: Se relevante, indique como os dados ausentes são representados.
+    \item \textbf{Use linguagem clara}: Evite jargões ou abreviações que possam não ser compreendidos por todos.
+\end{itemize}
+
+\subsection{Exemplo prático}
+
+Usando um conjunto de dados sobre o Titanic como exemplo, poderíamos adicionar as seguintes descrições:
+
+\begin{itemize}
+    \item \textbf{id}: Identificador único do passageiro
+    \item \textbf{survived}: Se o passageiro sobreviveu ou não (0 = Não, 1 = Sim)
+    \item \textbf{class}: Classe na qual o passageiro viajava
+    \item \textbf{name}: Nome completo do passageiro
+    \item \textbf{sex}: Sexo do passageiro
+    \item \textbf{age}: Idade do passageiro em anos
+    \item \textbf{sib\_sp}: Número de irmãos/cônjuges a bordo
+    \item \textbf{parch}: Número de pais/filhos a bordo
+    \item \textbf{ticket}: Número do bilhete
+    \item \textbf{fare}: Preço pago pelo bilhete em libras
+    \item \textbf{cabin}: Número da cabine
+    \item \textbf{embarked}: Porto de embarque (C = Cherbourg, Q = Queenstown, S = Southampton)
+\end{itemize}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Exemplo de descrições aplicadas a um conjunto de dados do Titanic}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/descricao_variaveis_2.jpg}
+%     \label{fig:descricao_variaveis_2}
+% \end{figure}
+
+\subsection{Visualizando as descrições}
+
+Uma vez que as descrições tenham sido adicionadas, elas se tornam parte integrante do seu arquivo Jamovi. Ao passar o mouse sobre o nome de uma variável durante a análise ou seleção de variáveis, você verá a descrição aparecer como uma dica flutuante, facilitando a identificação rápida do significado de cada variável.
+
+\subsection{Considerações finais}
+
+A adição de descrições às variáveis pode parecer uma tarefa simples e até mesmo opcional, mas é uma prática que distingue análises de dados amadoras de análises profissionais. Uma boa documentação não apenas facilita seu próprio trabalho, mas também demonstra rigor metodológico e consideração pelos futuros leitores ou colaboradores do seu projeto.
+
+Adote o hábito de adicionar descrições claras às suas variáveis logo após importar ou criar um novo conjunto de dados. Este pequeno investimento de tempo inicial economizará horas de confusão e retrabalho no futuro, especialmente em projetos mais extensos ou que envolvam múltiplos colaboradores.
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para uma demonstração visual de como inserir descrições nas variáveis do Jamovi, confira meu tutorial em vídeo. Nele, mostro o processo passo a passo usando um conjunto de dados do Titanic como exemplo.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/00HUaQaRt_E?si=JdYJKYGYpf6Orlox}{Como Inserir Descrição nas Variáveis no Jamovi}
+\end{tcolorbox}
+
+
+\section{Filtro de Dados}
 A filtragem é um passo crucial na preparação dos dados. Aqui, mostraremos como selecionar e filtrar subconjuntos de dados no Jamovi.
 
 \section{Ordenação de Dados}
