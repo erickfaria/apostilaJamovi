@@ -76,14 +76,79 @@ O design do Jamovi prioriza a simplicidade sem sacrificar a funcionalidade. Embo
 \end{tcolorbox}
 
 \section{Importação de Dados}
-Aqui, abordaremos o processo de importação de dados no Jamovi. Enfatizaremos a importância de compreender diferentes formatos de dados e como manuseá-los no software.
+
+A importação de dados é um dos primeiros passos fundamentais para começar a trabalhar com análises estatísticas no Jamovi. O software oferece uma interface simples e intuitiva para este processo, permitindo importar dados de diversas fontes e formatos.
+
+\subsection{Preparação dos dados antes da importação}
+
+Antes de iniciar a importação propriamente dita, é fundamental realizar uma preparação prévia dos seus dados. Esta etapa, muitas vezes negligenciada, pode poupar tempo e evitar problemas durante as análises subsequentes:
+
+\begin{itemize}
+    \item \textbf{Limpe seus dados em uma planilha}: Abra seus dados em softwares como Excel ou Google Sheets antes de importá-los para o Jamovi.
+    \item \textbf{Remova células mescladas}: Arquivos com células mescladas frequentemente causam problemas durante a importação.
+    \item \textbf{Trate valores ausentes}: Identifique e padronize como os dados ausentes estão representados.
+    \item \textbf{Verifique a consistência}: Certifique-se de que as variáveis estão no formato adequado (numérico, texto, data).
+    \item \textbf{Salve em formato compatível}: Preferencialmente, salve os dados em formato CSV para garantir melhor compatibilidade.
+\end{itemize}
+
+Esta preparação prévia é especialmente importante quando trabalhamos com dados de fontes oficiais, como IBGE, que frequentemente vêm com formatações específicas que podem dificultar a importação direta.
+
+\subsection{Processo de importação no Jamovi}
+
+O processo de importação de dados no Jamovi é bastante simples e direto:
+
+\begin{enumerate}
+    \item Abra o Jamovi e clique no botão \textbf{Abrir} localizado no canto superior esquerdo da interface.
+    \item Na janela que se abre, você verá duas opções principais:
+    \begin{itemize}
+        \item \textbf{Este PC}: Para importar arquivos salvos no seu computador.
+        \item \textbf{Biblioteca de dados}: Para acessar conjuntos de dados já incluídos no Jamovi.
+    \end{itemize}
+    \item Para importar dados externos, selecione \textbf{Este PC}.
+    \item Navegue até a pasta onde seu arquivo está armazenado, ou use o botão \textbf{Procurar} para localizar o arquivo.
+    \item Selecione o arquivo desejado e clique em \textbf{Abrir}.
+    \item O Jamovi importará os dados automaticamente, realizando configurações iniciais baseadas nos tipos de dados detectados.
+    \item Verifique se a importação ocorreu corretamente, confirmando se todas as variáveis e observações estão presentes e no formato adequado.
+\end{enumerate}
 
 \begin{figure}[H]
     \centering
-    \caption{Área de Criação e Manipulação de Variáveis no Jamovi}
+    \caption{Importando dados no Jamovi através do menu Arquivo}
     \includegraphics[width=\textwidth]{imagens/cap_2/importar_dados_jamovi_1.jpg}
     \label{fig:importar_dados_jamovi_1}
 \end{figure}
+
+\subsection{Biblioteca de dados integrada}
+
+O Jamovi inclui uma biblioteca de conjuntos de dados pré-carregados que podem ser úteis para prática e ensino:
+
+\begin{itemize}
+    \item Na tela de abertura de arquivos, selecione \textbf{Biblioteca de dados}.
+    \item Você encontrará diversos conjuntos clássicos, como o dataset Iris de Anderson, frequentemente usado em cursos introdutórios de estatística.
+    \item Estes dados são particularmente úteis para professores e estudantes que desejam praticar técnicas estatísticas sem precisar coletar ou importar dados externos.
+\end{itemize}
+
+\subsection{Formatos de arquivo suportados}
+
+O Jamovi suporta diversos formatos de arquivo, incluindo:
+
+\begin{itemize}
+    \item CSV (Comma-Separated Values)
+    \item Excel (.xlsx, .xls)
+    \item Arquivos de texto (.txt)
+    \item Arquivos SPSS (.sav)
+    \item Arquivos SAS (.sas7bdat)
+    \item Arquivos Stata (.dta)
+    \item Arquivos R (.rdata, .rds)
+    \item Arquivos do próprio Jamovi (.omv)
+\end{itemize}
+
+Entre esses formatos, o CSV é geralmente recomendado por sua simplicidade e compatibilidade universal, minimizando problemas de importação.
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para ver este processo em ação, confira meu tutorial em vídeo sobre importação de dados no Jamovi. O vídeo demonstra passo a passo como importar diferentes tipos de arquivos e resolver problemas comuns de importação.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/NIpt0wIq5pc?si=IjYrrMqUSNfltmJ9}{Importação de Dados no Jamovi}
+\end{tcolorbox}
 
 \section{Criação de Variáveis}
 Nesta seção, ensinaremos como criar novas variáveis a partir de variáveis já existentes. Essa é uma habilidade fundamental ao trabalhar com grandes conjuntos de dados.
