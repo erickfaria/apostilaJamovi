@@ -150,8 +150,117 @@ Entre esses formatos, o CSV é geralmente recomendado por sua simplicidade e com
   \textcolor{red}{\faYoutube} \href{https://youtu.be/NIpt0wIq5pc?si=IjYrrMqUSNfltmJ9}{Importação de Dados no Jamovi}
 \end{tcolorbox}
 
-% \section{Criação de Variáveis}
-% Nesta seção, ensinaremos como criar novas variáveis a partir de variáveis já existentes. Essa é uma habilidade fundamental ao trabalhar com grandes conjuntos de dados.
+\section{Inserir variável no Jamovi}
+
+Embora o Jamovi seja principalmente usado para analisar dados já existentes, às vezes precisamos adicionar novas variáveis diretamente no software. Nesta seção, aprenderemos como inserir novas variáveis no Jamovi e adicionar dados manualmente.
+
+\subsection{Quando inserir variáveis diretamente no Jamovi}
+
+Antes de aprendermos o processo de inserção de variáveis, é importante considerar quando é apropriado fazê-lo:
+
+\begin{itemize}
+    \item \textbf{Pequenas adições}: Quando precisamos adicionar uma ou poucas variáveis a um conjunto de dados já importado.
+    \item \textbf{Variáveis calculadas}: Quando precisamos criar uma variável que é resultado de cálculos baseados em outras variáveis.
+    \item \textbf{Categorização}: Quando desejamos criar uma variável categórica a partir de dados existentes.
+    \item \textbf{Protótipos}: Para criar pequenos conjuntos de dados para testes ou demonstrações.
+\end{itemize}
+
+No entanto, é importante ressaltar que para conjuntos de dados grandes ou completos, é geralmente mais eficiente preparar os dados em planilhas como Excel ou Google Sheets antes de importá-los para o Jamovi.
+
+\subsection{Adicionando uma nova variável}
+
+O processo para adicionar uma nova variável no Jamovi é bastante simples:
+
+\begin{enumerate}
+    \item Clique no menu \textbf{Variáveis} na barra superior.
+    \item Selecione a opção \textbf{Adicionar}.
+    \item Na janela que aparece, selecione \textbf{Acrescentar} para adicionar uma nova coluna ao final da tabela.
+    \item Uma nova variável será adicionada com um nome padrão (geralmente "var").
+\end{enumerate}
+
+Alternativamente, você pode:
+\begin{enumerate}
+    \item Clicar com o botão direito do mouse em qualquer cabeçalho de variável.
+    \item Selecionar a opção \textbf{Adicionar Variável} no menu de contexto.
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Adicionando uma nova variável no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/inserir_variavel_1.jpg}
+%     \label{fig:inserir_variavel_1}
+% \end{figure}
+
+\subsection{Nomeando e configurando a variável}
+
+Após adicionar a variável, é importante configurá-la adequadamente:
+
+\begin{enumerate}
+    \item Clique no nome padrão da variável para editá-lo.
+    \item Atribua um nome seguindo as boas práticas de nomenclatura:
+    \begin{itemize}
+        \item Use nomes curtos e descritivos.
+        \item Evite espaços (use underscore ``\_'' se necessário);
+        \item Não use acentos ou caracteres especiais.
+        \item Prefira letras minúsculas.
+        \item Não inicie com números.
+        \item Mantenha um padrão de nomenclatura.
+    \end{itemize}
+    \item Adicione uma descrição à variável no campo apropriado.
+    \item Configure o tipo de medida (nominal, ordinal ou contínua) conforme necessário.
+\end{enumerate}
+
+Estas boas práticas de nomenclatura são particularmente importantes se você planeja exportar seus dados para outros softwares como R ou Python no futuro, pois evitam problemas de compatibilidade.
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Nomeando e configurando uma variável no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/inserir_variavel_2.jpg}
+%     \label{fig:inserir_variavel_2}
+% \end{figure}
+
+\subsection{Inserindo dados manualmente}
+
+Para inserir dados na nova variável:
+
+\begin{enumerate}
+    \item Clique duas vezes na célula onde deseja inserir o dado.
+    \item Digite o valor desejado.
+    \item Pressione Enter ou clique em outra célula para confirmar.
+    \item Continue preenchendo as demais células conforme necessário.
+\end{enumerate}
+
+\subsection{Apagando variáveis}
+
+Se precisar remover uma variável, existem duas maneiras de fazê-lo:
+
+\begin{enumerate}
+    \item \textbf{Método 1:} 
+    \begin{itemize}
+        \item Clique no menu \textbf{Variáveis}.
+        \item Selecione a variável que deseja apagar.
+        \item Clique no botão \textbf{Apagar}.
+    \end{itemize}
+    
+    \item \textbf{Método 2:}
+    \begin{itemize}
+        \item Clique com o botão direito no cabeçalho da variável.
+        \item Selecione a opção \textbf{Apagar Variável}.
+    \end{itemize}
+\end{enumerate}
+
+Para apagar múltiplas variáveis de uma vez:
+\begin{enumerate}
+    \item Mantenha a tecla Shift pressionada e clique nos cabeçalhos das variáveis que deseja selecionar.
+    \item Clique com o botão direito em uma das variáveis selecionadas.
+    \item Escolha a opção \textbf{Apagar Variável}.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para ver na prática como inserir e gerenciar variáveis no Jamovi, confira meu tutorial em vídeo. Nele, mostro passo a passo como adicionar, configurar e remover variáveis, além de dicas úteis para uma melhor organização dos seus dados.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/UqEnetiHEns?si=qvTd5AucIA88QR3j}{Como Inserir Variáveis no Jamovi}
+\end{tcolorbox}
+
 
 \section{Transformação de Variáveis}
 A transformação de variáveis é um aspecto essencial da manipulação de dados. Aqui, exploraremos as diferentes maneiras de transformar variáveis no Jamovi.
@@ -358,9 +467,6 @@ Nesta seção, abordaremos a ordenação de dados, uma operação importante par
 
 \section{Renomear e Reorganizar Variáveis}
 Aqui, falaremos sobre como renomear e reorganizar variáveis no Jamovi. Esses são passos fundamentais na organização dos dados para análise.
-
-\section{Dicas e Truques}
-Esta seção apresentará dicas e truques úteis para melhorar a eficiência na manipulação de dados no Jamovi. Buscaremos compartilhar os melhores métodos e práticas recomendadas.
 
 \section{Salvar e Exportar Dados}
 
