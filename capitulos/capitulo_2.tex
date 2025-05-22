@@ -32,14 +32,48 @@ O mais importante é entender que a manipulação de dados não é apenas uma et
 Nas próximas páginas, vamos explorar juntos como realizar essas tarefas no Jamovi, com exemplos práticos e orientações passo a passo. Meu objetivo é que, ao final deste capítulo, você se sinta confiante para transformar aqueles dados brutos e desorganizados em um conjunto pronto para revelar seus segredos através da análise estatística.
 
 \section{Interface do Jamovi}
-Este segmento é dedicado a apresentar a interface de manipulação de dados do Jamovi. Discutiremos os componentes visuais e explicaremos como interagir com eles para realizar diversas operações.
+
+Antes de mergulharmos nas análises estatísticas, é fundamental conhecermos bem a interface do Jamovi. Uma compreensão clara da organização do programa nos permitirá navegar com eficiência e aproveitar todo seu potencial.
+
+Ao abrir o Jamovi pela primeira vez, você se deparará com uma tela dividida em duas áreas principais :
+
+\begin{itemize}
+    \item \textbf{Área de Dados (esquerda):} Nesta região ficam exibidas todas as variáveis do seu conjunto de dados, similar a uma planilha. Aqui você visualizará, criará e modificará suas variáveis.
+
+    \item \textbf{Área de Resultados (direita):} É a seção onde serão exibidos todos os outputs das análises, como tabelas, gráficos e estatísticas. Esta área, inicialmente identificada pelo logotipo do Jamovi sobre fundo branco, será preenchida conforme você executa análises.
+\end{itemize}
+
+Na parte superior da interface, encontramos a barra de ferramentas principal com quatro menus essenciais:
+
+\begin{itemize}
+    \item \textbf{Menu Arquivo:} Localizado no extremo superior esquerdo, permite criar um novo banco de dados, abrir arquivos existentes, importar dados de outros formatos, salvar seu trabalho e exportar resultados. Logo abaixo deste menu, você encontrará um histórico dos arquivos recentemente abertos, facilitando o acesso rápido a projetos em andamento.
+
+    \item \textbf{Menu Variáveis:} Oferece opções para criar novas variáveis, adicionar descrições (conhecidas como ``labels'' em outros softwares estatísticos), transformar variáveis existentes e gerenciar seus metadados (Figura \ref{fig:interface_jamovi_1}).
+
+    \item \textbf{Menu Dados:} Concentra as funcionalidades relacionadas à manipulação do conjunto de dados como um todo, permitindo transformações, cálculos, adição ou remoção de casos, entre outras operações.
+
+    \item \textbf{Menu Análises:} Possivelmente o mais utilizado, contém todas as ferramentas estatísticas disponíveis no programa, desde análises descritivas básicas (frequências, medidas de tendência central) até testes mais avançados como regressão, ANOVA e testes não-paramétricos.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
-    \caption{Área de Criação e Manipulação de Variáveis no Jamovi}
+    \caption{Visão geral da interface do Jamovi, mostrando as áreas de dados e resultados}
     \includegraphics[width=\textwidth]{imagens/cap_2/interface_jamovi_1.jpg}
     \label{fig:interface_jamovi_1}
 \end{figure}
+
+Um diferencial interessante do Jamovi é seu \textbf{Editor de Resultados}, acessível através do menu ``Editar''. Esta funcionalidade transforma a área de resultados em um documento editável, semelhante a um relatório técnico. Você pode adicionar textos explicativos, títulos formatados, links e até fórmulas matemáticas entre suas análises. Por exemplo, é possível inserir a famosa equação $E=mc^2$ usando a função de fórmulas, criar cabeçalhos para seções do seu relatório, ou adicionar textos em itálico para destacar conceitos importantes.
+
+Esta capacidade de documentação integrada elimina a necessidade de exportar resultados para outro software antes de elaborar seu relatório final, tornando seu fluxo de trabalho mais eficiente.
+
+O design do Jamovi prioriza a simplicidade sem sacrificar a funcionalidade. Embora a interface possa parecer minimalista à primeira vista, ela contém todas as ferramentas necessárias para análises estatísticas robustas. Como veremos ao longo desta apostila, o Jamovi consegue ser simultaneamente acessível para iniciantes e poderoso para usuários avançados.
+
+À medida que nos aprofundarmos em cada funcionalidade nas próximas seções, recomendo que você explore a interface por conta própria. Familiarizar-se com a localização das ferramentas agora facilitará significativamente seu trabalho quando começarmos a realizar análises estatísticas propriamente ditas.
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Preparei um vídeo apresentando a Interface do Jamovi, que vai te ajudar a dar os primeiros passos nessa incrível ferramenta estatística. Depois de ler a seção da apostila, não deixe de conferir essa videoaula, tenho certeza de que você vai adorar e aprender muito. Clique no link abaixo e aproveite!\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/bV9hlHPLe5I?si=h43c1jAG01oxltOB}{Jamovi - Interface do Jamovi}
+\end{tcolorbox}
 
 \section{Importação de Dados}
 Aqui, abordaremos o processo de importação de dados no Jamovi. Enfatizaremos a importância de compreender diferentes formatos de dados e como manuseá-los no software.
