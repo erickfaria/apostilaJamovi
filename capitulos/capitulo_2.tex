@@ -462,8 +462,114 @@ Adote o hábito de adicionar descrições claras às suas variáveis logo após 
 \section{Filtro de Dados}
 A filtragem é um passo crucial na preparação dos dados. Aqui, mostraremos como selecionar e filtrar subconjuntos de dados no Jamovi.
 
-\section{Ordenação de Dados}
-Nesta seção, abordaremos a ordenação de dados, uma operação importante para a visualização eficaz e análise de conjuntos de dados.
+\section{Organizando as variáveis}
+
+A organização adequada das variáveis é um aspecto fundamental para garantir análises estatísticas precisas e facilitar a interpretação dos resultados. Nesta seção, aprenderemos como padronizar e organizar as variáveis no Jamovi, incluindo a edição de suas propriedades, tipos de dados e configurações de exibição.
+
+\subsection{Padronização de variáveis}
+
+Manter um padrão consistente na nomenclatura e configuração das variáveis é uma prática recomendada em análise de dados por diversos motivos:
+
+\begin{itemize}
+    \item \textbf{Legibilidade}: Nomes padronizados facilitam a identificação rápida das variáveis.
+    \item \textbf{Compatibilidade}: Evita problemas ao exportar dados para outros softwares.
+    \item \textbf{Colaboração}: Facilita o trabalho em equipe quando múltiplos pesquisadores utilizam o mesmo conjunto de dados.
+    \item \textbf{Reprodutibilidade}: Torna mais fácil replicar análises no futuro.
+\end{itemize}
+
+Algumas recomendações de padronização incluem:
+\begin{itemize}
+    \item Usar letras minúsculas para todos os nomes de variáveis
+    \item Evitar espaços e caracteres especiais
+    \item Manter consistência nos prefixos e sufixos
+    \item Usar nomes curtos, mas significativos
+\end{itemize}
+
+\subsection{Editando propriedades das variáveis}
+
+O Jamovi oferece duas formas principais para editar as propriedades das variáveis:
+
+\begin{enumerate}
+    \item \textbf{Através do menu Variáveis}:
+    \begin{itemize}
+        \item Clique no menu \textbf{Variáveis} na barra superior.
+        \item Localize a variável que deseja editar.
+        \item Clique duas vezes sobre o nome ou descrição para modificá-los.
+        \item Ajuste os tipos de medida e outras configurações conforme necessário.
+    \end{itemize}
+    
+    \item \textbf{Diretamente na área de dados}:
+    \begin{itemize}
+        \item Clique duas vezes sobre o cabeçalho da coluna (nome da variável).
+        \item Uma janela de edição se abrirá, permitindo modificar todas as propriedades.
+    \end{itemize}
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Editando propriedades de variáveis no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/organizando_variaveis_1.jpg}
+%     \label{fig:organizando_variaveis_1}
+% \end{figure}
+
+\subsection{Configurando tipos de dados}
+
+Um aspecto crucial da organização de variáveis é garantir que cada uma esteja configurada com o tipo de dado apropriado:
+
+\begin{itemize}
+    \item \textbf{Inteiro}: Para valores numéricos sem casas decimais (ex: idade em anos completos, contagens).
+    \item \textbf{Decimal}: Para valores numéricos com casas decimais (ex: preços, medidas precisas).
+    \item \textbf{Texto}: Para dados não numéricos ou identificadores.
+\end{itemize}
+
+Por exemplo, ao configurar uma variável de idade onde todos os valores são anos completos:
+
+\begin{enumerate}
+    \item Abra as propriedades da variável.
+    \item Na seção "Tipo de dado", selecione "Inteiro".
+    \item Isso automaticamente removerá as casas decimais desnecessárias da exibição.
+\end{enumerate}
+
+\subsection{Configurando casas decimais}
+
+Para variáveis que exigem casas decimais, é importante observar que:
+
+\begin{itemize}
+    \item O Jamovi, assim como a maioria dos softwares estatísticos e linguagens de programação, utiliza o \textbf{ponto} como separador decimal, seguindo o padrão internacional (ex: 10.5, não 10,5).
+    \item É possível configurar o número de casas decimais exibidas para cada variável.
+\end{itemize}
+
+\subsection{Configurando o tipo de medida}
+
+Além do tipo de dado, é importante configurar corretamente o tipo de medida de cada variável:
+
+\begin{itemize}
+    \item \textbf{Nominal}: Para categorias sem ordem (ex: gênero, cor dos olhos).
+    \item \textbf{Ordinal}: Para categorias com ordem natural (ex: nível de educação, grau de satisfação).
+    \item \textbf{Contínua}: Para medidas numéricas com significado quantitativo (ex: altura, temperatura).
+\end{itemize}
+
+Esta configuração é crucial pois determina quais análises estatísticas serão disponibilizadas para cada variável no Jamovi.
+
+\subsection{Melhores práticas para organização de variáveis}
+
+Ao organizar suas variáveis no Jamovi, considere as seguintes recomendações:
+
+\begin{itemize}
+    \item \textbf{Revise seus dados após a importação}: Verifique se os tipos de dados foram detectados corretamente.
+    \item \textbf{Corrija formatos inadequados}: Por exemplo, remova casas decimais em variáveis que representam valores inteiros.
+    \item \textbf{Documente suas variáveis}: Adicione descrições claras para facilitar futuras consultas.
+    \item \textbf{Mantenha consistência}: Use o mesmo padrão de nomenclatura e configuração para todas as variáveis.
+    \item \textbf{Salve regularmente}: Após realizar modificações nas propriedades das variáveis, salve seu trabalho para evitar perda de configurações.
+\end{itemize}
+
+Uma organização cuidadosa das variáveis não só facilita o processo de análise, mas também reduz significativamente a probabilidade de erros e interpretações equivocadas dos resultados.
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para ver na prática como padronizar e organizar variáveis no Jamovi, confira meu vídeo tutorial detalhado. Nele, demonstro como editar as propriedades das variáveis, configurar tipos de dados e aplicar boas práticas para manter seus dados organizados e prontos para análise.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/PJkwPRLT_Q4?si=Ks8_3O7Ok5f-c6Bn}{Como Organizar Variáveis no Jamovi}
+\end{tcolorbox}
+
 
 \section{Renomear e Reorganizar Variáveis}
 Aqui, falaremos sobre como renomear e reorganizar variáveis no Jamovi. Esses são passos fundamentais na organização dos dados para análise.
