@@ -262,8 +262,150 @@ Para apagar múltiplas variáveis de uma vez:
 \end{tcolorbox}
 
 
-\section{Transformação de Variáveis}
-A transformação de variáveis é um aspecto essencial da manipulação de dados. Aqui, exploraremos as diferentes maneiras de transformar variáveis no Jamovi.
+\section{Tipos de Medidas de dados}
+
+A correta identificação e configuração dos tipos de medidas das variáveis é um aspecto fundamental para garantir a qualidade e precisão das análises estatísticas. Nesta seção, aprenderemos sobre os diferentes tipos de medidas disponíveis no Jamovi e como configurá-los adequadamente.
+
+\subsection{A importância dos tipos de medida}
+
+Antes de analisarmos dados, é essencial compreender que diferentes variáveis representam diferentes tipos de informação. O tipo de medida (ou nível de mensuração) determina:
+
+\begin{itemize}
+    \item Quais análises estatísticas são apropriadas para cada variável
+    \item Como os dados podem ser matematicamente manipulados
+    \item Como os resultados devem ser interpretados
+\end{itemize}
+
+Configurar incorretamente o tipo de medida pode levar a análises inadequadas e conclusões equivocadas. Por isso, dedicamos esta seção especial para compreender a fundo este conceito.
+
+\subsection{Os três principais tipos de medida no Jamovi}
+
+O Jamovi trabalha com três tipos fundamentais de medidas:
+
+\begin{enumerate}
+    \item \textbf{Nominal}
+    \item \textbf{Ordinal}
+    \item \textbf{Contínua}
+\end{enumerate}
+
+Vamos explorar cada um deles em detalhes:
+
+\subsection{Variáveis Nominais}
+
+\begin{itemize}
+    \item \textbf{Definição}: São variáveis categóricas onde os valores representam grupos distintos, sem ordem natural entre eles.
+    \item \textbf{Características}: 
+    \begin{itemize}
+        \item Classificam dados em categorias mutuamente exclusivas
+        \item Não possuem ordem intrínseca (nenhuma categoria é "maior" ou "melhor" que outra)
+        \item Podem ser representadas por números, mas estes funcionam apenas como rótulos
+    \end{itemize}
+    \item \textbf{Exemplos}:
+    \begin{itemize}
+        \item Sexo (masculino/feminino)
+        \item Cor de cabelo (preto, castanho, loiro, ruivo)
+        \item Porto de embarque (Cherbourg, Queenstown, Southampton)
+        \item Sobrevivência ao naufrágio (sim/não)
+    \end{itemize}
+    \item \textbf{Operações permitidas}: Contagem de frequências, verificação de igualdade ($=$, $\neq$)
+    \item \textbf{No Jamovi}: Identificadas pelo símbolo \faList\ quando são textuais
+\end{itemize}
+
+\subsection{Variáveis Ordinais}
+
+\begin{itemize}
+    \item \textbf{Definição}: São variáveis categóricas com uma ordem natural entre as categorias.
+    \item \textbf{Características}:
+    \begin{itemize}
+        \item Possuem uma ordem intrínseca (um valor é "maior" ou "menor" que outro)
+        \item As distâncias entre categorias não são necessariamente iguais ou significativas
+        \item Não permitem operações aritméticas entre seus valores
+    \end{itemize}
+    \item \textbf{Exemplos}:
+    \begin{itemize}
+        \item Nível de escolaridade (fundamental, médio, superior)
+        \item Classe social (baixa, média, alta)
+        \item Grau de satisfação (insatisfeito, neutro, satisfeito)
+        \item Escala Likert (discordo totalmente, discordo, neutro, concordo, concordo totalmente)
+    \end{itemize}
+    \item \textbf{Operações permitidas}: Todas as da nominal, mais comparações de ordem ($<$, $>$, $\leq$, $\geq$)
+\end{itemize}
+
+\subsection{Variáveis Contínuas}
+
+\begin{itemize}
+    \item \textbf{Definição}: São variáveis numéricas que representam uma escala com valores que têm significado quantitativo.
+    \item \textbf{Características}:
+    \begin{itemize}
+        \item Permitem operações aritméticas entre seus valores
+        \item Possuem unidades de medida bem definidas
+        \item As distâncias entre valores são uniformes e significativas
+        \item Relações de proporção são válidas (40 é o dobro de 20)
+    \end{itemize}
+    \item \textbf{Exemplos}:
+    \begin{itemize}
+        \item Idade em anos
+        \item Preço de bilhete em libras
+        \item Altura em centímetros
+        \item Peso em quilogramas
+    \end{itemize}
+    \item \textbf{Operações permitidas}: Todas as anteriores, mais operações aritméticas ($+$, $-$, $\times$, $\div$)
+\end{itemize}
+
+\subsection{Como configurar o tipo de medida no Jamovi}
+
+Para verificar e alterar o tipo de medida de uma variável no Jamovi:
+
+\begin{enumerate}
+    \item Clique duas vezes no cabeçalho da variável que deseja configurar, ou:
+    \item Acesse o menu \textbf{Variáveis} e clique na variável desejada
+    \item Na janela que se abre, você verá opções para definir o tipo de medida (nominal, ordinal ou contínua)
+    \item Selecione a opção apropriada para aquela variável
+    \item Confirme a alteração clicando fora da área de edição
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Configurando o tipo de medida de uma variável no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/tipos_medida_1.jpg}
+%     \label{fig:tipos_medida_1}
+% \end{figure}
+
+\subsection{Identificando o tipo de medida correto}
+
+Para determinar qual o tipo de medida apropriado para cada variável, faça as seguintes perguntas:
+
+\begin{enumerate}
+    \item A variável representa apenas categorias distintas sem ordem natural? \textbf{Se sim, é nominal}.
+    \item A variável representa categorias com uma ordem natural, mas sem relação matemática definida entre elas? \textbf{Se sim, é ordinal}.
+    \item A variável representa valores numéricos onde operações matemáticas fazem sentido e proporções são válidas? \textbf{Se sim, é contínua}.
+\end{enumerate}
+
+\subsection{Erros comuns na configuração de tipos de medida}
+
+\begin{itemize}
+    \item \textbf{Tratar IDs como contínuas}: Números de identificação, mesmo sendo numéricos, devem ser tratados como nominais, pois não têm significado quantitativo.
+    \item \textbf{Confundir contagem com ordinal}: Contagens (como número de filhos) são variáveis contínuas, não ordinais, pois permitem operações aritméticas.
+    \item \textbf{Ignorar a ordem em variáveis ordinais}: Classificar como nominal uma variável que possui ordem natural (ex: nível de educação).
+    \item \textbf{Interpretar códigos numéricos literalmente}: Um código numérico (ex: 1=masculino, 2=feminino) não torna uma variável contínua ou ordinal se os números são apenas rótulos.
+\end{itemize}
+
+\subsection{Impacto dos tipos de medida nas análises}
+
+A configuração correta dos tipos de medida afeta diretamente:
+
+\begin{itemize}
+    \item \textbf{Quais testes estatísticos estarão disponíveis}: Por exemplo, testes paramétricos geralmente requerem variáveis contínuas.
+    \item \textbf{Como os dados serão visualizados}: O tipo de gráfico sugerido pelo Jamovi depende do tipo de medida.
+    \item \textbf{Que resumos estatísticos serão calculados}: Médias e desvios padrão são apropriados para variáveis contínuas, mas não para nominais.
+    \item \textbf{A precisão dos resultados}: Análises com tipos de medida incorretos podem levar a conclusões errôneas.
+\end{itemize}
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para aprofundar sua compreensão sobre os tipos de medida no Jamovi, confira meu vídeo tutorial detalhado. Nele, demonstro como identificar e configurar corretamente cada tipo de medida, com exemplos práticos usando conjuntos de dados reais.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/398uFqX7NRA?si=wSLiUl3nIaABU5KJ}{Tipos de Medidas de Dados no Jamovi}
+\end{tcolorbox}
+
 
 \section{Criação de Categorias}
 Nessa seção, discutiremos como criar e gerenciar categorias no Jamovi. Isso é particularmente útil ao lidar com variáveis categóricas e dados de pesquisa.
