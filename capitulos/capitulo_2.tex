@@ -261,9 +261,149 @@ Para apagar múltiplas variáveis de uma vez:
   \textcolor{red}{\faYoutube} \href{https://youtu.be/UqEnetiHEns?si=qvTd5AucIA88QR3j}{Como Inserir Variáveis no Jamovi}
 \end{tcolorbox}
 
+\section{Tipos de Medidas de dados}
 
-\section{Transformação de Variáveis}
-A transformação de variáveis é um aspecto essencial da manipulação de dados. Aqui, exploraremos as diferentes maneiras de transformar variáveis no Jamovi.
+A correta identificação e configuração dos tipos de medidas das variáveis é um aspecto fundamental para garantir a qualidade e precisão das análises estatísticas. Nesta seção, aprenderemos sobre os diferentes tipos de medidas disponíveis no Jamovi e como configurá-los adequadamente.
+
+\subsection{A importância dos tipos de medida}
+
+Antes de analisarmos dados, é essencial compreender que diferentes variáveis representam diferentes tipos de informação. O tipo de medida (ou nível de mensuração) determina:
+
+\begin{itemize}
+    \item Quais análises estatísticas são apropriadas para cada variável
+    \item Como os dados podem ser matematicamente manipulados
+    \item Como os resultados devem ser interpretados
+\end{itemize}
+
+Configurar incorretamente o tipo de medida pode levar a análises inadequadas e conclusões equivocadas. Por isso, dedicamos esta seção especial para compreender a fundo este conceito.
+
+\subsection{Os três principais tipos de medida no Jamovi}
+
+O Jamovi trabalha com três tipos fundamentais de medidas:
+
+\begin{enumerate}
+    \item \textbf{Nominal}
+    \item \textbf{Ordinal}
+    \item \textbf{Contínua}
+\end{enumerate}
+
+Vamos explorar cada um deles em detalhes:
+
+\subsection{Variáveis Nominais}
+
+\begin{itemize}
+    \item \textbf{Definição}: São variáveis categóricas onde os valores representam grupos distintos, sem ordem natural entre eles.
+    \item \textbf{Características}: 
+    \begin{itemize}
+        \item Classificam dados em categorias mutuamente exclusivas
+        \item Não possuem ordem intrínseca (nenhuma categoria é "maior" ou "melhor" que outra)
+        \item Podem ser representadas por números, mas estes funcionam apenas como rótulos
+    \end{itemize}
+    \item \textbf{Exemplos}:
+    \begin{itemize}
+        \item Sexo (masculino/feminino)
+        \item Cor de cabelo (preto, castanho, loiro, ruivo)
+        \item Porto de embarque (Cherbourg, Queenstown, Southampton)
+        \item Sobrevivência ao naufrágio (sim/não)
+    \end{itemize}
+    \item \textbf{Operações permitidas}: Contagem de frequências, verificação de igualdade ($=$, $\neq$)
+    \item \textbf{No Jamovi}: Identificadas pelo símbolo \faList\ quando são textuais
+\end{itemize}
+
+\subsection{Variáveis Ordinais}
+
+\begin{itemize}
+    \item \textbf{Definição}: São variáveis categóricas com uma ordem natural entre as categorias.
+    \item \textbf{Características}:
+    \begin{itemize}
+        \item Possuem uma ordem intrínseca (um valor é "maior" ou "menor" que outro)
+        \item As distâncias entre categorias não são necessariamente iguais ou significativas
+        \item Não permitem operações aritméticas entre seus valores
+    \end{itemize}
+    \item \textbf{Exemplos}:
+    \begin{itemize}
+        \item Nível de escolaridade (fundamental, médio, superior)
+        \item Classe social (baixa, média, alta)
+        \item Grau de satisfação (insatisfeito, neutro, satisfeito)
+        \item Escala Likert (discordo totalmente, discordo, neutro, concordo, concordo totalmente)
+    \end{itemize}
+    \item \textbf{Operações permitidas}: Todas as da nominal, mais comparações de ordem ($<$, $>$, $\leq$, $\geq$)
+\end{itemize}
+
+\subsection{Variáveis Contínuas}
+
+\begin{itemize}
+    \item \textbf{Definição}: São variáveis numéricas que representam uma escala com valores que têm significado quantitativo.
+    \item \textbf{Características}:
+    \begin{itemize}
+        \item Permitem operações aritméticas entre seus valores
+        \item Possuem unidades de medida bem definidas
+        \item As distâncias entre valores são uniformes e significativas
+        \item Relações de proporção são válidas (40 é o dobro de 20)
+    \end{itemize}
+    \item \textbf{Exemplos}:
+    \begin{itemize}
+        \item Idade em anos
+        \item Preço de bilhete em libras
+        \item Altura em centímetros
+        \item Peso em quilogramas
+    \end{itemize}
+    \item \textbf{Operações permitidas}: Todas as anteriores, mais operações aritméticas ($+$, $-$, $\times$, $\div$)
+\end{itemize}
+
+\subsection{Como configurar o tipo de medida no Jamovi}
+
+Para verificar e alterar o tipo de medida de uma variável no Jamovi:
+
+\begin{enumerate}
+    \item Clique duas vezes no cabeçalho da variável que deseja configurar, ou:
+    \item Acesse o menu \textbf{Variáveis} e clique na variável desejada
+    \item Na janela que se abre, você verá opções para definir o tipo de medida (nominal, ordinal ou contínua)
+    \item Selecione a opção apropriada para aquela variável
+    \item Confirme a alteração clicando fora da área de edição
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Configurando o tipo de medida de uma variável no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/tipos_medida_1.jpg}
+%     \label{fig:tipos_medida_1}
+% \end{figure}
+
+\subsection{Identificando o tipo de medida correto}
+
+Para determinar qual o tipo de medida apropriado para cada variável, faça as seguintes perguntas:
+
+\begin{enumerate}
+    \item A variável representa apenas categorias distintas sem ordem natural? \textbf{Se sim, é nominal}.
+    \item A variável representa categorias com uma ordem natural, mas sem relação matemática definida entre elas? \textbf{Se sim, é ordinal}.
+    \item A variável representa valores numéricos onde operações matemáticas fazem sentido e proporções são válidas? \textbf{Se sim, é contínua}.
+\end{enumerate}
+
+\subsection{Erros comuns na configuração de tipos de medida}
+
+\begin{itemize}
+    \item \textbf{Tratar IDs como contínuas}: Números de identificação, mesmo sendo numéricos, devem ser tratados como nominais, pois não têm significado quantitativo.
+    \item \textbf{Confundir contagem com ordinal}: Contagens (como número de filhos) são variáveis contínuas, não ordinais, pois permitem operações aritméticas.
+    \item \textbf{Ignorar a ordem em variáveis ordinais}: Classificar como nominal uma variável que possui ordem natural (ex: nível de educação).
+    \item \textbf{Interpretar códigos numéricos literalmente}: Um código numérico (ex: 1=masculino, 2=feminino) não torna uma variável contínua ou ordinal se os números são apenas rótulos.
+\end{itemize}
+
+\subsection{Impacto dos tipos de medida nas análises}
+
+A configuração correta dos tipos de medida afeta diretamente:
+
+\begin{itemize}
+    \item \textbf{Quais testes estatísticos estarão disponíveis}: Por exemplo, testes paramétricos geralmente requerem variáveis contínuas.
+    \item \textbf{Como os dados serão visualizados}: O tipo de gráfico sugerido pelo Jamovi depende do tipo de medida.
+    \item \textbf{Que resumos estatísticos serão calculados}: Médias e desvios padrão são apropriados para variáveis contínuas, mas não para nominais.
+    \item \textbf{A precisão dos resultados}: Análises com tipos de medida incorretos podem levar a conclusões errôneas.
+\end{itemize}
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para aprofundar sua compreensão sobre os tipos de medida no Jamovi, confira meu vídeo tutorial detalhado. Nele, demonstro como identificar e configurar corretamente cada tipo de medida, com exemplos práticos usando conjuntos de dados reais.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/398uFqX7NRA?si=wSLiUl3nIaABU5KJ}{Tipos de Medidas de Dados no Jamovi}
+\end{tcolorbox}
 
 \section{Criação de Categorias}
 Nessa seção, discutiremos como criar e gerenciar categorias no Jamovi. Isso é particularmente útil ao lidar com variáveis categóricas e dados de pesquisa.
@@ -458,15 +598,237 @@ Adote o hábito de adicionar descrições claras às suas variáveis logo após 
   \textcolor{red}{\faYoutube} \href{https://youtu.be/00HUaQaRt_E?si=JdYJKYGYpf6Orlox}{Como Inserir Descrição nas Variáveis no Jamovi}
 \end{tcolorbox}
 
-
 \section{Filtro de Dados}
-A filtragem é um passo crucial na preparação dos dados. Aqui, mostraremos como selecionar e filtrar subconjuntos de dados no Jamovi.
 
-\section{Ordenação de Dados}
-Nesta seção, abordaremos a ordenação de dados, uma operação importante para a visualização eficaz e análise de conjuntos de dados.
+Uma das funcionalidades mais úteis do Jamovi é a capacidade de criar filtros que permitem focar suas análises em subconjuntos específicos dos seus dados. Nesta seção, aprenderemos como criar e gerenciar filtros no Jamovi, uma ferramenta essencial para análises mais direcionadas e específicas.
 
-\section{Renomear e Reorganizar Variáveis}
-Aqui, falaremos sobre como renomear e reorganizar variáveis no Jamovi. Esses são passos fundamentais na organização dos dados para análise.
+\subsection{O que são filtros e por que usá-los}
+
+Filtros permitem selecionar apenas uma parte dos seus dados para análise, sem remover as observações do conjunto de dados original. Isso é particularmente útil quando:
+
+\begin{itemize}
+    \item Você precisa analisar um subgrupo específico (ex: apenas mulheres ou apenas participantes de determinada faixa etária)
+    \item Você deseja comparar resultados entre diferentes subgrupos
+    \item Você quer excluir temporariamente casos com valores extremos ou ausentes
+    \item Você precisa testar hipóteses em segmentos específicos da sua amostra
+\end{itemize}
+
+A grande vantagem dos filtros, em comparação com a exclusão permanente de dados, é que você pode facilmente ativar e desativar esses filtros conforme necessário, mantendo a integridade do seu conjunto de dados original.
+
+\subsection{Criando um filtro básico}
+
+Para criar um filtro no Jamovi:
+
+\begin{enumerate}
+    \item Clique no menu \textbf{Variáveis} na barra superior
+    \item Selecione a opção \textbf{Filtros}
+    \item O Jamovi criará uma coluna especial de filtro na sua planilha de dados
+    \item Adicione uma descrição para o filtro, explicando seu propósito (ex: "Sobreviventes do Titanic")
+    \item Na caixa de expressão, clique no botão de função (f(x)) e selecione a variável que deseja usar como critério
+    \item Complete a expressão com a condição desejada
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Criando um filtro básico no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/filtro_dados_1.jpg}
+%     \label{fig:filtro_dados_1}
+% \end{figure}
+
+\subsection{Sintaxe para expressões de filtro}
+
+As expressões de filtro no Jamovi utilizam a sintaxe da linguagem R. Aqui estão algumas operações comuns:
+
+\begin{itemize}
+    \item \textbf{Igualdade}: Use o operador \texttt{==} (dois sinais de igual). Ex: \texttt{survived == 1}
+    \item \textbf{Desigualdade}: Use o operador \texttt{!=}. Ex: \texttt{sex != "male"}
+    \item \textbf{Menor que}: Use o operador \texttt{<}. Ex: \texttt{age < 30}
+    \item \textbf{Maior que}: Use o operador \texttt{>}. Ex: \texttt{fare > 100}
+    \item \textbf{Menor ou igual}: Use o operador \texttt{<=}. Ex: \texttt{sib\_sp <= 2}
+    \item \textbf{Maior ou igual}: Use o operador \texttt{>=}. Ex: \texttt{parch >= 1}
+\end{itemize}
+
+É importante observar que:
+\begin{itemize}
+    \item Para variáveis de texto, os valores devem estar entre aspas simples ou duplas. Ex: \texttt{sex == "female"}
+    \item Para variáveis numéricas, os valores são inseridos diretamente. Ex: \texttt{age < 30}
+    \item O operador de igualdade é sempre \texttt{==} (dois sinais de igual), nunca apenas um sinal de igual
+\end{itemize}
+
+\subsection{Visualizando o efeito do filtro}
+
+Uma das características mais úteis do Jamovi é a visualização instantânea do efeito do filtro. Ao criar um filtro:
+
+\begin{itemize}
+    \item As linhas que não atendem aos critérios do filtro ficarão sombreadas na visualização de dados
+    \item Você pode rolar pela planilha para verificar quais observações estão sendo incluídas ou excluídas
+    \item As análises estatísticas realizadas após a aplicação do filtro considerarão apenas as observações não sombreadas
+\end{itemize}
+
+\subsection{Combinando múltiplos critérios}
+
+Você pode criar filtros mais complexos combinando múltiplos critérios:
+
+\begin{enumerate}
+    \item \textbf{Usando operadores lógicos em um único filtro}:
+    \begin{itemize}
+        \item \textbf{E lógico}: Use o operador \texttt{\&}. Ex: \texttt{survived == 1 \& sex == "female"}
+        \item \textbf{OU lógico}: Use o operador \texttt{|}. Ex: \texttt{age < 18 | age > 60}
+    \end{itemize}
+    
+    \item \textbf{Criando múltiplos filtros separados}:
+    \begin{itemize}
+        \item Crie um primeiro filtro (ex: apenas sobreviventes)
+        \item Crie um segundo filtro (ex: apenas mulheres)
+        \item Crie um terceiro filtro (ex: apenas menores de 30 anos)
+    \end{itemize}
+\end{enumerate}
+
+A abordagem de múltiplos filtros separados oferece maior flexibilidade, pois permite ativar e desativar cada critério independentemente.
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Combinando múltiplos filtros no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/filtro_dados_2.jpg}
+%     \label{fig:filtro_dados_2}
+% \end{figure}
+
+\subsection{Ativando e desativando filtros}
+
+Uma grande vantagem dos filtros é a possibilidade de ativá-los e desativá-los conforme necessário:
+
+\begin{itemize}
+    \item Para desativar um filtro, desmarque a caixa de seleção "Ativo" na definição do filtro
+    \item Para ativar um filtro previamente desativado, basta marcar novamente a caixa "Ativo"
+    \item Você pode ter vários filtros definidos, mas ativar apenas aqueles relevantes para a análise atual
+\end{itemize}
+
+Esta flexibilidade permite executar diferentes análises em diferentes subconjuntos dos dados sem precisar recriar os filtros a cada vez.
+
+\subsection{Considerações importantes}
+
+Ao trabalhar com filtros no Jamovi, lembre-se de:
+
+\begin{itemize}
+    \item \textbf{Documentar seus filtros}: Sempre adicione descrições claras aos seus filtros para lembrar seu propósito
+    \item \textbf{Verificar o número de observações}: Após aplicar um filtro, verifique se o número resultante de observações corresponde ao esperado
+    \item \textbf{Considerar o impacto em análises estatísticas}: Filtros muito restritivos podem reduzir excessivamente seu tamanho amostral
+    \item \textbf{Desativar filtros ao compartilhar dados}: É geralmente recomendável desativar filtros antes de compartilhar seus arquivos, a menos que haja uma razão específica para mantê-los
+    \item \textbf{Salvar versões com e sem filtros}: Para análises complexas, considere salvar diferentes versões do seu arquivo
+\end{itemize}
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para ver na prática como criar e utilizar filtros no Jamovi, confira meu tutorial em vídeo. Nele, demonstro como criar filtros simples e complexos, e como combinar múltiplos critérios para realizar análises mais específicas.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/U6sFx7vQhdc?si=rpdJF2qgNyWCO11a}{Como Criar Filtros no Jamovi}
+\end{tcolorbox}
+
+\section{Organizando as variáveis}
+
+A organização adequada das variáveis é um aspecto fundamental para garantir análises estatísticas precisas e facilitar a interpretação dos resultados. Nesta seção, aprenderemos como padronizar e organizar as variáveis no Jamovi, incluindo a edição de suas propriedades, tipos de dados e configurações de exibição.
+
+\subsection{Padronização de variáveis}
+
+Manter um padrão consistente na nomenclatura e configuração das variáveis é uma prática recomendada em análise de dados por diversos motivos:
+
+\begin{itemize}
+    \item \textbf{Legibilidade}: Nomes padronizados facilitam a identificação rápida das variáveis.
+    \item \textbf{Compatibilidade}: Evita problemas ao exportar dados para outros softwares.
+    \item \textbf{Colaboração}: Facilita o trabalho em equipe quando múltiplos pesquisadores utilizam o mesmo conjunto de dados.
+    \item \textbf{Reprodutibilidade}: Torna mais fácil replicar análises no futuro.
+\end{itemize}
+
+Algumas recomendações de padronização incluem:
+\begin{itemize}
+    \item Usar letras minúsculas para todos os nomes de variáveis
+    \item Evitar espaços e caracteres especiais
+    \item Manter consistência nos prefixos e sufixos
+    \item Usar nomes curtos, mas significativos
+\end{itemize}
+
+\subsection{Editando propriedades das variáveis}
+
+O Jamovi oferece duas formas principais para editar as propriedades das variáveis:
+
+\begin{enumerate}
+    \item \textbf{Através do menu Variáveis}:
+    \begin{itemize}
+        \item Clique no menu \textbf{Variáveis} na barra superior.
+        \item Localize a variável que deseja editar.
+        \item Clique duas vezes sobre o nome ou descrição para modificá-los.
+        \item Ajuste os tipos de medida e outras configurações conforme necessário.
+    \end{itemize}
+    
+    \item \textbf{Diretamente na área de dados}:
+    \begin{itemize}
+        \item Clique duas vezes sobre o cabeçalho da coluna (nome da variável).
+        \item Uma janela de edição se abrirá, permitindo modificar todas as propriedades.
+    \end{itemize}
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Editando propriedades de variáveis no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/organizando_variaveis_1.jpg}
+%     \label{fig:organizando_variaveis_1}
+% \end{figure}
+
+\subsection{Configurando tipos de dados}
+
+Um aspecto crucial da organização de variáveis é garantir que cada uma esteja configurada com o tipo de dado apropriado:
+
+\begin{itemize}
+    \item \textbf{Inteiro}: Para valores numéricos sem casas decimais (ex: idade em anos completos, contagens).
+    \item \textbf{Decimal}: Para valores numéricos com casas decimais (ex: preços, medidas precisas).
+    \item \textbf{Texto}: Para dados não numéricos ou identificadores.
+\end{itemize}
+
+Por exemplo, ao configurar uma variável de idade onde todos os valores são anos completos:
+
+\begin{enumerate}
+    \item Abra as propriedades da variável.
+    \item Na seção "Tipo de dado", selecione "Inteiro".
+    \item Isso automaticamente removerá as casas decimais desnecessárias da exibição.
+\end{enumerate}
+
+\subsection{Configurando casas decimais}
+
+Para variáveis que exigem casas decimais, é importante observar que:
+
+\begin{itemize}
+    \item O Jamovi, assim como a maioria dos softwares estatísticos e linguagens de programação, utiliza o \textbf{ponto} como separador decimal, seguindo o padrão internacional (ex: 10.5, não 10,5).
+    \item É possível configurar o número de casas decimais exibidas para cada variável.
+\end{itemize}
+
+\subsection{Configurando o tipo de medida}
+
+Além do tipo de dado, é importante configurar corretamente o tipo de medida de cada variável:
+
+\begin{itemize}
+    \item \textbf{Nominal}: Para categorias sem ordem (ex: gênero, cor dos olhos).
+    \item \textbf{Ordinal}: Para categorias com ordem natural (ex: nível de educação, grau de satisfação).
+    \item \textbf{Contínua}: Para medidas numéricas com significado quantitativo (ex: altura, temperatura).
+\end{itemize}
+
+Esta configuração é crucial pois determina quais análises estatísticas serão disponibilizadas para cada variável no Jamovi.
+
+\subsection{Melhores práticas para organização de variáveis}
+
+Ao organizar suas variáveis no Jamovi, considere as seguintes recomendações:
+
+\begin{itemize}
+    \item \textbf{Revise seus dados após a importação}: Verifique se os tipos de dados foram detectados corretamente.
+    \item \textbf{Corrija formatos inadequados}: Por exemplo, remova casas decimais em variáveis que representam valores inteiros.
+    \item \textbf{Documente suas variáveis}: Adicione descrições claras para facilitar futuras consultas.
+    \item \textbf{Mantenha consistência}: Use o mesmo padrão de nomenclatura e configuração para todas as variáveis.
+    \item \textbf{Salve regularmente}: Após realizar modificações nas propriedades das variáveis, salve seu trabalho para evitar perda de configurações.
+\end{itemize}
+
+Uma organização cuidadosa das variáveis não só facilita o processo de análise, mas também reduz significativamente a probabilidade de erros e interpretações equivocadas dos resultados.
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para ver na prática como padronizar e organizar variáveis no Jamovi, confira meu vídeo tutorial detalhado. Nele, demonstro como editar as propriedades das variáveis, configurar tipos de dados e aplicar boas práticas para manter seus dados organizados e prontos para análise.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/PJkwPRLT_Q4?si=Ks8_3O7Ok5f-c6Bn}{Como Organizar Variáveis no Jamovi}
+\end{tcolorbox}
 
 \section{Salvar e Exportar Dados}
 
