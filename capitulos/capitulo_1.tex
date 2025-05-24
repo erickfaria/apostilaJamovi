@@ -136,51 +136,177 @@ Ao abrir o Jamovi pela primeira vez em seu computador, você verá uma imagem se
   \label{fig:captura_tela_jamovi}
 \end{figure}
 
-\begin{tcolorbox}[colback=white,colframe=green,title= Dica de Conteúdo]
+\begin{tcolorbox}[colback=white,colframe=green,title={\faPlayCircle \ Dica de Conteúdo}]
   Se você encontrou dificuldades nessa etapa, não se preocupe. Assista a videoaula a seguir em que eu ensino como dar os primeiros passos com o Jamovi. Nessa videoaula você será capaz de ver com maior clareza as etapas para iniciar no Jamovi.\\
   \faYoutube{} \href{https://www.youtube.com/watch?v=bV9hlHPLe5I&t=5s}{Primeiros Passos}
 \end{tcolorbox}
 
-\subsection{Importando dados no Jamovi}
+\section{Instalando Módulos no Jamovi}
 
-Neste momento, é chegada a hora de realizar a leitura dos dados no Jamovi. Esse processo é conhecido por diversos termos, como importação, leitura ou carregamento de dados no software. Particularmente, opto por utilizar o termo importação de dados no Jamovi, embora seja válido utilizar a denominação de sua preferência.
+Uma das características mais poderosas do Jamovi é sua natureza modular. Diferentemente de softwares estatísticos tradicionais que vêm com todas as funcionalidades já instaladas (muitas vezes tornando o programa pesado e complexo), o Jamovi permite que você personalize sua instalação adicionando apenas os módulos que realmente necessita para seu trabalho.
 
-\begin{tcolorbox}[colback=white,colframe=orange,title= Importante]
-  É altamente recomendável você faça backup regularmente de seus arquivos e conteúdos no Jamovi. Fazer um backup é uma medida preventiva essencial para evitar a perda de dados importantes. Realizar backups periódicos garante que os dados sejam protegidos contra possíveis falhas técnicas, erros humanos ou até mesmo perda acidental de arquivos.
+\subsection{O que são módulos no Jamovi?}
+
+Os módulos são conjuntos de funcionalidades adicionais que podem ser instalados no Jamovi para expandir suas capacidades. Podemos compará-los a plugins ou extensões que adicionam novos recursos ao programa base. Essa abordagem modular oferece várias vantagens:
+
+\begin{itemize}
+    \item \textbf{Desempenho otimizado}: Mantenha seu Jamovi leve instalando apenas o que você realmente utiliza
+    \item \textbf{Personalização}: Adapte o software às suas necessidades específicas
+    \item \textbf{Atualização constante}: Novos módulos são desenvolvidos regularmente pela comunidade
+    \item \textbf{Especialização}: Acesso a funcionalidades avançadas para áreas específicas de pesquisa
+\end{itemize}
+
+\subsection{Acessando a biblioteca de módulos}
+
+Para acessar e gerenciar os módulos no Jamovi:
+
+\begin{enumerate}
+    \item Clique no menu principal (três linhas horizontais) no canto superior direito da interface
+    \item Selecione a opção \textbf{Módulos}
+    \item Uma janela se abrirá com três abas principais:
+    \begin{itemize}
+        \item \textbf{Instalados}: Lista todos os módulos atualmente instalados
+        \item \textbf{Biblioteca jamovi}: Mostra todos os módulos oficiais disponíveis para instalação
+        \item \textbf{Módulo acessório}: Permite instalar módulos de fontes externas (arquivos .jmo)
+    \end{itemize}
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Menu de módulos do Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_1/modulos_jamovi_1.jpg}
+%     \label{fig:modulos_jamovi_1}
+% \end{figure}
+
+\subsection{Módulos pré-instalados}
+
+O Jamovi vem com alguns módulos básicos pré-instalados que fornecem as funcionalidades estatísticas essenciais:
+
+\begin{itemize}
+    \item \textbf{jmv}: O módulo principal com análises estatísticas básicas
+    \item \textbf{Base R}: Integração básica com R
+    \item \textbf{Descriptives}: Estatísticas descritivas e tabelas de contingência
+    \item \textbf{T-Tests}: Testes t para amostras independentes e pareadas
+    \item \textbf{ANOVA}: Análise de variância
+    \item \textbf{Regression}: Análises de regressão linear
+    \item \textbf{Frequencies}: Tabelas de frequência e análises categóricas
+\end{itemize}
+
+\subsection{Instalando novos módulos}
+
+Para instalar um novo módulo no Jamovi:
+
+\begin{enumerate}
+    \item Na janela de módulos, clique na aba \textbf{Biblioteca jamovi}
+    \item Navegue pela lista de módulos disponíveis ou role para baixo até encontrar o módulo desejado
+    \item Clique no botão \textbf{Instalar} ao lado do módulo escolhido
+    \item Aguarde a conclusão da instalação (uma barra de progresso será exibida)
+    \item Após a instalação, o módulo estará imediatamente disponível para uso
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Biblioteca de módulos disponíveis}
+%     \includegraphics[width=\textwidth]{imagens/cap_1/modulos_jamovi_2.jpg}
+%     \label{fig:modulos_jamovi_2}
+% \end{figure}
+
+\subsection{Módulos populares e úteis}
+
+Alguns módulos particularmente úteis que você pode considerar instalar:
+
+\begin{itemize}
+    \item \textbf{jpower}: Para cálculos de poder estatístico e tamanho amostral
+    \item \textbf{Rj}: Editor R integrado que permite executar código R diretamente no Jamovi
+    \item \textbf{scatr}: Gráficos de dispersão avançados e personalizáveis
+    \item \textbf{flexplot}: Visualizações de dados flexíveis e intuitivas
+    \item \textbf{jsq}: Análises estatísticas para pesquisas e questionários
+    \item \textbf{jbr}: Análises bayesianas
+    \item \textbf{jamm}: Modelos mistos avançados
+    \item \textbf{DataCheck}: Ferramenta para verificar a qualidade dos dados
+    \item \textbf{R datasets}: Acesso a conjuntos de dados clássicos de R para aprendizado
+\end{itemize}
+
+\subsection{Gerenciando módulos instalados}
+
+Após instalar diversos módulos, é importante saber como gerenciá-los:
+
+\begin{enumerate}
+    \item Para visualizar os módulos instalados, clique na aba \textbf{Instalados}
+    \item Para remover um módulo, selecione-o na lista e clique no botão \textbf{Remover}
+    \item A remoção é instantânea e libera espaço e recursos do sistema
+\end{enumerate}
+
+\subsection{Instalando módulos de fontes externas}
+
+Ocasionalmente, você pode querer instalar módulos que não estão disponíveis na biblioteca oficial do Jamovi:
+
+\begin{enumerate}
+    \item Obtenha o arquivo do módulo (.jmo) da fonte externa
+    \item Na janela de módulos, clique na aba \textbf{Módulo acessório}
+    \item Clique em \textbf{Procurar} e navegue até o arquivo .jmo em seu computador
+    \item Selecione o arquivo e confirme a instalação
+\end{enumerate}
+
+Esta opção é particularmente útil para testar módulos em desenvolvimento ou para acessar módulos personalizados criados para necessidades específicas.
+
+\subsection{Recomendações para uso eficiente de módulos}
+
+Para otimizar sua experiência com os módulos do Jamovi:
+
+\begin{itemize}
+    \item \textbf{Seja seletivo}: Instale apenas os módulos que realmente precisa
+    \item \textbf{Teste antes de confiar}: Ao instalar um novo módulo para análises importantes, teste-o com dados conhecidos
+    \item \textbf{Verifique a documentação}: Muitos módulos possuem documentação específica que explica suas funcionalidades
+    \item \textbf{Atualize regularmente}: Os módulos são frequentemente atualizados com novos recursos e correções
+    \item \textbf{Desinstale o que não usa}: Remova módulos que não utiliza para manter o Jamovi rápido e eficiente
+\end{itemize}
+
+\begin{tcolorbox}[colback=white,colframe=green,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para ver na prática como instalar e gerenciar módulos no Jamovi, confira meu tutorial em vídeo. Nele, demonstro o processo passo a passo e apresento alguns dos módulos mais úteis que podem expandir significativamente as capacidades do seu Jamovi.\\
+  \faYoutube{} \href{https://youtu.be/qBeRMNldzgs?si=TRYPqcPQeUFthNuo}{Como Instalar Módulos no Jamovi}
 \end{tcolorbox}
 
-Nessa seção eu vou utilizar os dados de passageiros do titanic como exemplo para ensinar a importação de dados do jamovi. Caso você tenha interesse de utilizar o mesmo conjunto de dados que eu, basta fazer o download do arquivo csv no \href{https://github.com/balaio-cientifico/dataset}{repositório oficial do Balaio Científico}.
+% \subsection{Importando dados no Jamovi}
 
-Com o Jamovi aberto, acesse o menu principal do software clicando no ícone localizado no canto superior esquerdo da tela. Ao realizar essa ação, uma nova janela será exibida. Observe a imagem abaixo para identificar o ícone a ser selecionado, indicado pela seta.
+% Neste momento, é chegada a hora de realizar a leitura dos dados no Jamovi. Esse processo é conhecido por diversos termos, como importação, leitura ou carregamento de dados no software. Particularmente, opto por utilizar o termo importação de dados no Jamovi, embora seja válido utilizar a denominação de sua preferência.
 
-\begin{figure}[H]
-  \centering
-  \caption{Captura de Tela do Jamovi}
-  \includegraphics[width=\textwidth]{imagens/cap_1/importa_dados_1.png}
-  \label{fig:importa_dados_1}
-\end{figure}
+% \begin{tcolorbox}[colback=white,colframe=orange,title= Importante]
+%   É altamente recomendável você faça backup regularmente de seus arquivos e conteúdos no Jamovi. Fazer um backup é uma medida preventiva essencial para evitar a perda de dados importantes. Realizar backups periódicos garante que os dados sejam protegidos contra possíveis falhas técnicas, erros humanos ou até mesmo perda acidental de arquivos.
+% \end{tcolorbox}
 
-Após clicar em “Abrir”, selecione a opção “Este PC”. No exemplo apresentado, alguns arquivos que já foram abertos anteriormente são exibidos. Entretanto, se este for o primeiro uso do Jamovi, é necessário clicar em “Procurar” e navegar até o local em que o arquivo de interesse está salvo para, então, importá-lo no software. Para localizar o arquivo, basta navegar pelas pastas até encontrar o diretório em que o arquivo está armazenado.
+% Nessa seção eu vou utilizar os dados de passageiros do titanic como exemplo para ensinar a importação de dados do jamovi. Caso você tenha interesse de utilizar o mesmo conjunto de dados que eu, basta fazer o download do arquivo csv no \href{https://github.com/balaio-cientifico/dataset}{repositório oficial do Balaio Científico}.
 
-\begin{figure}[H]
-  \centering
-  \caption{Captura de Tela do Jamovi}
-  \includegraphics[width=\textwidth]{imagens/cap_1/importa_dados_2.png}
-  \label{fig:importa_dados_2}
-\end{figure}
+% Com o Jamovi aberto, acesse o menu principal do software clicando no ícone localizado no canto superior esquerdo da tela. Ao realizar essa ação, uma nova janela será exibida. Observe a imagem abaixo para identificar o ícone a ser selecionado, indicado pela seta.
 
-Ao clicar no arquivo que contém o conjunto de dados, o Jamovi realizará automaticamente a configuração e importação dos dados. Se você tiver importado os mesmos dados do exemplo apresentado, uma janela semelhante à imagem abaixo será exibida.
+% \begin{figure}[H]
+%   \centering
+%   \caption{Captura de Tela do Jamovi}
+%   \includegraphics[width=\textwidth]{imagens/cap_1/importa_dados_1.png}
+%   \label{fig:importa_dados_1}
+% \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \caption{Captura de Tela do Jamovi}
-  \includegraphics[width=\textwidth]{imagens/cap_1/jamovi_arquivo_importado.png}
-  \label{fig:jamovi_arquivo_importado}
-\end{figure}
+% Após clicar em “Abrir”, selecione a opção “Este PC”. No exemplo apresentado, alguns arquivos que já foram abertos anteriormente são exibidos. Entretanto, se este for o primeiro uso do Jamovi, é necessário clicar em “Procurar” e navegar até o local em que o arquivo de interesse está salvo para, então, importá-lo no software. Para localizar o arquivo, basta navegar pelas pastas até encontrar o diretório em que o arquivo está armazenado.
 
-Após a importação dos dados, você estará pronto(a) para começar a realizar análises estatísticas e utilizar todas as funcionalidades disponíveis no Jamovi. É importante praticar a importação de diferentes conjuntos de dados para se familiarizar com o processo e estar apto(a) a realizá-lo com facilidade.
+% \begin{figure}[H]
+%   \centering
+%   \caption{Captura de Tela do Jamovi}
+%   \includegraphics[width=\textwidth]{imagens/cap_1/importa_dados_2.png}
+%   \label{fig:importa_dados_2}
+% \end{figure}
 
-\begin{tcolorbox}[colback=white,colframe=green,title= Dica de Conteúdo]
-  Se você teve dificuldades para fazer a importação dos dados não se preocupe. Essa video aula vai te mostrarcom todos os detalhes como você pode fazer a importação dos dados do Jamovi. Destaco que essa é uma das etapas mais importantes, logo tenha certeza de que entendeu corretamente para que seu aprendizado não fique prejudicado.\\
-  \faYoutube{} \href{https://www.youtube.com/watch?v=NIpt0wIq5pc&t=1s}{Importar Dados no Jamovi}
-\end{tcolorbox}
+% Ao clicar no arquivo que contém o conjunto de dados, o Jamovi realizará automaticamente a configuração e importação dos dados. Se você tiver importado os mesmos dados do exemplo apresentado, uma janela semelhante à imagem abaixo será exibida.
+
+% \begin{figure}[H]
+%   \centering
+%   \caption{Captura de Tela do Jamovi}
+%   \includegraphics[width=\textwidth]{imagens/cap_1/jamovi_arquivo_importado.png}
+%   \label{fig:jamovi_arquivo_importado}
+% \end{figure}
+
+% Após a importação dos dados, você estará pronto(a) para começar a realizar análises estatísticas e utilizar todas as funcionalidades disponíveis no Jamovi. É importante praticar a importação de diferentes conjuntos de dados para se familiarizar com o processo e estar apto(a) a realizá-lo com facilidade.
+
+% \begin{tcolorbox}[colback=white,colframe=green,title= Dica de Conteúdo]
+%   Se você teve dificuldades para fazer a importação dos dados não se preocupe. Essa video aula vai te mostrarcom todos os detalhes como você pode fazer a importação dos dados do Jamovi. Destaco que essa é uma das etapas mais importantes, logo tenha certeza de que entendeu corretamente para que seu aprendizado não fique prejudicado.\\
+%   \faYoutube{} \href{https://www.youtube.com/watch?v=NIpt0wIq5pc&t=1s}{Importar Dados no Jamovi}
+% \end{tcolorbox}
