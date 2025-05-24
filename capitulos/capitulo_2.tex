@@ -599,7 +599,129 @@ Adote o hábito de adicionar descrições claras às suas variáveis logo após 
 \end{tcolorbox}
 
 \section{Filtro de Dados}
-A filtragem é um passo crucial na preparação dos dados. Aqui, mostraremos como selecionar e filtrar subconjuntos de dados no Jamovi.
+
+Uma das funcionalidades mais úteis do Jamovi é a capacidade de criar filtros que permitem focar suas análises em subconjuntos específicos dos seus dados. Nesta seção, aprenderemos como criar e gerenciar filtros no Jamovi, uma ferramenta essencial para análises mais direcionadas e específicas.
+
+\subsection{O que são filtros e por que usá-los}
+
+Filtros permitem selecionar apenas uma parte dos seus dados para análise, sem remover as observações do conjunto de dados original. Isso é particularmente útil quando:
+
+\begin{itemize}
+    \item Você precisa analisar um subgrupo específico (ex: apenas mulheres ou apenas participantes de determinada faixa etária)
+    \item Você deseja comparar resultados entre diferentes subgrupos
+    \item Você quer excluir temporariamente casos com valores extremos ou ausentes
+    \item Você precisa testar hipóteses em segmentos específicos da sua amostra
+\end{itemize}
+
+A grande vantagem dos filtros, em comparação com a exclusão permanente de dados, é que você pode facilmente ativar e desativar esses filtros conforme necessário, mantendo a integridade do seu conjunto de dados original.
+
+\subsection{Criando um filtro básico}
+
+Para criar um filtro no Jamovi:
+
+\begin{enumerate}
+    \item Clique no menu \textbf{Variáveis} na barra superior
+    \item Selecione a opção \textbf{Filtros}
+    \item O Jamovi criará uma coluna especial de filtro na sua planilha de dados
+    \item Adicione uma descrição para o filtro, explicando seu propósito (ex: "Sobreviventes do Titanic")
+    \item Na caixa de expressão, clique no botão de função (f(x)) e selecione a variável que deseja usar como critério
+    \item Complete a expressão com a condição desejada
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Criando um filtro básico no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/filtro_dados_1.jpg}
+%     \label{fig:filtro_dados_1}
+% \end{figure}
+
+\subsection{Sintaxe para expressões de filtro}
+
+As expressões de filtro no Jamovi utilizam a sintaxe da linguagem R. Aqui estão algumas operações comuns:
+
+\begin{itemize}
+    \item \textbf{Igualdade}: Use o operador \texttt{==} (dois sinais de igual). Ex: \texttt{survived == 1}
+    \item \textbf{Desigualdade}: Use o operador \texttt{!=}. Ex: \texttt{sex != "male"}
+    \item \textbf{Menor que}: Use o operador \texttt{<}. Ex: \texttt{age < 30}
+    \item \textbf{Maior que}: Use o operador \texttt{>}. Ex: \texttt{fare > 100}
+    \item \textbf{Menor ou igual}: Use o operador \texttt{<=}. Ex: \texttt{sib\_sp <= 2}
+    \item \textbf{Maior ou igual}: Use o operador \texttt{>=}. Ex: \texttt{parch >= 1}
+\end{itemize}
+
+É importante observar que:
+\begin{itemize}
+    \item Para variáveis de texto, os valores devem estar entre aspas simples ou duplas. Ex: \texttt{sex == "female"}
+    \item Para variáveis numéricas, os valores são inseridos diretamente. Ex: \texttt{age < 30}
+    \item O operador de igualdade é sempre \texttt{==} (dois sinais de igual), nunca apenas um sinal de igual
+\end{itemize}
+
+\subsection{Visualizando o efeito do filtro}
+
+Uma das características mais úteis do Jamovi é a visualização instantânea do efeito do filtro. Ao criar um filtro:
+
+\begin{itemize}
+    \item As linhas que não atendem aos critérios do filtro ficarão sombreadas na visualização de dados
+    \item Você pode rolar pela planilha para verificar quais observações estão sendo incluídas ou excluídas
+    \item As análises estatísticas realizadas após a aplicação do filtro considerarão apenas as observações não sombreadas
+\end{itemize}
+
+\subsection{Combinando múltiplos critérios}
+
+Você pode criar filtros mais complexos combinando múltiplos critérios:
+
+\begin{enumerate}
+    \item \textbf{Usando operadores lógicos em um único filtro}:
+    \begin{itemize}
+        \item \textbf{E lógico}: Use o operador \texttt{\&}. Ex: \texttt{survived == 1 \& sex == "female"}
+        \item \textbf{OU lógico}: Use o operador \texttt{|}. Ex: \texttt{age < 18 | age > 60}
+    \end{itemize}
+    
+    \item \textbf{Criando múltiplos filtros separados}:
+    \begin{itemize}
+        \item Crie um primeiro filtro (ex: apenas sobreviventes)
+        \item Crie um segundo filtro (ex: apenas mulheres)
+        \item Crie um terceiro filtro (ex: apenas menores de 30 anos)
+    \end{itemize}
+\end{enumerate}
+
+A abordagem de múltiplos filtros separados oferece maior flexibilidade, pois permite ativar e desativar cada critério independentemente.
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Combinando múltiplos filtros no Jamovi}
+%     \includegraphics[width=\textwidth]{imagens/cap_2/filtro_dados_2.jpg}
+%     \label{fig:filtro_dados_2}
+% \end{figure}
+
+\subsection{Ativando e desativando filtros}
+
+Uma grande vantagem dos filtros é a possibilidade de ativá-los e desativá-los conforme necessário:
+
+\begin{itemize}
+    \item Para desativar um filtro, desmarque a caixa de seleção "Ativo" na definição do filtro
+    \item Para ativar um filtro previamente desativado, basta marcar novamente a caixa "Ativo"
+    \item Você pode ter vários filtros definidos, mas ativar apenas aqueles relevantes para a análise atual
+\end{itemize}
+
+Esta flexibilidade permite executar diferentes análises em diferentes subconjuntos dos dados sem precisar recriar os filtros a cada vez.
+
+\subsection{Considerações importantes}
+
+Ao trabalhar com filtros no Jamovi, lembre-se de:
+
+\begin{itemize}
+    \item \textbf{Documentar seus filtros}: Sempre adicione descrições claras aos seus filtros para lembrar seu propósito
+    \item \textbf{Verificar o número de observações}: Após aplicar um filtro, verifique se o número resultante de observações corresponde ao esperado
+    \item \textbf{Considerar o impacto em análises estatísticas}: Filtros muito restritivos podem reduzir excessivamente seu tamanho amostral
+    \item \textbf{Desativar filtros ao compartilhar dados}: É geralmente recomendável desativar filtros antes de compartilhar seus arquivos, a menos que haja uma razão específica para mantê-los
+    \item \textbf{Salvar versões com e sem filtros}: Para análises complexas, considere salvar diferentes versões do seu arquivo
+\end{itemize}
+
+\begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
+  Para ver na prática como criar e utilizar filtros no Jamovi, confira meu tutorial em vídeo. Nele, demonstro como criar filtros simples e complexos, e como combinar múltiplos critérios para realizar análises mais específicas.\\
+  \textcolor{red}{\faYoutube} \href{https://youtu.be/U6sFx7vQhdc?si=rpdJF2qgNyWCO11a}{Como Criar Filtros no Jamovi}
+\end{tcolorbox}
+
 
 \section{Organizando as variáveis}
 
@@ -708,9 +830,6 @@ Uma organização cuidadosa das variáveis não só facilita o processo de anál
   Para ver na prática como padronizar e organizar variáveis no Jamovi, confira meu vídeo tutorial detalhado. Nele, demonstro como editar as propriedades das variáveis, configurar tipos de dados e aplicar boas práticas para manter seus dados organizados e prontos para análise.\\
   \textcolor{red}{\faYoutube} \href{https://youtu.be/PJkwPRLT_Q4?si=Ks8_3O7Ok5f-c6Bn}{Como Organizar Variáveis no Jamovi}
 \end{tcolorbox}
-
-\section{Renomear e Reorganizar Variáveis}
-Aqui, falaremos sobre como renomear e reorganizar variáveis no Jamovi. Esses são passos fundamentais na organização dos dados para análise.
 
 \section{Salvar e Exportar Dados}
 
