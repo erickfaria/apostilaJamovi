@@ -12,6 +12,6 @@
 *.run.xml
 apostila_jamovi.synctex(busy)
 
-# Cache dos scripts e testes Python
+# Cache dos scripts Python
 __pycache__/
 *.py[cod]

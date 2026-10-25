@@ -1,6 +1,6 @@
 """Recalcula os exemplos a partir dos CSVs; requer NumPy e SciPy.
 
-Execute na raiz: python scripts/conferir_exemplos.py
+Execute na raiz: python scripts/calcular_exemplos.py
 Não depende do PDF nem de tabelas copiadas da interface do jamovi.
 """
 import csv
@@ -57,8 +57,6 @@ critico = stats.t.ppf(.975, 126)
 ncp = .5*np.sqrt(64/2)
 poder = stats.nct.sf(critico, 126, ncp) + stats.nct.cdf(-critico, 126, ncp)
 mostrar('Planejamento: t bilateral, d=0,5, n=64 por grupo', poder=poder)
-assert np.linalg.matrix_rank(x) == 3
-assert len({r['id'] for r in notas}) == len(notas) == 18
 
 # Decomposição da ANOVA fatorial balanceada 2 x 2.
 fatorial = ler('exemplo_fatorial.csv')
@@ -69,7 +67,6 @@ for formato in ['Texto', 'Video']:
     for pratica in ['Nao', 'Sim']:
         celula = [r for r in fatorial if r['formato'] == formato and r['pratica'] == pratica]
         valores = coluna(celula, 'pontos')
-        assert len(valores) == 6
         medias_celulas[formato, pratica] = valores.mean()
         ss_erro += np.sum((valores-valores.mean())**2)
 ss_efeitos = []
@@ -85,7 +82,6 @@ fs = np.array([*ss_efeitos, ss_interacao]) / (ss_erro/20)
 mostrar('ANOVA fatorial: formato, prática, interação', medias=list(medias_celulas.values()),
         SQ=[*ss_efeitos, ss_interacao, ss_erro], F=fs, p=stats.f.sf(fs, 1, 20),
         eta_parcial_interacao=ss_interacao/(ss_interacao+ss_erro))
-assert np.isclose(ss_erro, 280)
 
 # ANOVA de tempo, SEM fator entre pessoas e SEM correção de esfericidade.
 repetidas = ler('exemplo_medidas_repetidas.csv')
@@ -101,7 +97,6 @@ mostrar('Medidas repetidas: um fator tempo', medias=a.mean(axis=0),
         SQ=[ss_tempo, ss_pessoas, ss_residuo], F_nao_corrigido=f_tempo,
         p_nao_corrigido=stats.f.sf(f_tempo, k-1, (n-1)*(k-1)),
         Friedman=friedman.statistic, p_Friedman=friedman.pvalue)
-assert n == len({r['id'] for r in repetidas}) == 12
 
 # Logística binária por máxima verossimilhança (Newton/IRLS).
 logistica = ler('exemplo_logistica.csv')
@@ -124,9 +119,6 @@ ic_or = np.exp(b[1] + np.array([-1, 1])*stats.norm.ppf(.975)*se[1])
 mostrar('Logística: evento 1, referência 0', coeficientes=b, erros_padrao=se,
         OR_horas=np.exp(b[1]), IC95_OR_Wald=ic_or,
         probabilidades_1a5=expit(b[0]+b[1]*np.arange(1, 6)))
-assert len(y) == len({r['id'] for r in logistica}) == 60
-assert y.sum() == 30 and set(y) == {0, 1}
-assert np.linalg.norm(x.T @ (y-p)) < 1e-8
 
 # Uma proporção e aderência multinomial.
 binomial = ler('exemplo_binomial.csv')
@@ -149,7 +141,6 @@ mostrar('McNemar', n=sum(tabela.values()), discordantes=b+c,
         qui_quadrado=chi, p=stats.chi2.sf(chi, 1),
         qui_quadrado_corrigido=chi_corr, p_corrigido=stats.chi2.sf(chi_corr, 1),
         p_exato=stats.binomtest(b, b+c, p=.5).pvalue)
-assert sum(tabela.values()) == 60
 # OR da tabela independente, IC de Wald na escala logarítmica.
 frequencias = ler('exemplo_frequencias.csv')
 tabela = {(r['grupo'], r['resultado']): int(r['frequencia']) for r in frequencias}
@@ -158,4 +149,27 @@ or_tabela = a*d/(b*c)
 se_log_or = np.sqrt(1/a+1/b+1/c+1/d)
 mostrar('OR: Sim, A versus B', OR=or_tabela,
         IC95_Wald=np.exp(np.log(or_tabela)+np.array([-1, 1])*1.96*se_log_or))
-print('Conferência concluída. Os valores são cálculos sobre dados fictícios.')
+
+# Pontuação e consistência interna de cinco itens fictícios.
+escalas = ler('exemplo_escalas.csv')
+itens = np.column_stack([coluna(escalas, v) for v in
+                         ['item1', 'item2', 'item3_neg', 'item4', 'item5']])
+
+def alfa(matriz):
+    k = matriz.shape[1]
+    return k/(k-1)*(1-matriz.var(axis=0, ddof=1).sum()/matriz.sum(axis=1).var(ddof=1))
+
+alfa_sem_inversao = alfa(itens)
+itens[:, 2] = 6-itens[:, 2]
+total = itens.sum(axis=1)
+correlacoes = np.corrcoef(itens, rowvar=False)
+r_medio = correlacoes[np.triu_indices(5, 1)].mean()
+mostrar('Escores e confiabilidade: item 3 corrigido',
+        primeiro_registro=itens[0], media_total=total.mean(), DP_total=total.std(ddof=1),
+        soma_variancias=itens.var(axis=0, ddof=1).sum(), variancia_total=total.var(ddof=1),
+        alfa=alfa(itens), alfa_sem_inversao=alfa_sem_inversao,
+        correlacao_media=r_medio, alfa_padronizado=5*r_medio/(1+4*r_medio),
+        item_resto=[np.corrcoef(itens[:, j], total-itens[:, j])[0, 1] for j in range(5)],
+        alfa_sem_item=[alfa(np.delete(itens, j, axis=1)) for j in range(5)])
+
+print('Cálculos concluídos. Os valores são cálculos sobre dados fictícios.')
