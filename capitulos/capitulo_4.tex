@@ -3,7 +3,7 @@
 
 No capítulo anterior, descrevemos as notas observadas. Agora vamos formular perguntas sobre médias populacionais e examinar como os dados se relacionam com essas perguntas. Um teste de hipóteses combina um modelo estatístico, uma hipótese nula e uma estatística de teste. Sua interpretação depende também de como as observações foram obtidas.
 
-Vamos trabalhar com testes t de uma amostra, de duas amostras independentes e de medidas pareadas. Usaremos novamente \texttt{exemplo\_notas.csv}; todos os resultados numéricos apresentados neste capítulo são cálculos sobre esses dados fictícios.
+Vamos trabalhar com testes t de uma amostra, de duas amostras independentes e de medidas pareadas, avançando para testes de postos, planejamento amostral e multiplicidade. Usaremos novamente \texttt{exemplo\_notas.csv}; todos os resultados numéricos apresentados neste capítulo são cálculos sobre esses dados fictícios.
 
 \section{Hipóteses, valor de p e decisões}
 
@@ -146,13 +146,13 @@ Para praticar Mann--Whitney, mantenha somente Leitura e Vídeo em \texttt{exempl
 
 O procedimento usa a ordenação conjunta das observações. Valores iguais recebem postos médios. Sob a hipótese nula usual de distribuições iguais, os rótulos dos grupos são intercambiáveis entre observações independentes; a interpretação como deslocamento de localização pede condições adicionais. Se as formas e dispersões forem diferentes, um resultado pode refletir essas diferenças, sem uma interpretação exclusiva em termos de medianas.
 
-Na leitura da saída, registre o tamanho de cada grupo, a estatística, a alternativa e o método de cálculo do valor de $p$. As convenções para a estatística de postos variam: uma soma de postos e um $U$ podem codificar a mesma ordenação com números diferentes. A documentação do R discute essa diferença e distingue a estimativa de localização da simples subtração de medianas \parencite{RWIlcoxon}.
+Na leitura da saída, registre o tamanho de cada grupo, a estatística, a alternativa e o método de cálculo do valor de $p$. As convenções para a estatística de postos variam: uma soma de postos e um $U$ podem codificar a mesma ordenação com números diferentes. A documentação do R discute essa diferença e distingue a estimativa de localização da simples subtração de medianas \parencite{RWilcoxon}.
 
 \subsection{Duas medidas pareadas}
 
 Desative o filtro e abra o teste de amostras pareadas. Forme o par \texttt{depois} menos \texttt{antes} e selecione \textbf{Wilcoxon de postos sinalizados (Wilcoxon signed-rank)} \parencite{JamoviTPareado}. O procedimento ordena as magnitudes das diferenças não nulas e considera seus sinais; ele preserva a ligação entre as duas medidas de cada pessoa.
 
-No nosso arquivo, todas as 18 diferenças são positivas. Sem diferenças nulas, os postos de 1 a 18 somam $18\times19/2=171$: toda a soma está do lado positivo. Esse cálculo ajuda a entender a estatística; não substitui a identificação da convenção e do método de inferência adotados na saída. Empates, zeros e aproximações podem afetar o cálculo. Para interpretar o procedimento como um teste de localização das diferenças, precisamos também considerar sua simetria \parencite{RWIlcoxon}.
+No nosso arquivo, todas as 18 diferenças são positivas. Sem diferenças nulas, os postos de 1 a 18 somam $18\times19/2=171$: toda a soma está do lado positivo. Esse cálculo ajuda a entender a estatística; não substitui a identificação da convenção e do método de inferência adotados na saída. Empates, zeros e aproximações podem afetar o cálculo. Para interpretar o procedimento como um teste de localização das diferenças, precisamos também considerar sua simetria \parencite{RWilcoxon}.
 
 Um relato deve indicar que as medidas são pareadas, apresentar uma descrição das diferenças e identificar o teste. Não escolha entre t pareado e Wilcoxon apenas pelo menor valor de $p$. Defina a pergunta e a estratégia principal e, se fizer uma análise de sensibilidade, explique sua finalidade.
 
