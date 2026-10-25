@@ -1,13 +1,106 @@
 \chapter{Análise de Dados Categóricos}
+\label{cap:categoricos}
 
-A análise de dados categóricos é uma área da estatística que lida com variáveis qualitativas, também conhecidas como variáveis categóricas. Essas variáveis representam características ou atributos que podem ser classificados em categorias ou grupos distintos, mas não podem ser quantificados ou medidos de forma contínua.
+Variáveis categóricas organizam observações em grupos, como meio de transporte, atividade realizada ou resposta sim/não. Neste capítulo, vamos construir uma tabela de contingência, comparar porcentagens e examinar a associação entre duas variáveis nominais. O ponto de partida é saber se cada linha do banco representa uma pessoa ou uma contagem agregada.
 
-Na análise de dados categóricos, o objetivo principal é compreender a distribuição e a associação entre as diferentes categorias, bem como realizar inferências estatísticas a partir desses dados. Isso envolve o uso de técnicas estatísticas específicas que são adequadas para lidar com variáveis categóricas, ao contrário das técnicas usadas para variáveis numéricas contínuas \parencite{Bussab2017}.
+\section{Tabela de contingência e denominadores}
 
-Uma das principais ferramentas na análise de dados categóricos é a tabela de contingência, que apresenta a frequência ou a proporção de ocorrência de cada combinação de categorias. A partir dessa tabela, é possível calcular medidas como a frequência relativa, proporções, odds ratio e qui-quadrado, que ajudam a descrever e analisar os padrões nos dados.
+O arquivo \href{https://github.com/erickfaria/apostilaJamovi/blob/main/dados/exemplo_frequencias.csv}{\texttt{dados/exemplo\_frequencias.csv}} contém quatro linhas que resumem \textbf{100 observações fictícias independentes}. A coluna \texttt{frequencia} informa quantas observações pertencem a cada combinação de \texttt{grupo} e \texttt{resultado}.
 
-Além disso, a análise de dados categóricos inclui técnicas estatísticas como o teste qui-quadrado, que verifica se existe uma associação significativa entre duas ou mais variáveis categóricas. Esse teste compara as frequências observadas com as frequências esperadas, sob a hipótese nula de independência entre as variáveis. Se o valor-p resultante for menor que um nível de significância predefinido, podemos rejeitar a hipótese nula e concluir que há uma associação entre as variáveis.
+\begin{table}[H]
+\centering
+\caption{Contagens fictícias para praticar a análise de associação}
+\begin{tabular}{lrrr}
+\hline
+Grupo & Sim & Não & Total \\
+\hline
+A & 30 & 20 & 50 \\
+B & 15 & 35 & 50 \\
+\hline
+Total & 45 & 55 & 100 \\
+\hline
+\end{tabular}
+\label{tab:contingencia-exemplo}
+\end{table}
 
-Outra técnica comum na análise de dados categóricos é a regressão logística, que permite modelar e prever uma variável categórica dependente com base em uma ou mais variáveis independentes. A regressão logística é uma extensão da regressão linear e é especialmente útil quando a variável de interesse é binária (duas categorias), como sim/não, sucesso/fracasso, presente/ausente.
+Entre as 50 observações do grupo A, $30/50=60\%$ têm resultado Sim. No grupo B, são $15/50=30\%$. Essas são \textbf{porcentagens por linha}. Já $30/45\approx66{,}7\%$ responde a outra pergunta: entre todos os resultados Sim, qual fração pertence ao grupo A? Essa é uma porcentagem por coluna. Indique o denominador em tabelas, figuras e texto.
 
-A análise de dados categóricos tem aplicações em diversas áreas, como pesquisas de opinião, epidemiologia, psicologia, marketing e ciências sociais. Ela ajuda a entender a relação entre características categóricas, identificar fatores associados e fazer previsões sobre o comportamento ou a ocorrência de eventos.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[left] at (0,1.5) {Grupo A};
+  \node[left] at (0,0.3) {Grupo B};
+  \fill[blue!35] (0,1.15) rectangle (6,1.85);
+  \fill[gray!20] (6,1.15) rectangle (10,1.85);
+  \draw (0,1.15) rectangle (10,1.85);
+  \fill[blue!35] (0,-0.05) rectangle (3,0.65);
+  \fill[gray!20] (3,-0.05) rectangle (10,0.65);
+  \draw (0,-0.05) rectangle (10,0.65);
+  \node at (3,1.5) {Sim: 60\%};
+  \node at (8,1.5) {Não: 40\%};
+  \node at (1.5,0.3) {Sim: 30\%};
+  \node at (6.5,0.3) {Não: 70\%};
+\end{tikzpicture}
+\caption{Composição percentual dentro de cada grupo; cada barra representa 100\% de sua linha. Elaboração própria.}
+\label{fig:proporcoes-grupos}
+\end{figure}
+
+\section{Configurando a tabela no jamovi}
+
+\begin{enumerate}
+  \item Abra o CSV e configure \texttt{grupo} e \texttt{resultado} como nominais. A coluna \texttt{frequencia} contém contagens inteiras.
+  \item Acesse \textbf{Análises $\rightarrow$ Frequências (Frequencies) $\rightarrow$ Tabelas de contingência (Contingency Tables) $\rightarrow$ Amostras independentes (Independent Samples)}.
+  \item Atribua \texttt{grupo} a \textbf{Linhas (Rows)}, \texttt{resultado} a \textbf{Colunas (Columns)} e \texttt{frequencia} a \textbf{Contagens (Counts)}.
+  \item Solicite as contagens observadas, as esperadas e as porcentagens por linha. Confira que o total é $100$.
+\end{enumerate}
+
+A documentação oficial descreve o uso de uma coluna de contagens e as opções para porcentagens, qui-quadrado, Fisher e medidas de associação \parencite{JamoviContingencia}. Se cada linha do seu banco representar uma única pessoa, deixe \textbf{Contagens} vazio: não use o identificador da pessoa como peso.
+
+\begin{tcolorbox}[colback=white,colframe=green,title={Dica de Conteúdo}]
+As quatro linhas do arquivo não são quatro participantes. Sem atribuir \texttt{frequencia} ao campo de contagens, você analisará combinações de categorias em vez das 100 observações resumidas. Sempre confira os totais antes de interpretar o teste.
+\end{tcolorbox}
+
+\section{Teste qui-quadrado de independência}
+
+A hipótese nula afirma que as duas variáveis são independentes na população modelada. Para cada célula, calculamos uma frequência esperada sob essa hipótese:
+\[
+E_{ij}=\frac{(\text{total da linha }i)(\text{total da coluna }j)}{n}.
+\]
+Na célula A/Sim, o valor esperado é $50\times45/100=22{,}5$. Na célula A/Não, é $27{,}5$. Os mesmos valores esperados se repetem na linha B, porque os dois totais de linha são iguais.
+
+A estatística de Pearson compara contagens observadas $O_{ij}$ e esperadas $E_{ij}$:
+\[
+\chi^2=\sum_i\sum_j\frac{(O_{ij}-E_{ij})^2}{E_{ij}},
+\qquad gl=(r-1)(c-1),
+\]
+em que $r$ e $c$ são o número de linhas e colunas. Para nossa tabela $2\times2$, selecione o qui-quadrado de Pearson \textbf{sem correção de continuidade}. Você deve encontrar aproximadamente $\chi^2(1)=9{,}091$ e $p=0{,}00257$. Se selecionar a correção de continuidade, o resultado numérico será outro; identifique a opção usada.
+
+No exemplo, os percentuais observados diferem e o teste é incompatível com a independência ao nível de 5\%, sob as condições consideradas. O teste não estabelece que pertencer ao grupo A cause o resultado Sim.
+
+\subsection{Quando examinar Fisher e a estrutura do estudo}
+
+A aproximação qui-quadrado exige atenção às frequências \textbf{esperadas}, não apenas ao tamanho total ou à presença de uma contagem observada pequena. Em tabelas $2\times2$ com frequências esperadas muito baixas, considere o teste exato de Fisher e justifique o procedimento. Para a tabela da apostila, Fisher bilateral produz aproximadamente $p=0{,}00464$; esse valor não precisa coincidir com o de Pearson.
+
+Cada observação precisa contribuir de modo compatível com a hipótese de independência. Se a mesma pessoa responde antes e depois a uma pergunta binária, os registros são pareados. O teste de McNemar trata uma pergunta desse tipo; a tabela de grupos independentes discutida aqui não é uma substituição adequada.
+
+\section{Magnitude da associação}
+
+O valor de $p$ não quantifica o tamanho da associação. Uma opção para tabelas nominais é o V de Cramér:
+\[
+V=\sqrt{\frac{\chi^2}{n\,\min(r-1,c-1)}}.
+\]
+No exemplo, $V=\sqrt{9{,}091/100}\approx0{,}302$. A medida não indica a direção da associação; para compreendê-la, examine os percentuais da tabela. Sua importância depende também da pergunta e do contexto.
+
+\subsection{Razão de chances não é razão de probabilidades}
+
+Para um resultado com probabilidade $p$, a chance, ou \textit{odds}, é $p/(1-p)$. No grupo A, a chance observada de Sim é $30/20=1{,}5$; no grupo B, é $15/35\approx0{,}429$. A razão de chances de A em relação a B é:
+\[
+OR=\frac{30/20}{15/35}=3{,}5.
+\]
+Isso não significa que a probabilidade de Sim seja 3,5 vezes maior. A razão entre as proporções observadas é $0{,}60/0{,}30=2$. A interpretação como risco, prevalência ou outra medida depende do desenho e da forma de amostragem. Confirme também a ordem das categorias: inverter uma referência pode produzir a razão recíproca, $1/3{,}5$.
+
+\section{Como relatar uma associação}
+
+Um relato possível é: ``Nos dados fictícios, o resultado Sim ocorreu em 30 de 50 observações do grupo A (60\%) e em 15 de 50 do grupo B (30\%). O qui-quadrado de Pearson sem correção de continuidade resultou em $\chi^2(1)=9{,}09$, $p=0{,}0026$, com V de Cramér de $0{,}302$.'' Em uma análise real, informe o tratamento dos ausentes, o desenho, os intervalos das medidas de interesse e os limites de interpretação.
+
+Uma continuação desse estudo é a regressão logística, usada para modelar uma resposta binária em função de preditores. Sua resposta e a interpretação dos coeficientes diferem das da regressão linear. Antes de avançar, consolide a leitura de contagens, denominadores e referências de comparação: esses elementos continuam essenciais em modelos mais elaborados.

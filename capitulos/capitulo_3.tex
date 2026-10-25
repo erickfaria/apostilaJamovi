@@ -1,266 +1,164 @@
 \chapter{Estatística Descritiva}
+\label{cap:descritiva}
 
-Neste capítulo da apostila, vamos explorar o passo a passo de como realizar análises de estatística descritiva no Jamovi. Aprenderemos como utilizar as diversas ferramentas disponíveis no software para organizar, resumir e apresentar os dados de maneira clara e concisa.
+Antes de escolher um teste, precisamos conhecer os dados. Quantas pessoas participaram? Há valores ausentes? As notas estão concentradas ou variam bastante? Neste capítulo, vamos usar tabelas e gráficos para responder a essas perguntas. A análise descritiva ajuda a verificar o banco e a comunicar o que foi observado; ela também orienta as análises dos próximos capítulos.
 
-No capítulo anterior nós aprendemos como importar os dados para o Jamovi, seja através da importação de arquivos ou inserção direta na planilha. Em seguida, abordaremos as principais medidas de tendência central, como média, mediana e moda, e as medidas de dispersão, como desvio padrão, variância e amplitude. Você aprenderá como calcular essas medidas usando o Jamovi e interpretar os resultados.
+Vamos manter uma sequência simples: conferir as variáveis, descrever o centro e a dispersão e, por fim, examinar a distribuição. Os conceitos de média, mediana e moda seguem a apresentação do manual do NIST/SEMATECH e dos livros já indicados nesta apostila \parencite{NISTCentro,Triola2017}.
 
-Em seguida, mergulharemos nos recursos de visualização de dados do Jamovi. Exploraremos os diversos gráficos disponíveis, como gráficos de barras, gráficos de dispersão, gráficos de linha, gráficos de boxplot e histogramas. Você aprenderá como criar esses gráficos, personalizá-los e interpretar as informações que eles fornecem sobre seus dados.
+\section{Um conjunto de dados para praticar}
 
-Continuaremos com a criação de tabelas de frequência, que mostrarão a distribuição dos dados em categorias ou intervalos. Você aprenderá a criar tabelas de frequência no Jamovi e interpretar os resultados para entender a distribuição dos seus dados.
+Preparei o arquivo \href{https://github.com/erickfaria/apostilaJamovi/blob/main/dados/exemplo_notas.csv}{\texttt{dados/exemplo\_notas.csv}}, disponível no repositório da apostila. Ele contém \textbf{18 pessoas fictícias}, distribuídas entre três atividades: Leitura, Vídeo e Oficina. Cada linha representa uma pessoa; as colunas \texttt{antes} e \texttt{depois} guardam duas notas dessa mesma pessoa. A coluna \texttt{horas} registra horas de estudo.
 
-Em seguida, exploraremos as tabelas cruzadas, uma técnica poderosa para analisar a relação entre duas ou mais variáveis. Aprenderemos como criar tabelas cruzadas no Jamovi e interpretar os resultados para identificar associações ou padrões entre as variáveis.
+Abra o CSV no jamovi e confira os tipos: \texttt{id} como identificador, \texttt{grupo} como nominal e as demais colunas como contínuas. No arquivo, a categoria Vídeo aparece como \texttt{Video}, sem acento. Ao longo da apostila, vamos reutilizar esse banco para que você possa acompanhar o mesmo exemplo de diferentes maneiras.
 
-Por fim, abordaremos a criação de relatórios de estatísticas descritivas no Jamovi. Você aprenderá como criar relatórios que resumem suas análises, incluindo informações sobre as medidas calculadas, gráficos relevantes e interpretação dos resultados. Esses relatórios serão úteis para compartilhar seus resultados com outros pesquisadores ou colaboradores.
-
-Ao final deste capítulo, você terá adquirido as habilidades necessárias para realizar análises de estatística descritiva no Jamovi. Você estará apto a utilizar as diversas ferramentas e recursos oferecidos pelo software para explorar e descrever seus dados de forma eficiente e precisa. A estatística descritiva no Jamovi será uma poderosa aliada em suas análises e na comunicação clara dos resultados obtidos.
-
-\begin{tcolorbox}[colback=white,colframe=green,title= Dica de Conteúdo]
-    Essa apostila não é um livro de estatística. Ela é um guia de como utilizar o Jamovi para realizar análises estatísticas. Se você não conhece os conceitos estatísticos, recomendo que você estude os conceitos antes de utilizar o Jamovi. Nessa apostila eu cito algumas bibliografias que podem te ajudar a entender os conceitos estatísticos. Visite a parte de Bibliografia e leia os livros indicados caso você julgue necessário. Entretanto, durante as sessões eu faço uma breve introdução aos conceitos estatísticos para que você possa entender o que está sendo feito no Jamovi.
+\begin{tcolorbox}[colback=white,colframe=green,title={Dica de Conteúdo}]
+Os dados são de elaboração própria e servem para aprender a configurar análises. Os resultados não demonstram a eficácia de uma atividade de ensino. Mantenha todos os filtros desativados, exceto quando o exercício indicar um subconjunto, e salve seu trabalho em um arquivo \texttt{.omv}.
 \end{tcolorbox}
 
-A estatística descritiva é uma parte fundamental da análise de dados, pois oferece uma visão geral e resumida das características dos dados. No Jamovi, um software estatístico de código aberto e amigável, você pode encontrar várias ferramentas e recursos para realizar estatística descritiva de maneira eficiente.
+\subsection{Abrindo a análise descritiva}
 
-Ao utilizar o Jamovi, você pode importar seus dados ou inseri-los diretamente na planilha. Em seguida, você pode explorar as diversas opções disponíveis para realizar análises descritivas. Alguns dos recursos mais comuns incluem:
+No menu \textbf{Análises (Analyses)}, acesse \textbf{Exploração (Exploration)} e depois \textbf{Descritivas (Descriptives)}. Mova \texttt{depois} para \textbf{Variáveis (Variables)}. Em \textbf{Estatísticas (Statistics)}, selecione as medidas que deseja examinar. Para comparar grupos, mova \texttt{grupo} para \textbf{Dividir por (Split by)}. Essa análise oferece resumos numéricos, tabelas de frequência e gráficos \parencite{JamoviDescritivas}.
 
-\begin{itemize}
-    \item Medidas de tendência central: O Jamovi oferece várias opções para calcular medidas de tendência central, como média, mediana e moda. Essas medidas ajudam a identificar valores centrais ou típicos em seus dados.
-    \item Medidas de dispersão: Além das medidas de tendência central, o Jamovi também permite calcular medidas de dispersão, como desvio padrão, variância e amplitude. Essas medidas fornecem informações sobre a variação ou dispersão dos seus dados.
-    \item Gráficos: O Jamovi possui uma ampla variedade de gráficos disponíveis para visualizar seus dados de forma clara e compreensível. Você pode criar gráficos de barras, gráficos de dispersão, gráficos de linha, gráficos de boxplot, histogramas, entre outros. Esses gráficos podem ajudar a identificar padrões, tendências e outliers nos seus dados.
-    \item Tabelas de frequência: O Jamovi permite criar tabelas de frequência, que mostram a distribuição dos seus dados em categorias ou intervalos. Essas tabelas são úteis para identificar a frequência de ocorrência de valores específicos ou a distribuição dos seus dados em diferentes categorias.
-    \item Tabelas cruzadas: Com o Jamovi, você pode criar tabelas cruzadas para explorar a relação entre duas ou mais variáveis. Isso permite analisar como as diferentes variáveis estão relacionadas entre si e identificar possíveis associações ou padrões.
-    \item Relatórios: O Jamovi oferece a opção de criar relatórios de estatísticas descritivas para compartilhar com outros pesquisadores ou colaboradores. Esses relatórios podem incluir informações sobre as análises realizadas, resultados obtidos e gráficos relevantes, facilitando a comunicação dos resultados de forma clara e concisa.
-\end{itemize}
-
-Além desses recursos, o Jamovi também oferece suporte a uma ampla gama de técnicas estatísticas avançadas, como testes de hipóteses, análise de variância (ANOVA), regressão, análise fatorial e muito mais. Com sua interface intuitiva e recursos poderosos, o Jamovi é uma ferramenta acessível e eficiente para realizar análises estatísticas descritivas.
+Os nomes traduzidos podem variar entre versões. Por isso, indico também os nomes em inglês. As capturas de tela dos capítulos anteriores ilustram a organização geral; registre a versão do jamovi usada no seu trabalho para facilitar a reprodução.
 
 \section{Medidas de tendência central}
 
-As medidas de tendência central são estatísticas utilizadas na análise descritiva para resumir e descrever um conjunto de dados, fornecendo uma medida representativa do centro dos valores observados. Essas medidas são úteis para entender as características e propriedades centrais dos dados, permitindo uma compreensão mais clara e concisa da distribuição dos valores \parencite{Triola2017}.
-
 \subsection{Média}
 
-A média é uma medida de tendência central amplamente utilizada na estatística descritiva. É calculada como a soma de todos os valores em um conjunto de dados dividida pelo número de observações. A média é frequentemente utilizada para determinar um valor típico ou representativo de um conjunto de dados.
-
-A média é uma medida robusta, pois leva em consideração todos os valores do conjunto de dados. Ela é especialmente útil quando os dados estão distribuídos de forma relativamente simétrica e não possuem valores extremos significativos. No entanto, é importante ter cuidado ao usar a média quando há valores discrepantes ou uma distribuição assimétrica, pois esses casos podem distorcer a interpretação dos resultados \parencite{Triola2017}.
-
-A média é fácil de calcular e fornece uma representação numérica única para resumir os dados. Ela possui propriedades matemáticas úteis, como a propriedade de preservar a soma (a soma das médias é igual à média das somas) e pode ser usada para comparar conjuntos de dados diferentes.
-
+A média aritmética é a soma dos valores dividida pelo número de observações válidas:
 \[
-\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i.
 \]
+Para as notas $5,6,7,8,9$, a soma é $35$ e a média é $7$. Isso não significa que todas as pessoas tenham nota $7$: a média resume o conjunto em um único número.
 
-Ao interpretar a média, é importante considerar o contexto do problema em questão. Ela pode ser utilizada para compreender características centrais de um conjunto de dados, como a média de salários de uma população, a média de notas de um grupo de estudantes ou a média de idades de um determinado grupo.
+No arquivo de exemplo, a média de \texttt{depois} é aproximadamente $64{,}56$ pontos. Ao dividir por \texttt{grupo}, você deve encontrar:
 
-No entanto, é fundamental lembrar que a média não fornece informações sobre a dispersão ou variabilidade dos dados. Portanto, é sempre recomendado complementar a análise com outras medidas descritivas, como o desvio padrão, para ter uma compreensão completa da distribuição dos dados.
+\begin{table}[H]
+\centering
+\caption{Resumo das notas posteriores nos dados fictícios}
+\begin{tabular}{lrrr}
+\hline
+Atividade & $n$ & Média & Desvio padrão amostral \\
+\hline
+Leitura & 6 & $59{,}17$ & $7{,}03$ \\
+Vídeo & 6 & $64{,}67$ & $7{,}76$ \\
+Oficina & 6 & $69{,}83$ & $8{,}57$ \\
+\hline
+\end{tabular}
+\label{tab:descritivas-notas}
+\end{table}
 
-Para calcular a média no Jamovi, você pode seguir as etapas abaixo:
-
-\begin{enumerate}
-    \item Importe seus dados ou insira-os diretamente na planilha do Jamovi. Certifique-se de que os dados estejam organizados em uma única coluna ou em várias colunas, dependendo da sua estrutura.
-    \item Selecione a coluna que contém os dados dos quais você deseja calcular a média. Para fazer isso, clique no cabeçalho da coluna ou arraste o mouse para selecionar várias colunas.
-    \item No painel de Análises, localizado à direita da tela, clique na seção "Descriptive Statistics" (Estatísticas Descritivas).
-    \item Na seção de estatísticas descritivas, você encontrará várias opções. Procure por "Mean" (Média) e marque a caixa ao lado dela.
-    \item Assim que você marcar a caixa de seleção "Mean" (Média), o Jamovi calculará automaticamente a média para os dados selecionados. O valor da média será exibido na tabela de resultados.
-    \item Se você deseja realizar o cálculo da média para grupos específicos de dados, você pode utilizar a função de agrupamento. Para isso, clique no ícone "Group by" (Agrupar por) no painel de estatísticas descritivas. Selecione a variável que contém os grupos ou categorias e o Jamovi calculará as médias separadamente para cada grupo.
-    \item Para visualizar os resultados de forma mais clara, você pode criar um gráfico de barras ou um gráfico de linha que exiba as médias para cada grupo. Para isso, clique na seção "Visualize" (Visualizar) no painel de estatísticas descritivas e escolha o tipo de gráfico que melhor se adequa aos seus dados.
-\end{enumerate}
-
-\subsection{Moda}
-
-A moda é uma medida de tendência central na estatística descritiva que representa o valor ou valores que ocorrem com maior frequência em um conjunto de dados. Em outras palavras, a moda indica o valor mais comum ou popular em um conjunto de observações \parencite{Triola2017}.
-
-\[
-\text{moda} = \text{valor mais frequente na amostra}
-\]
-
-No conjunto de dados representado dentro do círculo abaixo (\ref{fig:circulo_moda}), cada número é desenhado em uma posição aleatória dentro do círculo. Analisando os números desenhados, podemos observar que o número 6 ocorre duas vezes, mais do que qualquer outro número no conjunto. Portanto, podemos concluir que o número 6 é a moda desse conjunto de dados.
-
-\begin{figure}[H]
-    \centering
-    \caption{Exemplo do que é moda}
-    \begin{tikzpicture}[scale=1.5]
-        % Define o círculo
-        \draw (0,0) circle (2cm);
-
-        % Define os números
-        \def\numbers{{1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10}}
-        
-        % Define a distância mínima entre os números
-        \def\minDistance{0.4} % Ajuste o valor conforme necessário
-        
-        % Define o raio máximo permitido
-        \def\maxRadius{1.6} % Ajuste o valor conforme necessário
-
-        % Desenha os números
-        \foreach \i in {1,...,11} {
-            % Obtém o número atual
-            \pgfmathparse{\numbers[\i-1]}
-            \let\modeValue\pgfmathresult
-            
-            % Define um ângulo e um raio aleatórios
-            \pgfmathsetmacro{\angle}{rnd*360}
-            \pgfmathsetmacro{\radius}{\minDistance + rnd*(\maxRadius-\minDistance)}
-            
-            % Verifica se algum número já ocupa a posição
-            \pgfmathtruncatemacro{\overlap}{0}
-            \foreach \j in {1,...,\i} {
-                \pgfmathparse{\numbers[\j-1]}
-                \let\existingNumber\pgfmathresult
-                \pgfmathparse{atan2(sin(\angle)*\radius-sin(\numbers[\j-1])*2,cos(\angle)*\radius-cos(\numbers[\j-1])*2)}
-                \pgfmathtruncatemacro{\angleDiff}{\pgfmathresult}
-                \ifnum\angleDiff=0
-                    \ifnum\modeValue=\existingNumber
-                        \pgfmathtruncatemacro{\overlap}{1}
-                    \fi
-                \fi
-                \ifnum\angleDiff=0
-                    \ifdim\radius pt<\minDistance pt
-                        \pgfmathtruncatemacro{\overlap}{1}
-                    \fi
-                \fi
-            }
-            
-            % Verifica se o número é igual a 6 e não há sobreposição
-            \ifnum\modeValue=6
-                \ifnum\overlap=0
-                    % Se for igual a 6 e não houver sobreposição, desenha o número em vermelho
-                    \node[text=red, circle, minimum size=0.3cm] at (\angle:\radius cm) {\modeValue};
-                \else
-                    % Se houver sobreposição, não desenha o número
-                \fi
-            \else
-                % Caso contrário, desenha o número normalmente
-                \ifnum\overlap=0
-                    \node[circle, minimum size=0.3cm] at (\angle:\radius cm) {\modeValue};
-                \else
-                    % Se houver sobreposição, não desenha o número
-                \fi
-            \fi
-        }
-    \end{tikzpicture}
-    \label{fig:circulo_moda}
-\end{figure}
-
-Ao contrário da média, que é calculada a partir da soma de todos os valores dividida pelo número de observações, a moda é determinada pela identificação do valor ou valores que aparecem com maior frequência. Pode haver um único valor de moda, conhecido como moda unimodal, ou pode haver mais de um valor de moda, chamado de moda bimodal, trimodal ou multimodal.
-
-A moda é especialmente útil quando se lida com dados categóricos ou discretos, como categorias de produtos, cores favoritas, resultados de votações, entre outros. Ela também pode ser aplicada a dados contínuos, embora seja menos comum nesse contexto.
-
-A moda é uma medida relativamente fácil de calcular, uma vez que envolve apenas a contagem dos valores e a identificação do valor mais frequente. No entanto, assim como a média, a moda pode não ser suficiente para descrever completamente a distribuição dos dados. Por exemplo, em um conjunto de dados em que todos os valores ocorrem apenas uma vez, não haverá um valor de moda claro.
-
-É importante observar que, ao contrário da média e da mediana, a moda não é afetada por valores extremos ou discrepantes, pois seu cálculo é baseado na frequência de ocorrência dos valores. Isso faz com que a moda seja uma medida robusta em relação a valores atípicos.
-
-No Jamovi, calcular a moda pode ser feito seguindo este passo a passo:
-
-\begin{enumerate}
-    \item Importe seus dados ou insira-os diretamente na planilha do Jamovi. Certifique-se de que os dados estejam organizados em uma única coluna ou em várias colunas, dependendo da sua estrutura.
-    \item Selecione a coluna que contém os dados dos quais você deseja calcular a moda. Para fazer isso, clique no cabeçalho da coluna ou arraste o mouse para selecionar várias colunas.
-    \item No painel de Análises, localizado à direita da tela, clique na seção "Descriptive Statistics" (Estatísticas Descritivas).
-    \item Na seção de estatísticas descritivas, você encontrará várias opções. Procure por "Mode" (Moda) e marque a caixa ao lado dela.
-    \item Assim que você marcar a caixa de seleção "Mode" (Moda), o Jamovi calculará automaticamente a moda para os dados selecionados. O valor ou valores da moda serão exibidos na tabela de resultados.
-    \item Se você deseja calcular a moda para grupos específicos de dados, utilize a função de agrupamento. Clique no ícone "Group by" (Agrupar por) no painel de estatísticas descritivas. Selecione a variável que contém os grupos ou categorias, e o Jamovi calculará as modas separadamente para cada grupo.
-    \item Caso o conjunto de dados não apresente um valor de moda claro (todos os valores ocorrem apenas uma vez ou não há valores que se repitam com maior frequência), o Jamovi indicará a ausência de moda na tabela de resultados.
-\end{enumerate}
+Esses números descrevem as pessoas do arquivo. A diferença entre médias observadas, por si só, não resolve a pergunta sobre diferenças populacionais. Vamos tratar dessa distinção no capítulo de ANOVA.
 
 \subsection{Mediana}
 
-Suponha que temos a seguinte lista de números: $2, 12, 5, 10, 8, 7, 5$. Para encontrar a mediana, primeiro precisamos ordenar a lista em ordem crescente: $2, 3, 5, 7, 8, 10, 12$. Em seguida, encontramos o valor do meio da lista, que é $7$. Portanto, a mediana desta lista é $7$.
-
-Podemos representar a mediana graficamente usando um desenho. O valor da mediana é o ponto em qvermelho, onde nós dividimos o conjunto de dados em duas partes iguais. Veja o exemplo abaixo:
-
-\begin{center}
-    \begin{tikzpicture}
-      % Define the boxes
-      \draw (0,0) rectangle (1,1);
-      \draw (1.5,0) rectangle (2.5,1);
-      \draw (3,0) rectangle (4,1);
-      \draw [red] (4.5,0) rectangle (5.5,1);
-      \draw (6,0) rectangle (7,1) node[midway] {7};
-      \draw (7.5,0) rectangle (8.5,1);
-      \draw (9,0) rectangle (10,1);
-      
-      % Label the boxes
-      \node at (0.5,0.5) {2};
-      \node at (2,0.5) {3};
-      \node at (3.5,0.5) {5};
-      \node at (5,0.5) {7};
-      \node at (6.5,0.5) {8};
-      \node at (8,0.5) {10};
-      \node at (9.5,0.5) {12};
-      
-      % Label the median
-      \node[red] at (5.0,-0.30) {Mediana};
-    \end{tikzpicture} 
-\end{center}
-    
-
-Neste exemplo, a mediana é $7$, que é o ponto em que a curva do histograma é dividida em duas partes iguais.
-
-Note que, se a lista tivesse um número par de elementos, a mediana seria a média dos dois valores do meio. Por exemplo, se a lista fosse $2, 3, 5, 7, 8, 10$, a mediana seria $(5+7)/2 = 6$.
-
-\section{Medidas de Dispersão}
-
-As medidas de dispersão são estatísticas utilizadas na análise descritiva para quantificar a variabilidade, espalhamento ou dispersão dos valores em um conjunto de dados. Essas medidas fornecem informações sobre o quão dispersos ou concentrados os dados estão em relação a uma medida de tendência central, como a média.
-
-\subsection{Desvio Padrão}
-
-O desvio padrão é uma medida estatística que indica a dispersão ou variabilidade dos valores em relação à média de um conjunto de dados. Ele fornece uma medida da diferença média entre cada valor e a média do conjunto de dados \parencite{Triola2017}.
+Para encontrar a mediana, ordenamos os valores e localizamos o centro da lista. Considere $2,12,5,10,8,7,3$. A ordenação correta é $2,3,5,7,8,10,12$; como há sete valores, o quarto é a mediana: $7$. A figura~\ref{fig:mediana-ordenada} destaca essa posição.
 
 \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[>=latex]
-        % Eixo
-        \draw[->] (-4,0) -- (4,0) node[right] {$x$};
-        \draw[->] (0,-0.5) -- (0,3) node[above] {Frequência};
-    
-        % Pontos de dados
-        \foreach \x/\y in {-2/0.5, -1/1.5, 0/2, 1/1, 2/0.5} {
-        \fill (\x,\y) circle (2pt);
-        }
-    
-        % Linhas verticais
-        \foreach \x/\y in {-2/0.5, -1/1.5, 0/2, 1/1, 2/0.5} {
-        \draw[dashed] (\x,\y) -- (\x,0);
-        }
-    
-        % Média
-        \draw[dashed, red] (0,0) -- (0,2.5) node[right, red] {$\bar{x}$};
-    
-        % Desvio Padrão
-        \draw[<->] (-1.5,-0.3) -- (1.5,-0.3) node[midway, below] {Desvio Padrão};
-    
-        % Linhas de Desvio
-        \draw[blue, <->] (-1,0) -- (-1,1.5) node[midway, left] {$\sigma$};
-        \draw[blue, <->] (1,0) -- (1,1) node[midway, right] {$\sigma$};
-
-         % Legenda
-         \node at (0,-1.5) {\begin{tabular}{@{}c@{ }l@{}}
-            \tikz\draw[blue] (0,0) -- (0.5,0); & $\sigma$ - Desvio padrão\\
-            \tikz\draw[red, dashed] (0,0) -- (0.5,0); & $\bar{x}$ - Média
-            \end{tabular}};
-    
-    \end{tikzpicture}
+\centering
+\begin{tikzpicture}[x=1.25cm,y=1cm]
+  \foreach \pos/\valor in {0/2,1/3,2/5,3/7,4/8,5/10,6/12} {
+    \draw (\pos,0) rectangle ++(0.85,0.75);
+    \node at (\pos+0.425,0.375) {\valor};
+  }
+  \draw[red,thick] (3,0) rectangle (3.85,0.75);
+  \node[red] at (3.425,-0.35) {Mediana};
+\end{tikzpicture}
+\caption{A mediana é obtida pela posição na lista ordenada. Elaboração própria.}
+\label{fig:mediana-ordenada}
 \end{figure}
 
-O desvio padrão é calculado em duas etapas principais: primeiro, calcula-se a diferença entre cada valor e a média; em seguida, essas diferenças são somadas, elevadas ao quadrado, e a média desses quadrados é calculada. A raiz quadrada dessa média é o desvio padrão.
+Quando há um número par de observações numéricas, calculamos a média dos dois valores centrais. Para $2,3,5,7,8,10$, ela é $(5+7)/2=6$. A mediana pode, portanto, ser um valor que não aparece originalmente na lista.
 
+Compare agora $5,6,7,8,9$ com $5,6,7,8,90$. A média passa de $7$ para $23{,}2$, enquanto a mediana continua igual a $7$. Esse exemplo ajuda a perceber por que convém examinar a distribuição antes de escolher um resumo. A mediana descreve a posição central; ela não equivale a dividir a área de qualquer histograma desenhado a partir da amostra exatamente ao meio.
+
+\subsection{Moda}
+
+A moda é o valor ou categoria com maior frequência. No conjunto $1,2,3,4,5,6,6,7,8,9,10$, o valor $6$ aparece duas vezes e cada um dos demais aparece uma vez. Assim, a moda é $6$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.2]
+  \draw (0,0) circle (2cm);
+  \foreach \px/\py/\valor in {-1/0.9/1,0/1.2/2,1/0.9/3,-1.2/0/4,0/0.35/5,1.15/0/7,-1/-0.85/8,0/-1.2/9,1/-0.85/10} {
+    \node at (\px,\py) {\valor};
+  }
+  \node[text=red] at (-0.45,-0.45) {6};
+  \node[text=red] at (0.5,-0.4) {6};
+\end{tikzpicture}
+\caption{O valor mais frequente está destacado em vermelho. As posições são apenas ilustrativas. Elaboração própria.}
+\label{fig:circulo_moda}
+\end{figure}
+
+Pode haver empate entre valores mais frequentes. Para uma variável nominal, como meio de transporte, a moda é uma categoria; calcular a média de seus códigos não produz uma medida útil. Em variáveis contínuas, muitos valores distintos podem aparecer uma única vez. Nessa situação, observe também o histograma e não interprete uma moda isolada como um centro estável da distribuição.
+
+\section{Medidas de dispersão}
+
+Ter a mesma média não significa ter a mesma distribuição. Os conjuntos $4,5,6$ e $0,5,10$ têm média $5$, mas o segundo é muito mais disperso. A figura~\ref{fig:dispersao-comparacao} mostra os próprios valores, sem representar frequências como se fossem desvios padrão.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.85cm,y=1cm]
+  \draw[->] (-0.5,0) -- (10.8,0) node[right] {Valor};
+  \foreach \v in {0,2,4,5,6,8,10} {
+    \draw (\v,0.07) -- (\v,-0.07) node[below] {\v};
+  }
+  \node[left] at (-0.5,1.5) {A};
+  \node[left] at (-0.5,0.65) {B};
+  \foreach \v in {4,5,6} {\fill[blue] (\v,1.5) circle (2.5pt);}
+  \foreach \v in {0,5,10} {\fill[red] (\v,0.65) circle (2.5pt);}
+  \draw[dashed] (5,0.2) -- (5,1.9);
+  \node[above] at (5,1.9) {Média comum: 5};
+\end{tikzpicture}
+\caption{Mesma média, dispersões diferentes: $s_A=1$ e $s_B=5$. Elaboração própria.}
+\label{fig:dispersao-comparacao}
+\end{figure}
+
+\subsection{Amplitude, variância e desvio padrão}
+
+A amplitude total é o máximo menos o mínimo. Para $4,5,6$, vale $6-4=2$. Ela é fácil de calcular, mas depende apenas dos dois extremos.
+
+A variância amostral e o desvio padrão amostral são dados por:
 \[
-s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2}
+s^2=\frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1},
+\qquad s=\sqrt{s^2}.
 \]
+Primeiro subtraímos a média de cada valor; depois elevamos \textbf{cada diferença} ao quadrado e somamos os quadrados. Dividimos por $n-1$ e extraímos a raiz para obter $s$. Para $4,5,6$, isso resulta em $s^2=(1+0+1)/2=1$ e $s=1$. Se somássemos as diferenças antes de elevá-las ao quadrado, obteríamos zero e perderíamos a informação sobre dispersão.
 
-Uma interpretação do desvio padrão é que ele mede o quanto os valores se afastam, em média, da média. Quanto maior o desvio padrão, maior é a dispersão dos valores em relação à média. Por outro lado, um desvio padrão menor indica que os valores estão mais próximos da média.
+O desvio padrão volta à unidade da variável: notas em pontos têm desvio padrão em pontos, enquanto a variância fica em pontos ao quadrado. Ele não é a média aritmética das distâncias absolutas à média. A distinção entre essas medidas é apresentada pelo NIST/SEMATECH \parencite{NISTDispersao}.
 
-O desvio padrão é uma medida importante para entender a variabilidade e a consistência dos dados. Ele pode ajudar a identificar se os valores estão agrupados ou se estão mais dispersos. Além disso, o desvio padrão é usado em muitas outras técnicas estatísticas, como a inferência estatística, para avaliar a precisão das estimativas.
+Em \textbf{Descritivas}, selecione \textbf{Desvio padrão (Std. deviation)}, \textbf{Variância (Variance)} e \textbf{Amplitude (Range)}. O desvio padrão amostral de \texttt{depois}, sem divisão por grupos, é aproximadamente $8{,}60$. Não confunda essa medida com o erro padrão da média.
 
-É importante lembrar que o desvio padrão é sensível a valores extremos, pois eles podem influenciar significativamente a medida. Portanto, é essencial considerar o contexto dos dados e interpretar o desvio padrão em conjunto com outras medidas descritivas, como a média e a mediana, para obter uma visão completa da distribuição dos dados.
+\subsection{Quartis e intervalo interquartil}
 
-No Jamovi, calcular o desvio padrão pode ser feito seguindo este passo a passo:
+Os quartis resumem posições na distribuição: $Q_1$ corresponde ao percentil 25, $Q_2$ à mediana e $Q_3$ ao percentil 75. O intervalo interquartil é $IIQ=Q_3-Q_1$ e descreve a dispersão da parte central dos dados. Ao comparar cálculos manuais e softwares, confira o método de interpolação: amostras pequenas podem produzir quartis diferentes conforme a convenção usada.
 
-\begin{enumerate}
-    \item Importe seus dados ou insira-os diretamente na planilha do Jamovi. Certifique-se de que os dados estejam organizados em uma única coluna ou em várias colunas, dependendo da sua estrutura.
-    \item Selecione a coluna que contém os dados dos quais você deseja calcular o desvio padrão. Para fazer isso, clique no cabeçalho da coluna ou arraste o mouse para selecionar várias colunas.
-    \item No painel de Análises, localizado à direita da tela, clique na seção "Descriptive Statistics" (Estatísticas Descritivas).
-    \item Na seção de estatísticas descritivas, você encontrará várias opções. Procure por "Standard Deviation" (Desvio Padrão) e marque a caixa ao lado dela.
-    \item Assim que você marcar a caixa de seleção "Standard Deviation" (Desvio Padrão), o Jamovi calculará automaticamente o desvio padrão para os dados selecionados. O valor do desvio padrão será exibido na tabela de resultados.
-    \item Se você deseja calcular o desvio padrão para grupos específicos de dados, utilize a função de agrupamento. Clique no ícone "Group by" (Agrupar por) no painel de estatísticas descritivas. Selecione a variável que contém os grupos ou categorias, e o Jamovi calculará os desvios padrão separadamente para cada grupo.
-    \item O Jamovi também oferece a opção de calcular outros tipos de desvio padrão, como o desvio padrão populacional. Para isso, clique no ícone de configurações ao lado da opção "Standard Deviation" (Desvio Padrão) e selecione a opção desejada.
-\end{enumerate}
+O boxplot combina quartis e extremos segundo uma regra de construção. Na convenção usual de Tukey, valores além de $Q_1-1{,}5\,IIQ$ ou de $Q_3+1{,}5\,IIQ$ são sinalizados como potenciais valores atípicos. Os bigodes vão até as observações extremas que permanecem dentro desses limites \parencite{NISTBoxplot}. Um ponto sinalizado merece investigação; isso não autoriza apagá-lo automaticamente.
+
+\subsection{Desvio padrão e erro padrão da média}
+
+O desvio padrão descreve a variabilidade entre observações. Já o erro padrão quantifica a variabilidade amostral de um estimador. Para a média de observações independentes, estimamos:
+\[
+EP(\bar{x})=\frac{s}{\sqrt{n}}.
+\]
+No nosso exemplo, $8{,}597/\sqrt{18}\approx2{,}026$. Se você informar apenas o erro padrão, o leitor não terá uma descrição direta da dispersão das notas. Em um relatório descritivo, identifique explicitamente se os números apresentados são DP ou EP.
+
+\section{Escolhendo tabelas e gráficos}
+
+\subsection{Histogramas e boxplots}
+
+Em \textbf{Gráficos (Plots)}, selecione um histograma para \texttt{depois} e compare-o com um boxplot, usando \texttt{grupo} em \textbf{Dividir por}. O histograma agrupa observações em intervalos; sua aparência depende da largura desses intervalos. O boxplot resume posições e facilita a comparação entre grupos, mas não mostra todos os detalhes da distribuição. Com apenas seis pessoas por grupo, os pontos individuais são especialmente informativos.
+
+Procure valores incompatíveis com a escala, assimetrias e diferenças de dispersão. Uma nota $650$ em uma prova de $0$ a $100$ sugere conferir o registro original. Uma nota $100$ nessa mesma prova pode ser perfeitamente válida. Corrigir um erro documentado e excluir uma observação válida são decisões diferentes.
+
+\subsection{Frequências para variáveis categóricas}
+
+Para \texttt{grupo}, solicite a tabela de frequências e um gráfico de barras. Cada atividade aparece seis vezes, correspondendo a $6/18\times100\approx33{,}3\%$ das pessoas. A documentação do jamovi distingue os gráficos e as tabelas disponíveis conforme o tipo de medida \parencite{JamoviDescritivas}.
+
+Identifique sempre o denominador de uma porcentagem. Se duas das 18 pessoas não responderam a uma pergunta, um percentual entre as 16 respostas válidas difere do percentual em relação às 18 pessoas incluídas no banco. Informe os ausentes e o número efetivamente analisado.
+
+\section{Como relatar a análise descritiva}
+
+Um relato possível para os dados fictícios é: ``Foram analisadas 18 observações, sem valores ausentes nas notas posteriores. A média foi de $64{,}56$ pontos, com desvio padrão amostral de $8{,}60$. As médias por atividade foram $59{,}17$, $64{,}67$ e $69{,}83$ pontos, respectivamente para Leitura, Vídeo e Oficina.''
+
+Esse relato informa a variável, a unidade, a quantidade de observações e o significado da medida de dispersão. Acrescente um gráfico quando ele ajudar o leitor a compreender a distribuição. Antes de avançar, pratique: substitua uma nota por um valor extremo em uma cópia do arquivo, observe a mudança na média e na mediana e restaure o valor original. Guarde a versão usada em cada análise.

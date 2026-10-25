@@ -1,13 +1,114 @@
 \chapter{Testes de Hipóteses}
+\label{cap:hipoteses}
 
-Os testes de hipóteses são ferramentas fundamentais na área da estatística para auxiliar na tomada de decisões baseadas em evidências empíricas. Esses testes permitem que os pesquisadores avaliem se uma determinada afirmação sobre uma população, chamada de hipótese, é consistente com os dados observados \parencite{Triola2017}.
+No capítulo anterior, descrevemos as notas observadas. Agora vamos formular perguntas sobre médias populacionais e examinar como os dados se relacionam com essas perguntas. Um teste de hipóteses combina um modelo estatístico, uma hipótese nula e uma estatística de teste. Sua interpretação depende também de como as observações foram obtidas.
 
-Em um teste de hipóteses, temos duas hipóteses a serem consideradas: a hipótese nula (H0) e a hipótese alternativa (H1). A hipótese nula é a afirmação que queremos testar, enquanto a hipótese alternativa é a afirmação oposta à hipótese nula \parencite{Bussab2017}.
+Vamos trabalhar com testes t de uma amostra, de duas amostras independentes e de medidas pareadas. Usaremos novamente \texttt{exemplo\_notas.csv}; todos os resultados numéricos apresentados neste capítulo são cálculos sobre esses dados fictícios.
 
-O procedimento envolve coletar dados da população em estudo e realizar cálculos estatísticos com base nessas informações. O objetivo é obter um valor chamado estatística de teste, que fornece uma medida da força das evidências em relação à hipótese nula. Com base nesse valor, é possível calcular o valor p, que representa a probabilidade de obter uma estatística de teste igual ou mais extrema do que a observada, assumindo que a hipótese nula seja verdadeira \parencite{Magalhaes2015}.
+\section{Hipóteses, valor de p e decisões}
 
-Com base no valor p, os pesquisadores podem tomar uma decisão estatística. Se o valor p for menor do que um nível de significância predefinido, geralmente 0,05, rejeita-se a hipótese nula em favor da hipótese alternativa, indicando que os dados fornecem evidências suficientes para afirmar que a hipótese alternativa é verdadeira. Caso contrário, se o valor p for maior do que o nível de significância, não há evidências suficientes para rejeitar a hipótese nula.
+\subsection{Formulando uma pergunta antes da análise}
 
-Os testes de hipóteses desempenham um papel importante na pesquisa científica, permitindo que os pesquisadores realizem inferências estatísticas sobre as características de uma população com base em uma amostra limitada de dados. Esses testes fornecem uma estrutura rigorosa para a análise e interpretação dos resultados, contribuindo para a objetividade e a robustez das conclusões estatísticas.
+Suponha que uma nota média de $60$ pontos seja uma referência definida antes de observar os resultados. Podemos perguntar se a média populacional das notas posteriores difere desse valor. O teste bilateral corresponde a:
+\[
+H_0:\mu=60,\qquad H_1:\mu\neq60.
+\]
+O parâmetro $\mu$ representa a média na população de interesse; $\bar{x}$ representa a média calculada na amostra. Formular uma hipótese sobre $\mu$ não dispensa definir a população, a estratégia de amostragem e a variável medida.
 
-\section{Teste de Hipóteses Unicaudal}
+O valor de $p$ é calculado sob $H_0$ e as demais suposições do modelo: ele expressa a probabilidade de uma estatística de teste tão ou mais extrema que a observada, no sentido especificado pela hipótese alternativa \parencite{NISTValorP}. Antes da análise, escolhemos um nível de significância $\alpha$; se usarmos $\alpha=0{,}05$, um resultado com $p\leq0{,}05$ leva à rejeição de $H_0$ segundo essa regra.
+
+\subsection{O que um teste não permite concluir}
+
+Um valor de $p$ pequeno não informa a probabilidade de $H_0$ ser verdadeira, não mede o tamanho do efeito e não garante importância prática. Um valor de $p$ grande também não demonstra igualdade. A declaração da Associação Americana de Estatística recomenda interpretar os resultados com o desenho do estudo, as estimativas e a incerteza, com transparência sobre as análises realizadas \parencite{WassersteinLazar2016}.
+
+Por exemplo, uma diferença de $0{,}2$ ponto pode ser detectável em uma amostra muito grande e ser pouco relevante para a decisão educacional. Em outra situação, uma diferença estimada de $10$ pontos pode vir acompanhada de um intervalo muito amplo. Relatar somente ``deu significativo'' omite essas informações.
+
+\begin{tcolorbox}[colback=white,colframe=green,title={Dica de Conteúdo}]
+Se $p>\alpha$, escreva que não foi encontrada evidência suficiente para rejeitar $H_0$ no teste realizado. Evite escrever que os grupos são iguais. Demonstrar equivalência exige uma pergunta, margens e procedimentos próprios.
+\end{tcolorbox}
+
+\subsection{Intervalo de confiança e tamanho de efeito}
+
+Um intervalo de confiança combina estimativa e precisão. Em termos frequentistas, um procedimento de IC95\% cobre o parâmetro verdadeiro em 95\% das repetições do processo de amostragem, se suas suposições forem atendidas. Não significa que 95\% das observações individuais estejam dentro do intervalo da média \parencite{NISTIntervalo}.
+
+Além da diferença em pontos, pode ser útil apresentar uma medida padronizada, como o $d$ de Cohen, oferecida nos testes t do jamovi. Identifique o tipo de comparação e a definição da padronização; o desvio padrão usado em um teste pareado não precisa ser o mesmo de um teste independente. Interprete a magnitude no contexto da variável e da pergunta.
+
+\section{Teste t de uma amostra}
+
+O teste t de uma amostra compara uma média com um valor de referência. Com observações independentes, desvio padrão populacional desconhecido e uma distribuição para a qual a inferência t seja adequada, a estatística é:
+\[
+t=\frac{\bar{x}-\mu_0}{s/\sqrt{n}},\qquad gl=n-1.
+\]
+Para os dados de \texttt{depois}, temos $n=18$, $\bar{x}\approx64{,}556$, $s\approx8{,}597$ e $\mu_0=60$. Portanto,
+\[
+t\approx\frac{64{,}556-60}{8{,}597/\sqrt{18}}\approx2{,}248.
+\]
+
+\subsection{Executando no jamovi}
+
+\begin{enumerate}
+  \item Desative os filtros e abra \textbf{Análises $\rightarrow$ Testes t $\rightarrow$ Teste t de uma amostra (One Sample T-Test)}.
+  \item Mova \texttt{depois} para a lista de variáveis dependentes e informe $60$ em \textbf{Valor do teste (Test value)}.
+  \item Mantenha a alternativa bilateral, diferente do valor de referência.
+  \item Solicite descritivas, diferença média, intervalo de confiança de 95\% e o gráfico Q-Q para examinar a distribuição.
+\end{enumerate}
+
+A documentação oficial descreve as alternativas e as opções de intervalo para esse teste \parencite{JamoviTUmaAmostra}. Você deve encontrar aproximadamente $t(17)=2{,}248$ e $p=0{,}038$. A diferença estimada é $4{,}556$ pontos, com IC95\% de $[0{,}280;8{,}831]$. Como o intervalo da saída se refere à \textbf{diferença em relação a 60}, somamos $60$ a seus limites para obter o intervalo da média: $[60{,}280;68{,}831]$.
+
+Um relato possível é: ``No exemplo fictício, a média posterior foi de $64{,}56$ pontos. A diferença em relação à referência de $60$ foi estimada em $4{,}56$ pontos, IC95\% $[0{,}28;8{,}83]$, $t(17)=2{,}25$, $p=0{,}038$.'' A referência não representa, por si só, uma medida anterior das mesmas pessoas.
+
+\section{Teste de hipóteses unicaudal e bilateral}
+
+Uma alternativa unilateral especifica uma direção. Se a pergunta planejada for se a média é maior que $60$, podemos escrever $H_0:\mu\leq60$ e $H_1:\mu>60$; o cálculo é feito na fronteira $\mu=60$. Para uma alternativa de redução, as desigualdades são invertidas. No teste bilateral, desvios nas duas direções contam contra a hipótese nula.
+
+A direção deve resultar da pergunta de pesquisa, antes de examinar os dados. Não troque para um teste unilateral apenas porque o valor de $p$ bilateral ficou acima de $0{,}05$. Se uma diferença na direção oposta também for relevante para a decisão, explique por que uma análise unilateral seria apropriada antes de usá-la.
+
+No jamovi, escolha a hipótese alternativa no painel do teste e confira a nota da tabela. Em testes de dois grupos, a interpretação de ``maior que'' depende da ordem dos níveis; em testes pareados, depende da ordem das medidas. Sempre escreva a diferença que está sendo testada.
+
+\section{Duas amostras independentes: Student e Welch}
+
+Quando cada pessoa pertence a apenas um dos dois grupos comparados, a estrutura é independente. Nosso exemplo permite comparar Leitura e Vídeo, usando a nota \texttt{depois}. As notas anterior e posterior da mesma pessoa, por outro lado, não formam dois grupos independentes.
+
+O teste t de Student com variância combinada supõe variâncias populacionais iguais. O teste de Welch dispensa essa igualdade e usa graus de liberdade aproximados. Em ambos, a independência vem do desenho do estudo. A análise deve considerar a forma das distribuições, o tamanho das amostras e possíveis valores influentes \parencite{NISTTesteT,JamoviTIndependente}.
+
+\subsection{Configurando a comparação}
+
+\begin{enumerate}
+  \item Crie um filtro com \texttt{grupo != 'Oficina'}, mantendo apenas Leitura e Vídeo. Confira que restaram 12 observações.
+  \item Abra \textbf{Testes t $\rightarrow$ Teste t de amostras independentes (Independent Samples T-Test)}.
+  \item Atribua \texttt{depois} à variável dependente e \texttt{grupo} à variável de agrupamento.
+  \item Selecione \textbf{Welch}, descritivas, diferença média, IC95\% e gráficos de diagnóstico. Confira a ordem dos níveis antes de interpretar o sinal.
+\end{enumerate}
+
+Para a diferença \textbf{Leitura menos Vídeo}, a estimativa é $-5{,}50$ pontos. O teste bilateral de Welch produz aproximadamente $t=-1{,}287$, $gl=9{,}902$ e $p=0{,}227$, com IC95\% $[-15{,}037;4{,}037]$. Se a ordem for invertida, o sinal da diferença e de $t$ também será invertido.
+
+O intervalo é compatível com diferenças em ambos os sentidos. Com seis pessoas por grupo, esse exemplo não demonstra equivalência nem permite afirmar que as atividades são intercambiáveis. \textbf{Desative o filtro} antes de continuar para o teste pareado.
+
+\section{Amostras pareadas: antes e depois}
+
+No teste pareado, trabalhamos com uma diferença para cada pessoa. Definindo $d_i=\text{depois}_i-\text{antes}_i$, testamos se a média populacional dessas diferenças é zero:
+\[
+t=\frac{\bar{d}}{s_d/\sqrt{n}},\qquad gl=n-1.
+\]
+A unidade da análise é o par. A suposição de normalidade, quando usada para a inferência t exata, diz respeito às \textbf{diferenças}, e não à obrigação de as duas colunas apresentarem separadamente uma distribuição normal \parencite{JamoviTPareado}.
+
+\subsection{Configurando e interpretando}
+
+\begin{enumerate}
+  \item Com os 18 casos disponíveis, abra \textbf{Testes t $\rightarrow$ Teste t de amostras pareadas (Paired Samples T-Test)}.
+  \item Forme um par com \texttt{depois} como primeira medida e \texttt{antes} como segunda.
+  \item Solicite a diferença média, IC95\%, descritivas e diagnóstico das diferenças.
+  \item Confira os identificadores e o número de pares completos. Nunca ordene uma das colunas separadamente.
+\end{enumerate}
+
+Para \texttt{depois} menos \texttt{antes}, a diferença média é $12{,}889$ pontos, com desvio padrão das diferenças de $5{,}697$. O resultado é aproximadamente $t(17)=9{,}598$, $p<0{,}001$, IC95\% $[10{,}056;15{,}722]$. São 18 pares, não 36 observações independentes.
+
+Esse resultado descreve uma mudança no exemplo fictício. Em um estudo real, uma comparação antes/depois sem controle adequado pode refletir outros fatores, como familiarização com a prova ou passagem do tempo. O teste, isoladamente, não estabelece a causa da mudança.
+
+\section{Pressupostos e alternativas}
+
+Antes de interpretar um teste, confira como as pessoas foram selecionadas, se existem medidas repetidas e como os ausentes foram tratados. Um teste de normalidade não verifica independência. Seu resultado também não deve funcionar como uma chave automática que escolhe toda a análise: em amostras pequenas ele pode ter pouca capacidade de detectar desvios, e em amostras grandes pode detectar diferenças pouco relevantes para a pergunta.
+
+O jamovi oferece Mann--Whitney para amostras independentes e Wilcoxon de postos sinalizados para situações pareadas ou de uma amostra. Esses testes têm hipóteses e condições próprias. Mann--Whitney não é, de modo geral, simplesmente um teste de diferença entre medianas; interpretações dessa forma exigem condições adicionais sobre as distribuições. Wilcoxon de postos sinalizados também exige atenção à simetria das diferenças para uma interpretação como teste de localização.
+
+Quando houver dúvida, volte à pergunta e examine gráficos e suposições. Registre a análise escolhida, as exclusões, o número de observações, a estimativa, seu intervalo e o valor de $p$. A conclusão deve responder à pergunta planejada, sem escolher apenas o resultado mais favorável entre várias tentativas.
