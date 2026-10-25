@@ -32,7 +32,7 @@ Os capítulos revisados usam a documentação oficial do jamovi, o manual NIST/S
 
 - Faça o download do repositório ou clone-o em sua máquina local.
 - Caso prefira, você também pode fazer o download da apostila completa em formato PDF para estudar offline.
-- Você também pode acessar a apostila online no seguinte link: [Apostila do Jamovi](https://www.balaiocientifico.com/jamovi/apostila-de-jamovi/).
+- Você também pode acessar a [versão atualizada da apostila no GitHub](https://github.com/erickfaria/apostilaJamovi/blob/main/apostila_jamovi.pdf).
 
 ### Contribuições
 
