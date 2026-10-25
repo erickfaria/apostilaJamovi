@@ -108,7 +108,9 @@ Para pelo menos três, somamos $P(X=3)+P(X=4)=0{,}3456+0{,}1296=0{,}4752$. ``Exa
   xlabel={Quantidade de resultados Sim},ylabel={Probabilidade},
   xtick={0,1,2,3,4},ymin=0,ymax=0.42,
   bar width=20pt,nodes near coords,
-  every node near coord/.append style={font=\scriptsize},
+  every node near coord/.append style={font=\scriptsize,
+    /pgf/number format/fixed,/pgf/number format/precision=4,
+    /pgf/number format/use comma},
   grid=major
 ]
   \addplot[fill=blue!35] coordinates
