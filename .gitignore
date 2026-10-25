@@ -11,3 +11,7 @@
 *.bbl
 *.run.xml
 apostila_jamovi.synctex(busy)
+
+# Cache dos scripts e testes Python
+__pycache__/
+*.py[cod]
