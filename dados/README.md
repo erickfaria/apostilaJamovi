@@ -104,3 +104,28 @@ O script [`scripts/calcular_exemplos.py`](../scripts/calcular_exemplos.py) lê o
 Para `exemplo_notas.csv`, o modelo múltiplo `depois ~ horas + antes`, com intercepto e 18 casos, produz coeficientes 20,502916; 3,443600; 0,663789. R² = 0,736212 e R² ajustado = 0,701040; o acréscimo de `antes` ao modelo com `horas` apresenta F(1,15) = 1,776921 e p = 0,202422. O IC95% da inclinação de `horas` é [0,102747; 6,784453].
 
 No modelo **simples** de nota posterior em horas, a média ajustada em três horas é 65,425641. O IC95% da média é [63,002128; 67,849154], e o intervalo de predição individual de 95% é [54,937885; 75,913397], usando a variância residual e t com 16 graus de liberdade. Para a OR da tabela independente A versus B, o IC95% de Wald na escala logarítmica é [1,528844; 8,012591]. O planejamento ilustrativo de teste t independente bilateral, diferença de 5 pontos, DP comum de 10, α = 0,05 e 64 pessoas por grupo fornece poder aproximado de 0,80146 sob esse modelo.
+
+## `exemplo_escalas.csv`
+
+São 30 pessoas fictícias com cinco respostas de concordância, de 1 (Discordo totalmente) a 5 (Concordo totalmente). As frases sobre hábitos de estudo foram criadas somente para ensino e estão descritas no capítulo 9; não se trata de um instrumento validado.
+
+- `id`: identificador, sem participação na pontuação.
+- `item1`, `item2`, `item4`, `item5`: itens em direção favorável ao escore proposto, inteiros ordinais de 1 a 5.
+- `item3_neg`: item em direção oposta; crie `item3_corr = 6 - item3_neg` antes da pontuação e da confiabilidade.
+
+Há cinco respostas completas por pessoa. Na análise de confiabilidade, use `item1`, `item2`, `item3_corr`, `item4` e `item5`; não inclua o total ou o identificador e não inverta novamente o item já corrigido.
+
+| Resultado | Valor aproximado |
+| --- | --- |
+| Primeiro registro após a correção | 4, 4, 4, 3, 4; total 19; média 3,8 |
+| Média e DP amostral do total | 14,766667 e 6,229426 |
+| Média e DP do escore médio | 2,953333 e 1,245885 |
+| Soma das variâncias amostrais dos itens | 10,736782 |
+| Variância amostral do total | 38,805747 |
+| Alfa não padronizado, com item corrigido | 0,904150 |
+| Alfa não padronizado sem corrigir o item invertido | 0,293636 |
+| Correlação média entre pares e alfa padronizado | 0,652081 e 0,903579 |
+| Correlações item–resto, itens 1 a 5 | 0,773650; 0,734611; 0,843045; 0,642355; 0,815066 |
+| Alfa ao excluir cada item, 1 a 5 | 0,880797; 0,888465; 0,864474; 0,906203; 0,870681 |
+
+A exclusão do item 4 aumenta pouco o alfa e não constitui recomendação de excluir conteúdo. As contas usam covariâncias/correlações de Pearson e os códigos numéricos dos itens; não são coeficientes baseados em correlações policóricas. O script didático `scripts/calcular_exemplos.py` também calcula esses resumos diretamente do CSV.

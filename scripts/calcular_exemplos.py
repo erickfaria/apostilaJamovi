@@ -149,4 +149,27 @@ or_tabela = a*d/(b*c)
 se_log_or = np.sqrt(1/a+1/b+1/c+1/d)
 mostrar('OR: Sim, A versus B', OR=or_tabela,
         IC95_Wald=np.exp(np.log(or_tabela)+np.array([-1, 1])*1.96*se_log_or))
+
+# Pontuação e consistência interna de cinco itens fictícios.
+escalas = ler('exemplo_escalas.csv')
+itens = np.column_stack([coluna(escalas, v) for v in
+                         ['item1', 'item2', 'item3_neg', 'item4', 'item5']])
+
+def alfa(matriz):
+    k = matriz.shape[1]
+    return k/(k-1)*(1-matriz.var(axis=0, ddof=1).sum()/matriz.sum(axis=1).var(ddof=1))
+
+alfa_sem_inversao = alfa(itens)
+itens[:, 2] = 6-itens[:, 2]
+total = itens.sum(axis=1)
+correlacoes = np.corrcoef(itens, rowvar=False)
+r_medio = correlacoes[np.triu_indices(5, 1)].mean()
+mostrar('Escores e confiabilidade: item 3 corrigido',
+        primeiro_registro=itens[0], media_total=total.mean(), DP_total=total.std(ddof=1),
+        soma_variancias=itens.var(axis=0, ddof=1).sum(), variancia_total=total.var(ddof=1),
+        alfa=alfa(itens), alfa_sem_inversao=alfa_sem_inversao,
+        correlacao_media=r_medio, alfa_padronizado=5*r_medio/(1+4*r_medio),
+        item_resto=[np.corrcoef(itens[:, j], total-itens[:, j])[0, 1] for j in range(5)],
+        alfa_sem_item=[alfa(np.delete(itens, j, axis=1)) for j in range(5)])
+
 print('Cálculos concluídos. Os valores são cálculos sobre dados fictícios.')
