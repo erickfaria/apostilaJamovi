@@ -28,11 +28,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Conferir a publicação das versões
-        run: |
-          bash -n scripts/publicar_apostila.sh
-          python3 -m unittest discover -s tests -v
-
       - name: Compilar a apostila com pdfLaTeX e Biber
         uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4
         with:

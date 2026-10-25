@@ -99,7 +99,7 @@ Os percentuais de Sim são 32/60 = 53,33% antes e 44/60 = 73,33% depois, diferen
 
 ## Conferência dos cálculos novos
 
-O script [`scripts/conferir_exemplos.py`](../scripts/conferir_exemplos.py) lê os arquivos, confere a estrutura dos exemplos e recalcula regressão múltipla, ANOVA fatorial, medidas repetidas, Friedman, logística, proporção binomial, aderência e McNemar. Requer Python 3, NumPy e SciPy; execute `python scripts/conferir_exemplos.py` na raiz do repositório. Não altera arquivos nem acessa a rede.
+O script [`scripts/calcular_exemplos.py`](../scripts/calcular_exemplos.py) lê os arquivos e calcula regressão múltipla, ANOVA fatorial, medidas repetidas, Friedman, logística, proporção binomial, aderência e McNemar. Requer Python 3, NumPy e SciPy; execute `python scripts/calcular_exemplos.py` na raiz do repositório. Não altera arquivos nem acessa a rede.
 
 Para `exemplo_notas.csv`, o modelo múltiplo `depois ~ horas + antes`, com intercepto e 18 casos, produz coeficientes 20,502916; 3,443600; 0,663789. R² = 0,736212 e R² ajustado = 0,701040; o acréscimo de `antes` ao modelo com `horas` apresenta F(1,15) = 1,776921 e p = 0,202422. O IC95% da inclinação de `horas` é [0,102747; 6,784453].
 

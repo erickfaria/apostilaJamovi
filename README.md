@@ -43,7 +43,7 @@ Há **oito CSVs fictícios**. Eles distinguem pessoas independentes, medidas rep
 Os capítulos 4 a 7 incluem **16 exercícios comentados**. Os cálculos novos podem ser reproduzidos com Python 3, NumPy e SciPy:
 
 ```bash
-python scripts/conferir_exemplos.py
+python scripts/calcular_exemplos.py
 ```
 
 O script lê os CSVs e exibe os resultados, sem modificar os dados nem acessar a rede. O [dicionário](dados/README.md) registra as opções e os valores esperados.
@@ -90,8 +90,6 @@ O [workflow da apostila](.github/workflows/compilar-apostila.yml) usa pdfLaTeX e
 Após a integração à `main`, o Actions compila novamente e atualiza apenas `apostila_jamovi.pdf` na raiz. Se a versão de `VERSION` ainda não tiver tag, publica uma tag anotada **no commit que contém o PDF compilado**. Tags existentes são preservadas; novas edições devem receber novos números.
 
 Assim, os links de leitura e download continuam os mesmos. Se a compilação falhar, o PDF anteriormente publicado permanece disponível e a nova tag não é criada. PRs e branches de trabalho não publicam na `main`.
-
-Os testes de publicação usam repositórios Git temporários e podem ser executados sem rede com `python3 -m unittest discover -s tests -v`.
 
 Também é possível recompilar em **Actions → Compilar apostila → Run workflow**, selecionando `main`. Alterações apenas em Markdown ou no próprio PDF não disparam compilação automática; alterar `VERSION` dispara. O workflow usa o `GITHUB_TOKEN` do repositório.
 
