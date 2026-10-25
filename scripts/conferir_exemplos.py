@@ -44,6 +44,19 @@ mostrar('Regressão múltipla', coeficientes=b, erros_padrao=se, IC95=ic,
         F_acrescimo_antes=f_mudanca, p_acrescimo=stats.f.sf(f_mudanca, 1, gl),
         previsao_3h_antes52=np.array([1, 3, 52]) @ b,
         VIF=1/(1-np.corrcoef(x[:, 1], x[:, 2])[0, 1]**2))
+# Intervalos do modelo simples, em três horas.
+s2_simples = sse_simples / (len(y)-2)
+x0 = np.array([1., 3.])
+h0 = x0 @ np.linalg.inv(x_simples.T @ x_simples) @ x0
+critico = stats.t.ppf(.975, len(y)-2)
+previsao = x0 @ b_simples
+mostrar('Regressão simples: três horas', media=previsao,
+        IC95_media=previsao + np.array([-1, 1])*critico*np.sqrt(s2_simples*h0),
+        IP95_individual=previsao + np.array([-1, 1])*critico*np.sqrt(s2_simples*(1+h0)))
+critico = stats.t.ppf(.975, 126)
+ncp = .5*np.sqrt(64/2)
+poder = stats.nct.sf(critico, 126, ncp) + stats.nct.cdf(-critico, 126, ncp)
+mostrar('Planejamento: t bilateral, d=0,5, n=64 por grupo', poder=poder)
 assert np.linalg.matrix_rank(x) == 3
 assert len({r['id'] for r in notas}) == len(notas) == 18
 
@@ -137,4 +150,12 @@ mostrar('McNemar', n=sum(tabela.values()), discordantes=b+c,
         qui_quadrado_corrigido=chi_corr, p_corrigido=stats.chi2.sf(chi_corr, 1),
         p_exato=stats.binomtest(b, b+c, p=.5).pvalue)
 assert sum(tabela.values()) == 60
+# OR da tabela independente, IC de Wald na escala logarítmica.
+frequencias = ler('exemplo_frequencias.csv')
+tabela = {(r['grupo'], r['resultado']): int(r['frequencia']) for r in frequencias}
+a, b, c, d = (tabela[chave] for chave in [('A', 'Sim'), ('A', 'Nao'), ('B', 'Sim'), ('B', 'Nao')])
+or_tabela = a*d/(b*c)
+se_log_or = np.sqrt(1/a+1/b+1/c+1/d)
+mostrar('OR: Sim, A versus B', OR=or_tabela,
+        IC95_Wald=np.exp(np.log(or_tabela)+np.array([-1, 1])*1.96*se_log_or))
 print('Conferência concluída. Os valores são cálculos sobre dados fictícios.')
