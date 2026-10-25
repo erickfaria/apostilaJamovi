@@ -68,3 +68,174 @@ Um relato possível é: ``Nas 18 observações fictícias, as médias posteriore
 \begin{tcolorbox}[colback=white,colframe=green,title={Dica de Conteúdo}]
 ANOVA de grupos independentes, ANOVA de medidas repetidas e modelos com mais de um fator respondem a estruturas diferentes. Antes de adicionar fatores ou medidas, desenhe quem foi observado, quantas vezes e em quais condições. A organização do banco deve acompanhar esse desenho.
 \end{tcolorbox}
+
+\section{Contrastes planejados e comparações posteriores}
+
+Vamos distinguir duas perguntas. ``Quais pares de atividades apresentam diferenças?'' conduz ao conjunto de comparações entre pares. ``A média de Vídeo e Oficina difere da média de Leitura?'' corresponde a um contraste específico. Para a segunda pergunta, podemos escrever:
+\[
+C=-\mu_{\mathrm{Leitura}}+\tfrac12\mu_{\mathrm{Video}}+
+\tfrac12\mu_{\mathrm{Oficina}}.
+\]
+Os pesos somam zero. Nos dados da apostila, a estimativa é $-59{,}167+(64{,}667+69{,}833)/2\approx8{,}083$ pontos. Aqui estamos comparando médias de grupos com pesos definidos, e não juntando arbitrariamente todas as pessoas de duas categorias em uma única categoria.
+
+A escolha do contraste deve acompanhar a pergunta substantiva. Se houver várias perguntas, planeje o controle de multiplicidade; chamar uma análise de ``planejada'' não elimina automaticamente esse problema. No painel geral de \textbf{ANOVA}, o jamovi oferece contrastes e comparações posteriores; confira a ordem dos níveis e a definição do contraste selecionado antes de atribuir significado ao coeficiente \parencite{JamoviAnovaFatorial}.
+
+\section{ANOVA fatorial: duas características no mesmo modelo}
+\label{sec:anova-fatorial}
+
+No arquivo \texttt{exemplo\_fatorial.csv}, vamos estudar uma nota \texttt{pontos} segundo dois fatores: \texttt{formato}, com níveis Texto e Vídeo, e \texttt{pratica}, com níveis Não e Sim. Há seis pessoas fictícias independentes por combinação, totalizando 24. Cada pessoa ocupa somente uma célula do desenho $2\times2$.
+
+\begin{table}[H]
+\centering
+\caption{Médias do exemplo fatorial, em pontos}
+\begin{tabular}{lrrr}
+\hline
+Formato & Sem prática & Com prática & Diferença \\
+\hline
+Texto & 60 & 64 & 4 \\
+Vídeo & 65 & 79 & 14 \\
+\hline
+\end{tabular}
+\label{tab:medias-fatorial}
+\end{table}
+
+O \textbf{efeito principal} de um fator resume uma comparação entre seus níveis no modelo. Já a \textbf{interação} pergunta se a diferença associada a um fator varia conforme o nível do outro. Neste exemplo, a diferença com prática menos sem prática é de 4 pontos no Texto e de 14 no Vídeo. A diferença entre essas diferenças é $14-4=10$ pontos.
+
+Um modelo com os dois fatores e sua interação pode ser escrito como:
+\[
+Y_{ijk}=\mu+\alpha_i+\beta_j+(\alpha\beta)_{ij}+\varepsilon_{ijk}.
+\]
+Os índices $i$ e $j$ identificam os níveis dos fatores, e $k$ identifica pessoas distintas em uma célula. O termo de interação permite que os perfis das médias não sejam paralelos.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.84\textwidth,height=6cm,
+  xmin=0.8,xmax=2.2,ymin=55,ymax=85,
+  xtick={1,2},xticklabels={Sem prática,Com prática},
+  ylabel={Média da nota (pontos)},grid=major,
+  legend style={at={(0.03,0.97)},anchor=north west,font=\small}
+]
+  \addplot[blue,thick,mark=*] coordinates {(1,60) (2,64)};
+  \addlegendentry{Texto}
+  \addplot[red,thick,dashed,mark=square*] coordinates {(1,65) (2,79)};
+  \addlegendentry{Vídeo}
+\end{axis}
+\end{tikzpicture}
+\caption{Interação no banco fictício: a diferença entre as condições de prática varia com o formato. As linhas ligam médias de pessoas diferentes; não são trajetórias individuais. Elaboração própria.}
+\label{fig:interacao-fatorial}
+\end{figure}
+
+\subsection{Configurando no jamovi}
+
+\begin{enumerate}
+  \item Abra \texttt{exemplo\_fatorial.csv}. Configure \texttt{pontos} como contínua, \texttt{formato} e \texttt{pratica} como nominais, e \texttt{id} como identificador.
+  \item Acesse \textbf{Análises $\rightarrow$ ANOVA $\rightarrow$ ANOVA}. Use o painel geral, em vez do painel de um fator.
+  \item Coloque \texttt{pontos} na variável dependente e os dois fatores em \textbf{Fatores fixos (Fixed Factors)}.
+  \item Em \textbf{Modelo (Model)}, confira os termos \texttt{formato}, \texttt{pratica} e a interação \texttt{formato} $\times$ \texttt{pratica}.
+  \item Solicite descritivas, diagnósticos dos resíduos e $\eta^2$ parcial. Em \textbf{Médias marginais estimadas (Estimated Marginal Means)}, acrescente a combinação dos dois fatores e seu gráfico.
+\end{enumerate}
+
+A documentação oficial apresenta os termos de modelo, os tipos de somas de quadrados e as opções de médias marginais \parencite{JamoviAnovaFatorial}. No desenho balanceado deste exemplo, as médias de cada célula coincidem com suas médias ajustadas no modelo completo. Essa coincidência não deve ser presumida em todo banco com tamanhos desiguais ou covariáveis.
+
+\subsection{Conferindo e interpretando a interação}
+
+A soma de quadrados residual é 280, com 20 graus de liberdade, portanto $QM_{\mathrm{erro}}=14$. A interação tem soma de quadrados 150 e um grau de liberdade:
+\[
+F_{\mathrm{interacao}}=\frac{150/1}{280/20}=10{,}714,
+\qquad p\approx0{,}0038.
+\]
+O tamanho de efeito parcial é:
+\[
+\eta_p^2=\frac{SQ_{\mathrm{interacao}}}
+{SQ_{\mathrm{interacao}}+SQ_{\mathrm{erro}}}
+=\frac{150}{150+280}\approx0{,}349.
+\]
+O denominador dessa medida é diferente do denominador de $\eta^2$ calculado sobre a soma de quadrados total. Identifique qual medida aparece no relato.
+
+As diferenças amostrais de 4 e 14 pontos ajudam a explicar o resultado. Não basta escrever que ``a prática melhora a nota'' ignorando o formato. Também não podemos concluir uma interação apenas porque uma comparação separada foi significativa e outra não: a comparação entre os efeitos precisa ser testada diretamente. Quando forem de interesse, especifique os efeitos simples e o ajuste das comparações correspondentes.
+
+Um relato possível é: ``No exemplo fictício balanceado, o modelo incluiu formato, prática e sua interação. A interação apresentou $F(1,20)=10{,}71$, $p=0{,}0038$, $\eta_p^2=0{,}349$. As diferenças com prática menos sem prática foram 4 pontos em Texto e 14 em Vídeo.'' Em dados reais, acrescente os intervalos das comparações, os diagnósticos e o desenho de obtenção dos dados.
+
+\section{ANOVA de medidas repetidas}
+\label{sec:anova-repetidas}
+
+Agora vamos mudar a unidade do problema. Em \texttt{exemplo\_medidas\_repetidas.csv}, as mesmas 12 pessoas possuem notas em três momentos: inicial, final e seguimento. Cada linha contém uma pessoa, e as três colunas são suas medidas. Esse é o \textbf{formato largo}, utilizado pelo painel de medidas repetidas do jamovi \parencite{JamoviAnovaRM}.
+
+A pergunta inicial é se as médias populacionais são iguais ao longo dos três momentos. Nesta primeira análise, vamos considerar somente o fator intrassujeitos \textbf{Tempo}, sem incluir a coluna \texttt{grupo}. Temos 12 pessoas, e não 36 unidades independentes.
+
+\subsection{Organizando fatores e células}
+
+\begin{enumerate}
+  \item Acesse \textbf{Análises $\rightarrow$ ANOVA $\rightarrow$ ANOVA de medidas repetidas (Repeated Measures ANOVA)}.
+  \item Em \textbf{Fatores de medidas repetidas (Repeated Measures Factors)}, crie \texttt{Tempo}, com três níveis: Inicial, Final e Seguimento.
+  \item Nas \textbf{Células de medidas repetidas (Repeated Measures Cells)}, associe as colunas \texttt{inicial}, \texttt{final} e \texttt{seguimento}, nessa ordem.
+  \item Deixe vazio o campo de fatores entre sujeitos nesta etapa. Solicite descritivas, gráfico das médias, avaliação de esfericidade e correções de Greenhouse--Geisser e Huynh--Feldt.
+  \item Confira o número de pessoas com medidas completas. Observe como a exclusão de uma pessoa com dado ausente em uma ocasião pode afetar toda a análise.
+\end{enumerate}
+
+Os campos de fatores, células e correções são descritos na referência oficial da análise \parencite{JamoviAnovaRM}. As médias do banco são aproximadamente $53{,}667$, $59{,}833$ e $62{,}333$ pontos. São descrições por ocasião; a inferência precisa considerar a dependência dentro de cada pessoa.
+
+\subsection{Esfericidade e graus de liberdade}
+
+Para três ou mais níveis do fator intrassujeitos, a inferência univariada usual considera a \textbf{esfericidade}: as variâncias das diferenças entre cada par de ocasiões devem ser iguais. Neste exemplo, estamos falando das variâncias de Final menos Inicial, Seguimento menos Inicial e Seguimento menos Final. A condição não se resume à igualdade das variâncias de cada coluna isolada.
+
+O teste de Mauchly investiga essa condição, mas um valor de $p$ grande, especialmente com poucas pessoas, não a comprova. As correções de Greenhouse--Geisser e Huynh--Feldt ajustam os graus de liberdade por um fator $\varepsilon$. Com três ocasiões, um resultado que antes usava $gl_1=2$ e $gl_2=22$ passa a usar $2\varepsilon$ e $22\varepsilon$. Na correção usual, o valor de $F$ permanece igual e seu valor de $p$ é recalculado com esses graus de liberdade \parencite{JamoviAnovaRM}.
+
+Sem fator entre pessoas e \textbf{sem correção de esfericidade}, o cálculo do exemplo produz $F(2,22)\approx37{,}052$, $p<0{,}001$. Esse número serve para conferir a configuração inicial. Não é uma recomendação de ignorar a esfericidade: no relato, identifique a correção escolhida, o $\varepsilon$, os graus de liberdade e o valor de $p$ correspondentes.
+
+Se a pergunta envolver quais momentos diferem, acrescente comparações pareadas com ajuste de multiplicidade. Uma diferença global entre momentos não garante diferença em todos os pares, nem identifica sozinha quando ocorreu a mudança.
+
+\section{ANOVA mista: tempo e grupos}
+
+A coluna \texttt{grupo} divide as 12 pessoas em Leitura e Prática, com seis em cada. Agora podemos formular outra pergunta: \textbf{o perfil de mudança ao longo do tempo difere entre os grupos?} O tempo é um fator intrassujeitos; o grupo é um fator entre sujeitos.
+
+No mesmo painel de medidas repetidas, mantenha as três células de Tempo e adicione \texttt{grupo} em \textbf{Fatores entre sujeitos (Between Subjects Factors)}. Confira no modelo Tempo, grupo e Tempo $\times$ grupo e solicite o gráfico das médias por combinação. A documentação oficial apresenta essa configuração como ANOVA mista \parencite{JamoviAnovaMista}.
+
+Leia os termos separadamente: Tempo resume a variação entre ocasiões no modelo; grupo resume a comparação entre grupos; a interação Tempo $\times$ grupo examina a diferença entre os perfis temporais. Comparar dois valores de $p$ obtidos em análises independentes de cada grupo não substitui essa interação. Além disso, adicionar grupo muda o modelo e os termos de erro: não reutilize os graus de liberdade e o valor de $p$ do exemplo de um único fator.
+
+A expressão ``mista'' aqui identifica a combinação de fatores intra e entre sujeitos no desenho. Modelos lineares mistos com estruturas de efeitos aleatórios e covariância oferecem outras possibilidades, especialmente em dados longitudinais mais complexos, mas exigem uma especificação adicional. A ANOVA tradicional de medidas repetidas não resolve automaticamente perdas, ocasiões irregulares ou agrupamentos em turmas.
+
+\section{ANCOVA: comparando grupos com uma covariável}
+
+Voltemos a \texttt{exemplo\_notas.csv}. Podemos modelar a nota posterior segundo o grupo e a nota anterior. A nota anterior é uma \textbf{covariável contínua}; a pergunta passa a ser sobre diferenças médias entre grupos \textbf{condicionais ao valor dessa covariável no modelo}.
+
+\begin{enumerate}
+  \item Abra \textbf{Análises $\rightarrow$ ANOVA $\rightarrow$ ANCOVA}.
+  \item Use \texttt{depois} como resposta, \texttt{grupo} como fator fixo e \texttt{antes} como covariável.
+  \item Confira no modelo os termos de grupo e nota anterior. Examine a relação entre nota anterior e posterior em cada grupo, os resíduos e o suporte dos valores da covariável.
+  \item Solicite médias marginais estimadas por grupo. Identifique o valor da covariável usado nessas estimativas; elas não são necessariamente as médias brutas dos grupos.
+\end{enumerate}
+
+A documentação oficial descreve o painel de ANCOVA, seus termos de modelo e médias marginais \parencite{JamoviAncova}. No modelo aditivo, a inclinação da covariável é comum aos grupos. Se a pergunta ou o diagnóstico indicar que a relação varia entre eles, considere o termo grupo $\times$ nota anterior e interprete as comparações em valores relevantes da covariável, em vez de resumir tudo em uma diferença única.
+
+A covariável precisa fazer sentido no estudo. Ajustar por uma variável medida depois de uma intervenção pode mudar a pergunta e introduzir dificuldades de interpretação. Acrescentar a nota anterior também não corrige automaticamente seleção de participantes, erro de medida ou diferenças não observadas entre grupos. Com apenas seis pessoas por grupo, nosso exemplo serve para aprender a configuração e exige especial cuidado com a incerteza.
+
+\section{Kruskal--Wallis e Friedman}
+
+Para mais de dois grupos independentes, o jamovi oferece \textbf{ANOVA de um fator não paramétrica (One-Way ANOVA, Non-parametric)}, com o teste de Kruskal--Wallis. Abra \texttt{exemplo\_notas.csv}, use \texttt{depois} como resposta e \texttt{grupo} como agrupamento \parencite{JamoviKruskal}. O teste usa postos conjuntos e exige independência entre as unidades; não é uma ANOVA de médias executada sobre qualquer dado que falhou em um teste de normalidade.
+
+Sob a hipótese nula usual, os grupos têm a mesma distribuição. Uma interpretação exclusivamente como diferença de localização ou medianas precisa de condições adicionais sobre as formas das distribuições. Se solicitar comparações posteriores, identifique o procedimento e o ajuste efetivamente exibidos na saída. O teste global não informa quais pares diferem.
+
+Para três ou mais condições pareadas, o painel de \textbf{ANOVA de medidas repetidas não paramétrica (Repeated Measures ANOVA, Non-parametric)} oferece Friedman. Use as colunas \texttt{inicial}, \texttt{final} e \texttt{seguimento}, nessa ordem, sem inserir o identificador como uma quarta medida \parencite{JamoviFriedman}.
+
+Friedman organiza os postos \textbf{dentro de cada pessoa}. Nos 12 conjuntos completos do nosso banco, o cálculo resulta em $\chi^2(2)\approx20{,}667$, com $p<0{,}001$ pela aproximação qui-quadrado. Esse procedimento de um fator não incorpora a comparação entre os dois grupos como uma ANOVA mista. Se o interesse principal for a interação entre grupo e tempo, trocar toda a pergunta por Friedman perde essa parte do desenho.
+
+\section{Vamos praticar: perguntas e comentários}
+
+\begin{enumerate}
+  \item Na tabela~\ref{tab:medias-fatorial}, calcule a diferença com prática menos sem prática em cada formato e a diferença entre essas diferenças.
+  \item No banco longitudinal, três colunas e 12 linhas significam 36 pessoas independentes? Qual é a unidade que precisamos preservar?
+  \item Uma correção de Greenhouse--Geisser foi selecionada. Podemos relatar o valor de $p$ corrigido com os graus de liberdade não corrigidos?
+  \item Após ajustar uma ANCOVA, as médias marginais precisam coincidir com as médias brutas?
+\end{enumerate}
+
+\subsection*{Comentários das respostas}
+
+\begin{enumerate}
+  \item Texto: $64-60=4$; Vídeo: $79-65=14$; diferença entre diferenças: $14-4=10$ pontos. Esse contraste explica a interação do exemplo.
+  \item Não. São 12 pessoas, cada uma com três medidas. Precisamos preservar o conjunto de medidas da mesma pessoa.
+  \item Não. Informe o $F$, os graus de liberdade e o valor de $p$ da mesma versão da inferência, além da correção empregada.
+  \item Não. São estimativas do modelo em uma configuração definida das covariáveis; a configuração precisa acompanhar sua interpretação.
+\end{enumerate}
