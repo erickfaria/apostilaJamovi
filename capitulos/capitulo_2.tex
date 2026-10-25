@@ -416,7 +416,7 @@ Para ilustrar como isso é feito, usaremos o Dataset de População - IBGE como 
 
 Neste tutorial, iremos focar em como usar esse dataset para criar categorias populacionais que representam cidades grandes, médias e pequenas. Este é um exemplo comum de como os dados populacionais são categorizados para análises demográficas, urbanísticas ou sociais.
 
-Para começar, precisamos definir quais são os critérios para uma cidade ser considerada grande, média ou pequena. Essa definição pode variar dependendo do contexto, mas para os fins deste tutorial, iremos definir as categorias da seguinte forma: cidades pequenas são aquelas com população inferior a 20.000 habitantes, cidades médias possuem entre 20.000 e 100.000 habitantes, e cidades grandes são aquelas com mais de 100.000 habitantes.\footnote{Por favor, note que essa classificação é puramente ilustrativa e serve apenas para o propósito deste tutorial. Essa divisão de categorias não possui uma base científica rigorosa e pode variar consideravelmente dependendo do contexto específico. É importante ressaltar que, em sua própria análise, você está livre para definir suas próprias categorias com base nos critérios que considerar mais relevantes para o seu estudo.}
+Para começar, precisamos definir quais são os critérios para uma cidade ser considerada grande, média ou pequena. Essa definição pode variar dependendo do contexto, mas para os fins deste tutorial, iremos definir as categorias da seguinte forma: cidades pequenas são aquelas com população de até 20.000 habitantes, cidades médias possuem mais de 20.000 e até 100.000 habitantes, e cidades grandes são aquelas com mais de 100.000 habitantes.\footnote{Por favor, note que essa classificação é puramente ilustrativa e serve apenas para o propósito deste tutorial. Essa divisão de categorias não possui uma base científica rigorosa e pode variar consideravelmente dependendo do contexto específico. É importante ressaltar que, em sua própria análise, você está livre para definir suas próprias categorias com base nos critérios que considerar mais relevantes para o seu estudo.}
 
 Após a importação dos dados, o primeiro passo para criar categorias no Jamovi é utilizar a opção "Transformar Variáveis". Existem duas maneiras de acessar essa funcionalidade.
 
@@ -476,9 +476,9 @@ Finalmente, o passo 3 é onde você seleciona a opção "Adicionar condição de
 
 Chegamos agora à fase em que iremos definir as condições para a criação da nossa variável categórica no Jamovi. Para fazer isso, precisaremos escrever expressões lógicas, um recurso muito comum em programação. 
 
-Como dito anteriormente, o Jamovi foi construído com base na linguagem R, o que significa que muitos dos recursos de sintaxe do R são aplicáveis ao Jamovi. Portanto, uma compreensão básica da linguagem R pode ser muito útil ao usar o Jamovi.
+As regras são avaliadas pelo editor de transformações do próprio jamovi. Não é necessário escrever um programa em R para realizar essa recodificação: selecione as condições e os resultados desejados no painel.
 
-Se você se sentir um pouco perdido(a) nesse ponto, não se preocupe! Para aqueles que desejam se aprofundar mais no uso da linguagem R e, por consequência, melhorar suas habilidades no Jamovi, recomendo o meu livro de \href{https://www.amazon.com.br/Fundamentos-Completo-Iniciantes-programa%C3%A7%C3%A3o-computa%C3%A7%C3%A3o-ebook/dp/B0B36NG18N}{Fundamentos em R: Guia Completo para Iniciantes}. Nele, eu exploro em detalhes como utilizar o R, o que pode ser de grande ajuda para aprimorar seu domínio do Jamovi.
+Se precisar de ajuda para escrever uma expressão, consulte as funções disponíveis no editor e a documentação oficial. Mantenha uma descrição da regra e confira casos próximos aos limites de cada categoria \parencite{JamoviFuncoes}.
 
 Veja na Figura~\ref{fig:criar_categoria_jamovi_5}, o local em que você deve selecionar as condições para criarmos as categorias de cidades: pequenas, médias e grandes. Clique na seção de operadores e selecione ou escreva conforme eu escrevi na tabela \ref{fig:criar_categoria_jamovi_6}
 
@@ -504,7 +504,7 @@ Um recurso interessante do Jamovi é que, enquanto você configura as transforma
     \label{fig:criar_categoria_jamovi_6}
 \end{figure}
 
-Em nosso exemplo, nós escrevemos os nomes ``Pequena'', ``Média'' e ``Grande'' diretamente entre aspas, pois, relembrando, o Jamovi possui muitos componentes herdados da linguagem R. A linguagem R, assim como muitas outras linguagens de programação, usa aspas para designar textos. Portanto, sempre que quisermos definir uma categoria com um nome de texto, devemos colocar esse nome entre aspas.
+No editor de fórmulas, textos como ``Pequena'', ``Média'' e ``Grande'' devem estar entre aspas. Valores numéricos usados nos limites são escritos sem aspas. Confira também se as observações com população ausente permanecem ausentes na variável recodificada; não as classifique automaticamente como cidades grandes.
 
 Se você quiser criar categorias com códigos numéricos, as etapas são as mesmas, mas você deve utilizar números sem aspas. Por exemplo, poderíamos codificar ``Pequena'' como 1, ``Média'' como 2 e ``Grande'' como 3. Nesse caso, ao invés de escrever ``Pequena'', ``Média'' e ``Grande'' nas condições, escreveríamos os números correspondentes.
 
