@@ -1,7 +1,7 @@
 \chapter{Análise de Dados Categóricos}
 \label{cap:categoricos}
 
-Variáveis categóricas organizam observações em grupos, como meio de transporte, atividade realizada ou resposta sim/não. Neste capítulo, vamos construir uma tabela de contingência, comparar porcentagens e examinar a associação entre duas variáveis nominais. O ponto de partida é saber se cada linha do banco representa uma pessoa ou uma contagem agregada.
+Variáveis categóricas organizam observações em grupos, como meio de transporte, atividade realizada ou resposta sim/não. Neste capítulo, vamos construir uma tabela de contingência, comparar porcentagens e examinar a associação entre duas variáveis nominais. Depois, avançaremos para proporções, respostas pareadas e regressão logística binária. O ponto de partida é saber se cada linha do banco representa uma pessoa, um par de medidas ou uma contagem agregada.
 
 \section{Tabela de contingência e denominadores}
 
@@ -103,4 +103,196 @@ Isso não significa que a probabilidade de Sim seja 3,5 vezes maior. A razão en
 
 Um relato possível é: ``Nos dados fictícios, o resultado Sim ocorreu em 30 de 50 observações do grupo A (60\%) e em 15 de 50 do grupo B (30\%). O qui-quadrado de Pearson sem correção de continuidade resultou em $\chi^2(1)=9{,}09$, $p=0{,}0026$, com V de Cramér de $0{,}302$.'' Em uma análise real, informe o tratamento dos ausentes, o desenho, os intervalos das medidas de interesse e os limites de interpretação.
 
-Uma continuação desse estudo é a regressão logística, usada para modelar uma resposta binária em função de preditores. Sua resposta e a interpretação dos coeficientes diferem das da regressão linear. Antes de avançar, consolide a leitura de contagens, denominadores e referências de comparação: esses elementos continuam essenciais em modelos mais elaborados.
+Vamos continuar com perguntas sobre uma proporção, várias categorias e respostas pareadas. Depois, usaremos a regressão logística para relacionar uma resposta binária a um preditor. Em cada situação, o denominador e a estrutura das observações continuam orientando a análise.
+
+\section{Uma proporção: teste binomial e intervalo}
+\label{sec:binomial}
+
+Uma única variável com duas categorias produz uma pergunta diferente da associação entre duas variáveis. No arquivo \texttt{exemplo\_binomial.csv}, há 80 pessoas fictícias independentes: 52 responderam Sim e 28, Não. Queremos estimar a proporção populacional de Sim, denotada por $\pi$, e compará-la com uma referência planejada de $0{,}50$:
+\[
+H_0:\pi=0{,}50,\qquad H_1:\pi\neq0{,}50.
+\]
+A proporção amostral é $\widehat{\pi}=52/80=0{,}65$, ou 65\%. O modelo binomial pressupõe um número definido de observações independentes, com dois resultados possíveis e a mesma probabilidade de sucesso para as observações modeladas. Uma amostra com seleção complexa ou respostas repetidas precisa de atenção adicional; ter somente Sim e Não não garante essas condições.
+
+\subsection{Executando no jamovi}
+
+\begin{enumerate}
+  \item Abra \texttt{exemplo\_binomial.csv}. Configure \texttt{resposta} como nominal e \texttt{id} como identificador.
+  \item Acesse \textbf{Análises $\rightarrow$ Frequências $\rightarrow$ Teste de proporções, 2 resultados (Proportion Test, 2 Outcomes)}. A tradução pode variar; confira a indicação de teste binomial.
+  \item Use \texttt{resposta} como variável. Cada linha já é uma pessoa; mantenha desmarcada a opção de dados em contagens.
+  \item Informe a proporção de teste $0{,}50$, escolha a alternativa bilateral e solicite IC95\%.
+  \item Na tabela, identifique a linha de \textbf{Sim}. A proporção da categoria Não é $0{,}35$ e tem interpretação complementar.
+\end{enumerate}
+
+As opções de hipótese, proporção de referência e intervalo constam na documentação oficial \parencite{JamoviBinomial}. Para Sim, o teste binomial exato bilateral fornece $p\approx0{,}00968$. Um IC95\% exato de Clopper--Pearson para a proporção é aproximadamente $[0{,}535;0{,}753]$; esse método é documentado em \texttt{binom.test} do R \parencite{RBinomial}.
+
+O relato pode informar: ``No exemplo fictício, 52 de 80 respostas foram Sim, 65\%, IC95\% exato $[53{,}5\%;75{,}3\%]$. O teste binomial bilateral contra 50\% resultou em $p=0{,}0097$.'' O intervalo informa a precisão da estimativa e não a porcentagem de pessoas cuja resposta está ``correta''.
+
+\section{Aderência: uma variável com várias categorias}
+
+No arquivo \texttt{exemplo\_aderencia.csv}, uma variável tem três categorias: A, B e C, com contagens 30, 15 e 15. A pergunta é se as proporções populacionais correspondem a uma distribuição especificada antes da análise. Para três proporções iguais, esperamos $60/3=20$ observações em cada categoria.
+
+Abra \textbf{Frequências $\rightarrow$ Teste de proporções, N resultados (Proportion Test, N Outcomes)}. Coloque \texttt{categoria} na variável e \texttt{frequencia} no campo de contagens. Configure proporções esperadas iguais, equivalentes a razões $1:1:1$, e solicite as frequências esperadas \parencite{JamoviAderencia}. Confira o total de 60; as três linhas não representam três pessoas.
+
+Aplicando a soma das diferenças entre observado e esperado, temos:
+\[
+\chi^2=\frac{(30-20)^2}{20}+\frac{(15-20)^2}{20}
++\frac{(15-20)^2}{20}=7{,}5.
+\]
+Com três categorias e proporções completamente especificadas, $gl=3-1=2$ e $p\approx0{,}0235$. Se parâmetros da distribuição esperada fossem estimados dos próprios dados, a referência de graus de liberdade precisaria considerar essa estimação; não se deve aplicar automaticamente o mesmo cálculo.
+
+Compare as perguntas: no teste de aderência, existe \textbf{uma variável categórica} confrontada com proporções de referência. No teste de independência, existem \textbf{duas variáveis categóricas}, e os esperados são calculados a partir das margens da tabela. Usar o mesmo símbolo $\chi^2$ não torna os desenhos intercambiáveis.
+
+\section{Respostas pareadas: o teste de McNemar}
+\label{sec:mcnemar}
+
+Suponha que as mesmas 60 pessoas respondam Sim ou Não em dois momentos. O arquivo \texttt{exemplo\_mcnemar.csv} resume esses pares:
+
+\begin{table}[H]
+\centering
+\caption{Respostas pareadas fictícias antes e depois}
+\begin{tabular}{lrrr}
+\hline
+Antes & Depois Sim & Depois Não & Total \\
+\hline
+Sim & 28 & 4 & 32 \\
+Não & 16 & 12 & 28 \\
+\hline
+Total & 44 & 16 & 60 \\
+\hline
+\end{tabular}
+\label{tab:mcnemar}
+\end{table}
+
+Os pares concordantes, 28 e 12, mantiveram a resposta. Os discordantes, 4 e 16, mudaram em sentidos opostos. A pergunta de McNemar é sobre a igualdade das probabilidades marginais de Sim nos dois momentos; no modelo para os pares, isso corresponde à igualdade das probabilidades das duas mudanças discordantes.
+
+\subsection{Configurando a tabela pareada}
+
+Abra \textbf{Frequências $\rightarrow$ Tabelas de contingência $\rightarrow$ Amostras pareadas (Paired Samples)}. Atribua \texttt{antes} às linhas, \texttt{depois} às colunas e \texttt{frequencia} a contagens. Selecione McNemar e identifique se a correção de continuidade está ativada. A documentação oficial distingue as estatísticas corrigida, não corrigida e a opção exata \parencite{JamoviMcNemar}.
+
+Se $b=4$ e $c=16$ representam as contagens discordantes, a versão assintótica sem correção é:
+\[
+\chi^2_{\mathrm{McNemar}}=\frac{(b-c)^2}{b+c}
+=\frac{(4-16)^2}{20}=7{,}2.
+\]
+Com um grau de liberdade, $p\approx0{,}00729$. Com a correção de continuidade usual, a estatística é $(|b-c|-1)^2/(b+c)=6{,}05$, com $p\approx0{,}01391$.
+
+Condicionando nos 20 discordantes, o cálculo binomial exato bilateral testa a proporção $4/20$ contra $0{,}50$ e fornece $p\approx0{,}01182$. A documentação do jamovi informa que a opção exata depende do pacote \texttt{exact2x2}; sua disponibilidade pode variar conforme a instalação \parencite{JamoviMcNemar}. A conta binomial também pode ser conferida com \texttt{binom.test(4, 20, p = 0.5)} no R \parencite{RBinomial}.
+
+Não escolha a versão pelo menor valor de $p$. Registre o procedimento planejado e considere o número de pares discordantes para avaliar a aproximação. Os valores diferentes ilustram métodos de inferência distintos para a mesma estrutura de dados.
+
+\subsection{Mudança em pontos percentuais}
+
+A proporção de Sim passou de $32/60=53{,}33\%$ para $44/60=73{,}33\%$, uma diferença de \textbf{20 pontos percentuais}. A mudança relativa seria calculada com outro denominador; não a confunda com essa subtração.
+
+Um relato pode apresentar os totais marginais, as duas direções de mudança e o método de McNemar escolhido. O total continua sendo 60 pessoas, com duas medidas cada. Aplicar um qui-quadrado de independência como se antes e depois fossem grupos distintos descarta o pareamento. Uma mudança observada, isoladamente, também não identifica o que a causou.
+
+\section{Medidas de associação e sua incerteza}
+
+Retomando a tabela de \textbf{grupos independentes} A e B, a diferença de proporções de Sim é $0{,}60-0{,}30=0{,}30$, ou 30 pontos percentuais. A razão das proporções é 2, e a razão de chances é 3,5. As três medidas descrevem a comparação em escalas diferentes; escolha a que corresponde à pergunta e ao desenho.
+
+Na opção de medidas comparativas da tabela de contingência, solicite a medida pertinente e seu intervalo, conferindo a orientação das categorias \parencite{JamoviContingencia}. Um IC95\% de Wald na escala logarítmica para a OR da nossa tabela é aproximadamente $[1{,}53;8{,}01]$. Seu cálculo usa:
+\[
+EP\{\log(OR)\}=\sqrt{\frac1{30}+\frac1{20}+\frac1{15}+\frac1{35}},
+\qquad
+IC=\exp\{\log(OR)\pm1{,}96\,EP\}.
+\]
+O intervalo amplo oferece uma informação que o valor de $p$ sozinho não mostra. Outros métodos de intervalo podem produzir limites diferentes; identifique o método empregado. Com células nulas, essa fórmula não é diretamente utilizável, e acrescentar constantes sem explicação muda a análise.
+
+Em tabelas maiores, percentuais e resíduos por célula podem ajudar a localizar padrões. Essa exploração envolve várias células e comparações: um resíduo grande não deve ser convertido automaticamente em uma descoberta independente sem considerar a multiplicidade. Mantenha a tabela completa disponível para o leitor e não selecione apenas a célula mais favorável.
+
+\section{Regressão logística binária}
+\label{sec:logistica}
+
+Agora vamos relacionar uma resposta binária a um preditor. No arquivo \texttt{exemplo\_logistica.csv}, cada linha é uma pessoa fictícia, \texttt{horas} varia de uma a cinco e \texttt{concluiu} identifica a conclusão de uma tarefa: 1 para Sim e 0 para Não. Há 60 pessoas, 12 por duração, e ambas as respostas ocorrem em todas as durações.
+
+A regressão logística binária modela a probabilidade $\pi_i$ do evento \texttt{concluiu = 1}. Em vez de ajustar uma reta diretamente à probabilidade, usamos o logaritmo da chance, ou logit:
+\[
+\log\left(\frac{\pi_i}{1-\pi_i}\right)
+=\beta_0+\beta_1\,\text{horas}_i.
+\]
+A transformação inversa mantém a previsão entre 0 e 1:
+\[
+\pi_i=\frac{1}{1+\exp\{-(\beta_0+\beta_1\,\text{horas}_i)\}}.
+\]
+A família binomial com ligação logit é especificada na documentação oficial do R \parencite{RFamilias}. A forma da equação mostra por que um mesmo incremento no logit não representa um incremento constante de pontos percentuais.
+
+\subsection{Configurando evento e referência}
+
+\begin{enumerate}
+  \item Abra \texttt{exemplo\_logistica.csv}. Configure \texttt{horas} como contínua e \texttt{concluiu} como nominal com exatamente dois níveis, 0 e 1.
+  \item Acesse \textbf{Análises $\rightarrow$ Regressão $\rightarrow$ Regressão logística $\rightarrow$ 2 resultados (2 Outcomes, Binomial)}.
+  \item Use \texttt{concluiu} como variável dependente e \texttt{horas} em \textbf{Covariáveis}. Mantenha o intercepto.
+  \item Em \textbf{Níveis de referência}, use 0 como referência da resposta. Confira na nota da tabela que os coeficientes representam \texttt{1 versus 0}.
+  \item Solicite estimativas, razões de chances (\textbf{Odds ratio}) e seus IC95\%. Use coeficientes não padronizados para conferir a equação a seguir.
+\end{enumerate}
+
+O menu, as referências e as opções de coeficientes são definidos na especificação oficial da análise no repositório do projeto jamovi; a referência bibliográfica aponta para uma revisão identificada desse código \parencite{JamoviLogisticaCodigo}. Se invertermos a referência da resposta, os sinais dos coeficientes e o sentido das razões de chances mudam. Por isso, comece a leitura pela definição do evento.
+
+\subsection{Coeficientes, chances e probabilidades}
+
+O ajuste por máxima verossimilhança resulta aproximadamente em:
+\[
+\widehat{\operatorname{logit}(\pi)}=-2{,}320861
++0{,}773620\,\text{horas}.
+\]
+Para uma hora adicional, a razão de chances é:
+\[
+OR=\exp(0{,}773620)\approx2{,}168,
+\qquad IC95\%_{\mathrm{Wald}}\approx[1{,}384;3{,}395].
+\]
+No modelo, as chances de conclusão são multiplicadas por aproximadamente 2,17 a cada hora. Isso não significa que a probabilidade seja multiplicada por 2,17, nem que aumente sempre 117 pontos percentuais. Para três horas, o logit é aproximadamente zero e a probabilidade ajustada é 0,50. Para quatro, ela é aproximadamente 0,684: o aumento nesse trecho é de cerca de 18,4 pontos percentuais.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.86\textwidth,height=6cm,
+  xlabel={Horas},ylabel={Probabilidade de conclusão},
+  xmin=0.8,xmax=5.2,ymin=0,ymax=1,
+  xtick={1,2,3,4,5},grid=major,
+  legend style={at={(0.03,0.97)},anchor=north west,font=\small}
+]
+  \addplot[blue,thick,domain=1:5,samples=80]
+    {1/(1+exp(-(-2.32086148+0.77362049*x)))};
+  \addlegendentry{Probabilidade ajustada}
+  \addplot[only marks,mark=*,red] coordinates
+    {(1,0.1666667) (2,0.3333333) (3,0.5) (4,0.6666667) (5,0.8333333)};
+  \addlegendentry{Proporção observada}
+\end{axis}
+\end{tikzpicture}
+\caption{Regressão logística sobre os 60 casos fictícios. Cada ponto resume 12 pessoas na mesma duração; a curva vem do ajuste individual. Elaboração própria.}
+\label{fig:logistica}
+\end{figure}
+
+As probabilidades ajustadas de uma a cinco horas são aproximadamente $0{,}175$, $0{,}316$, $0{,}500$, $0{,}684$ e $0{,}825$. A presença de ambas as respostas em cada duração evita separação completa neste exemplo simples. Em outros bancos, um preditor pode separar perfeitamente os resultados e levar a coeficientes muito grandes ou problemas de convergência. Não interprete automaticamente uma OR enorme como uma estimativa precisa.
+
+\subsection{Ajuste, classificação e limites}
+
+O painel pode apresentar desvio, AIC e medidas como o pseudo-$R^2$ de McFadden \parencite{JamoviLogisticaCodigo}. Um pseudo-$R^2$ não é a mesma fração da soma de quadrados explicada pela regressão linear. Compare medidas entre modelos apenas quando suas definições, respostas e amostras forem compatíveis.
+
+Transformar probabilidades em classificações exige escolher um limiar. Com limiar 0,50, uma pessoa com probabilidade 0,49 recebe uma categoria diferente de outra com 0,51, apesar da pequena diferença entre elas. Sensibilidade, especificidade e acurácia dependem desse limiar e da composição do banco. A área sob a curva ROC avalia discriminação ao longo de limiares; não demonstra, sozinha, que probabilidades previstas estejam bem calibradas.
+
+Para avaliar calibração, precisamos confrontar as probabilidades previstas e as frequências observadas em uma avaliação adequada; a documentação de calibração probabilística do scikit-learn apresenta essa distinção \parencite{SKLearnCalibracao}. Para uso preditivo real, também precisamos de dados de validação ou de um procedimento de reamostragem que considere a escolha do modelo. Os 60 casos construídos aqui servem ao ensino do ajuste, e não à validação de uma ferramenta para decidir sobre pessoas.
+
+É possível incluir outros preditores contínuos em Covariáveis e categóricos em Fatores. Com múltiplos termos, cada OR é condicional aos demais termos do modelo e às referências escolhidas; com interações, a comparação depende também dos valores envolvidos. A relação linear exigida para um preditor contínuo é na escala do logit, e a independência das unidades precisa vir do desenho. Uma tabela binária não torna essas condições automáticas.
+
+Um relato inicial pode ser: ``No exemplo fictício, ajustou-se uma regressão logística binária para conclusão da tarefa, evento 1 e referência 0, em função de horas. A OR por hora foi $2{,}17$, IC95\% de Wald $[1{,}38;3{,}40]$, em 60 observações independentes.'' Em uma aplicação real, acrescente as condições de obtenção dos dados, os diagnósticos, os ausentes e a avaliação compatível com a finalidade do modelo.
+
+\section{Vamos praticar: perguntas e comentários}
+
+\begin{enumerate}
+  \item Em 52 respostas Sim de 80, qual é a proporção? Compare-a com uma referência de 50\% sem confundir proporção e valor de $p$.
+  \item Uma variável com três categorias e proporções de referência iguais pede um teste de aderência ou uma tabela de independência entre duas variáveis?
+  \item No exemplo pareado, quantas pessoas mudaram de Não para Sim e quantas fizeram a mudança inversa? Por que só comparar os totais marginais não descreve todos os pares?
+  \item Uma OR de $2{,}17$ por hora significa que a probabilidade aumenta 117 pontos percentuais?
+\end{enumerate}
+
+\subsection*{Comentários das respostas}
+
+\begin{enumerate}
+  \item A proporção é $0{,}65$, ou 65\%. O teste binomial bilateral contra $0{,}50$ fornece $p\approx0{,}00968$; esse valor não é a probabilidade de a hipótese nula ser verdadeira.
+  \item Um teste de aderência, pois temos uma variável e uma distribuição de referência. Para duas variáveis cruzadas, a pergunta seria outra.
+  \item Dezesseis mudaram de Não para Sim e quatro de Sim para Não. Os totais marginais mostram o saldo, mas ocultam quantas pessoas mudaram em cada sentido; os pares discordantes sustentam McNemar.
+  \item Não. A OR multiplica as chances. No exemplo, passar de três para quatro horas muda a probabilidade ajustada de 50\% para aproximadamente 68,4\%, segundo o modelo.
+\end{enumerate}

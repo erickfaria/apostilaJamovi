@@ -82,16 +82,130 @@ A independência dos erros também precisa ser justificada pelo desenho. Notas r
 
 Observe possíveis casos influentes e confira os registros originais. Um ponto pode ser extremo em uma variável e não ter grande influência sobre a reta, ou pode mudar bastante o ajuste. Não exclua casos apenas para aumentar $R^2$ ou diminuir o valor de $p$.
 
-\subsection{Adicionando uma variável explicativa}
 
-Uma continuação possível é incluir \texttt{antes} junto com \texttt{horas}. Nesse modelo, a inclinação das horas descreve a associação com a nota posterior \textbf{condicionalmente à nota anterior incluída no modelo}. Se você incluir \texttt{grupo}, atribua-o a \textbf{Fatores (Factors)}, pois suas categorias não são quantidades contínuas.
+\section{Regressão múltipla: incluindo a nota anterior}
+\label{sec:regressao-multipla}
 
-Com apenas 18 casos, acrescentar muitos termos torna a estimação instável. A existência de vários coeficientes não produz, por si só, controle adequado de todas as diferenças entre pessoas. Também não transforma o exemplo fictício em um desenho capaz de demonstrar causalidade.
+Vamos continuar com as mesmas 18 pessoas e incluir \texttt{antes} junto com \texttt{horas}. A pergunta agora é como a nota posterior se relaciona com horas de estudo \textbf{para um mesmo valor de nota anterior no modelo}. Escrevemos:
+\[
+Y_i=\beta_0+\beta_1\,\text{horas}_i+
+\beta_2\,\text{antes}_i+\varepsilon_i.
+\]
+A expressão ``para um mesmo valor'' descreve uma comparação condicional do modelo. Não significa que tenhamos observado duas versões da mesma pessoa, uma estudando mais e outra menos, nem que tenhamos controlado todas as diferenças relevantes entre participantes.
+
+\subsection{Configurando e conferindo os coeficientes}
+
+No painel de \textbf{Regressão linear}, mantenha \texttt{depois} na variável dependente e acrescente \texttt{antes} em \textbf{Covariáveis}, junto com \texttt{horas}. Confira os dois termos no modelo, mantenha o intercepto e solicite coeficientes não padronizados, IC95\%, $R^2$ ajustado e diagnósticos \parencite{JamoviRegressao}.
+
+A equação estimada é aproximadamente:
+\[
+\widehat{Y}=20{,}502916+3{,}443600\,\text{horas}
++0{,}663789\,\text{antes}.
+\]
+Para uma pessoa com três horas e nota anterior 52, a média ajustada é aproximadamente $20{,}502916+3{,}443600\times3+0{,}663789\times52\approx65{,}35$ pontos, usando os coeficientes antes do arredondamento.
+
+\begin{table}[H]
+\centering
+\caption{Coeficientes do modelo múltiplo nos dados fictícios}
+\begin{tabular}{lrrr}
+\hline
+Termo & Estimativa & Limite inferior & Limite superior \\
+\hline
+Intercepto & 20,503 & $-26{,}608$ & 67,614 \\
+Horas & 3,444 & 0,103 & 6,784 \\
+Nota anterior & 0,664 & $-0{,}398$ & 1,725 \\
+\hline
+\end{tabular}
+\label{tab:regressao-multipla}
+\end{table}
+
+Os limites são de IC95\% com a inferência t usual e 15 graus de liberdade residuais. A inclinação de horas era $5{,}221$ no modelo simples e passou a $3{,}444$ no múltiplo. Não são estimativas da mesma comparação: a segunda considera a nota anterior incluída no modelo. O intervalo amplo também mostra que a inclinação não deve ser tratada como uma quantidade conhecida com precisão.
+
+O intercepto corresponde a horas e nota anterior iguais a zero. Como essa combinação está fora do suporte observado, ele participa da equação sem ter uma interpretação substantiva imediata. Para facilitar a leitura, podemos criar \texttt{horas\_c = horas - 3} e \texttt{antes\_c = antes - 52} nas variáveis calculadas e ajustar o mesmo modelo aditivo. O novo intercepto será a previsão em três horas e nota anterior 52; as inclinações e os valores ajustados permanecem iguais.
+
+\subsection{R quadrado ajustado e comparação de modelos}
+
+O modelo múltiplo apresenta $R^2\approx0{,}736$ e $R^2_{\mathrm{ajustado}}\approx0{,}701$. Com $q$ preditores numéricos linearmente independentes, além do intercepto, o ajuste usual é:
+\[
+R^2_{\mathrm{ajustado}}=
+1-(1-R^2)\frac{n-1}{n-q-1}.
+\]
+Se um fator precisar de vários coeficientes, cada coluna independente correspondente entra na contagem de parâmetros. Contar apenas os nomes das variáveis pode produzir um denominador incorreto.
+
+Para examinar o acréscimo da nota anterior, crie dois blocos no painel de modelo: no primeiro, \texttt{horas}; no segundo, acrescente \texttt{antes}, mantendo horas. Solicite a comparação dos modelos \parencite{JamoviRegressao}. São modelos \textbf{aninhados}: o modelo menor é um caso particular do maior quando o coeficiente adicional vale zero.
+
+Com os mesmos 18 casos em ambos, o acréscimo resulta em $F(1,15)\approx1{,}777$, $p\approx0{,}202$. O aumento de $R^2$ não basta para declarar ganho convincente segundo esse teste. Se existissem ausentes em \texttt{antes}, precisaríamos conferir se os modelos usaram a mesma amostra; comparar ajustes de pessoas diferentes pode misturar mudanças do modelo e mudanças do banco.
+
+Uma variável pode ser mantida por sua função no desenho ou na pergunta, mesmo sem um valor de $p$ pequeno. Evite escolher automaticamente todas as combinações possíveis e apresentar a melhor como se tivesse sido definida antes da análise. Com poucas observações, a escolha e a avaliação no mesmo banco favorecem resultados excessivamente otimistas.
+
+\section{Preditores categóricos e categorias de referência}
+
+A variável \texttt{grupo} tem três níveis e deve entrar em \textbf{Fatores}. Não a codifique como 1, 2 e 3 em \textbf{Covariáveis}: essa codificação imporia uma ordem e um espaçamento numérico que não fazem parte da definição das atividades.
+
+Usando Leitura como referência e uma codificação indicadora, um modelo com horas e grupo tem a forma:
+\[
+\widehat{Y}=b_0+b_1\,\text{horas}
++b_2I(\text{Video})+b_3I(\text{Oficina}).
+\]
+Cada indicador vale 1 quando a pessoa pertence à categoria e 0 caso contrário. Assim, $b_2$ compara Vídeo com Leitura em um mesmo valor de horas, sob o modelo aditivo. $b_3$ compara Oficina com Leitura. Não existe um coeficiente adicional para Leitura porque sua posição está representada pelo intercepto e pelas referências.
+
+No jamovi, confira o campo de \textbf{Níveis de referência (Reference Levels)} e os rótulos dos contrastes na tabela \parencite{JamoviRegressao}. Alterar a referência muda os coeficientes e seus significados, mas não muda as previsões de um mesmo modelo com todas as categorias representadas. Se o interesse for Oficina versus Vídeo, formule essa comparação diretamente; não conclua diferença entre elas apenas por terem valores de $p$ distintos em relação à Leitura.
+
+\subsection{Quando acrescentar uma interação}
+
+Um modelo somente aditivo supõe uma inclinação de horas comum aos grupos. Acrescentar horas $\times$ grupo permite inclinações diferentes. Nesse caso, o coeficiente de horas se refere à categoria de referência, e os coeficientes de interação descrevem diferenças de inclinação em relação a ela.
+
+A centralização ajuda a escolher em qual valor de horas as diferenças entre grupos serão avaliadas: se usarmos horas menos 3, os termos de grupo se referem a três horas. Isso facilita a interpretação, mas não cria informações novas. Com seis pessoas por grupo, acrescentar várias interações produz estimativas incertas; use o desenho e a pergunta para justificar cada termo.
+
+\section{Colinearidade, influência e análise de sensibilidade}
+
+Quando preditores carregam informações muito parecidas, seus coeficientes condicionais podem ficar imprecisos. Uma ferramenta é o fator de inflação da variância:
+\[
+VIF_j=\frac{1}{1-R_j^2},
+\]
+em que $R_j^2$ vem de uma regressão do preditor $j$ nos demais preditores, com intercepto. No modelo com horas e nota anterior, ambos os VIFs são aproximadamente $3{,}614$. O número indica quanto a variância do coeficiente é inflada por essa relação, comparada à situação de ausência de colinearidade, mantendo as demais condições do cálculo.
+
+Solicite \textbf{Estatísticas de colinearidade (Collinearity Statistics)} e a avaliação de influência, incluindo distância de Cook, no painel de regressão \parencite{JamoviRegressao}. Nenhum ponto de corte deve operar como ordem automática de exclusão. Uma variável necessária para definir a pergunta não deve ser retirada apenas para reduzir um VIF.
+
+A alavancagem identifica posições pouco usuais no espaço dos preditores; um resíduo grande identifica afastamento da resposta em relação ao ajustado. A influência combina a posição e a capacidade de alterar o ajuste. Se encontrar uma observação influente, confira o registro, sua elegibilidade e sua relação com a população de interesse. Quando justificado, compare análises com e sem ela como sensibilidade e relate ambas. Não apague uma observação válida somente porque sua retirada produz significância.
+
+\section{Estimar uma média e prever uma pessoa}
+\label{sec:intervalos-regressao}
+
+Retomemos o modelo \textbf{simples}, com apenas horas. Para três horas, a média ajustada é $65{,}426$ pontos. Sob a inferência usual do modelo, o IC95\% dessa média é aproximadamente $[63{,}002;67{,}849]$. Já o intervalo de predição de 95\% para uma \textbf{nova observação individual}, com três horas, é aproximadamente $[54{,}938;75{,}913]$.
+
+O segundo intervalo é mais largo porque inclui a variação individual em torno da média. Na regressão simples, o erro padrão da média estimada em $x_0$ é:
+\[
+s\sqrt{\frac{1}{n}+\frac{(x_0-\bar{x})^2}{\sum_i(x_i-\bar{x})^2}},
+\]
+enquanto o erro padrão para uma nova observação acrescenta 1 dentro da raiz:
+\[
+s\sqrt{1+\frac{1}{n}+\frac{(x_0-\bar{x})^2}{\sum_i(x_i-\bar{x})^2}}.
+\]
+Aqui, $s$ é o desvio padrão residual, estimado com $n-2$ graus de liberdade. Os limites usam o quantil t correspondente. A documentação oficial de \texttt{predict.lm} distingue intervalos de confiança e de predição \parencite{RPredicaoLinear}; os valores acima foram calculados sobre o CSV, sem pressupor a presença de um botão específico de intervalo individual na interface.
+
+Esses intervalos dependem das condições do modelo e se referem a uma nova observação comparável às do estudo. Um ajuste bom no próprio banco não demonstra desempenho em novas pessoas. Para uma finalidade preditiva real, planeje avaliação fora dos dados usados para ajustar e escolher o modelo. Evite extrapolações e confira se as previsões respeitam os limites substantivos da variável, como uma nota entre 0 e 100.
 
 \section{Como relatar a regressão}
 
-Um relato inicial possível é: ``Nos dados fictícios, uma regressão linear simples com intercepto relacionou nota posterior a horas de estudo. A inclinação estimada foi de $5{,}22$ pontos por hora e o intercepto foi $49{,}76$ pontos; o ajuste apresentou $R^2=0{,}705$.'' Em um relatório completo, acrescente o intervalo dos coeficientes, o número de observações, os diagnósticos e os limites de generalização.
+Um relato do exemplo múltiplo pode começar assim: ``Nas 18 observações fictícias, ajustou-se uma regressão linear da nota posterior segundo horas de estudo e nota anterior. A inclinação de horas foi $3{,}44$ pontos por hora, IC95\% $[0{,}10;6{,}78]$, condicional à nota anterior no modelo. O ajuste apresentou $R^2=0{,}736$ e $R^2$ ajustado de $0{,}701$.'' Acrescente o objetivo, os diagnósticos, o tratamento dos ausentes e os limites da interpretação.
 
-\begin{tcolorbox}[colback=white,colframe=green,title={Dica de Conteúdo}]
-A reta estima uma média condicional. Uma previsão para uma pessoa tem incerteza adicional em relação à estimativa dessa média. Evite extrapolar para horas muito além do intervalo observado e não interprete associação como efeito de uma intervenção sem justificar o desenho do estudo.
-\end{tcolorbox}
+Se forem usados fatores ou interações, informe as referências e o valor dos demais preditores para cada comparação. Para uma aplicação preditiva, apresente como o desempenho foi avaliado e qual incerteza acompanha uma previsão individual. A equação final precisa permitir ao leitor reconhecer qual modelo foi realmente ajustado.
+
+\section{Vamos praticar: perguntas e comentários}
+
+\begin{enumerate}
+  \item Use a equação múltipla para estimar a média com três horas e nota anterior 52. O resultado é uma nota garantida para uma pessoa?
+  \item Por que a inclinação de horas pode mudar de $5{,}221$ para $3{,}444$ quando acrescentamos a nota anterior?
+  \item Podemos lançar Leitura, Vídeo e Oficina como 1, 2 e 3 em uma covariável sem mudar a pergunta?
+  \item Qual intervalo é apropriado para expressar a incerteza de uma nova nota individual: o da média ou o de predição?
+\end{enumerate}
+
+\subsection*{Comentários das respostas}
+
+\begin{enumerate}
+  \item Aproximadamente $65{,}35$ pontos. É uma estimativa de média condicional, não uma garantia individual.
+  \item Os coeficientes descrevem comparações diferentes: marginal em relação à nota anterior no modelo simples e condicional a ela no múltiplo. A relação entre os preditores participa dessa mudança.
+  \item Não. Essa codificação impõe uma relação linear entre códigos numéricos. Para categorias sem essa estrutura, use Fatores e identifique a referência.
+  \item O intervalo de predição individual, que incorpora a dispersão das novas observações além da incerteza da média estimada.
+\end{enumerate}

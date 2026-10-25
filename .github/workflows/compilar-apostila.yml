@@ -28,6 +28,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Conferir a publicação das versões
+        run: |
+          bash -n scripts/publicar_apostila.sh
+          python3 -m unittest discover -s tests -v
+
       - name: Compilar a apostila com pdfLaTeX e Biber
         uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4
         with:
@@ -56,6 +61,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: main
+          fetch-depth: 0
 
       - name: Baixar o PDF compilado nesta execução
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
@@ -63,25 +69,7 @@ jobs:
           name: apostila-jamovi
           path: .
 
-      - name: Salvar o PDF no mesmo caminho do repositório
+      - name: Publicar o PDF e a tag da edição
         env:
           SOURCE_SHA: ${{ github.sha }}
-        run: |
-          # Uma execução antiga nunca deve publicar sobre fontes mais novos.
-          if [ "$(git rev-parse HEAD)" != "$SOURCE_SHA" ]; then
-            echo "A main já recebeu outro commit; o PDF será atualizado pela execução mais recente."
-            exit 0
-          fi
-
-          git add -- apostila_jamovi.pdf
-          if git diff --cached --quiet; then
-            echo "O PDF já está atualizado."
-            exit 0
-          fi
-
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'docs: atualiza o PDF da apostila automaticamente'
-          # O GITHUB_TOKEN não dispara outro workflow de push.
-          # Sem force: se a main avançar durante a publicação, o push será rejeitado.
-          git push origin HEAD:main
+        run: bash scripts/publicar_apostila.sh

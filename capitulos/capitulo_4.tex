@@ -3,7 +3,7 @@
 
 No capítulo anterior, descrevemos as notas observadas. Agora vamos formular perguntas sobre médias populacionais e examinar como os dados se relacionam com essas perguntas. Um teste de hipóteses combina um modelo estatístico, uma hipótese nula e uma estatística de teste. Sua interpretação depende também de como as observações foram obtidas.
 
-Vamos trabalhar com testes t de uma amostra, de duas amostras independentes e de medidas pareadas. Usaremos novamente \texttt{exemplo\_notas.csv}; todos os resultados numéricos apresentados neste capítulo são cálculos sobre esses dados fictícios.
+Vamos trabalhar com testes t de uma amostra, de duas amostras independentes e de medidas pareadas, avançando para testes de postos, planejamento amostral e multiplicidade. Usaremos novamente \texttt{exemplo\_notas.csv}; todos os resultados numéricos apresentados neste capítulo são cálculos sobre esses dados fictícios.
 
 \section{Hipóteses, valor de p e decisões}
 
@@ -112,3 +112,84 @@ Antes de interpretar um teste, confira como as pessoas foram selecionadas, se ex
 O jamovi oferece Mann--Whitney para amostras independentes e Wilcoxon de postos sinalizados para situações pareadas ou de uma amostra. Esses testes têm hipóteses e condições próprias. Mann--Whitney não é, de modo geral, simplesmente um teste de diferença entre medianas; interpretações dessa forma exigem condições adicionais sobre as distribuições. Wilcoxon de postos sinalizados também exige atenção à simetria das diferenças para uma interpretação como teste de localização.
 
 Quando houver dúvida, volte à pergunta e examine gráficos e suposições. Registre a análise escolhida, as exclusões, o número de observações, a estimativa, seu intervalo e o valor de $p$. A conclusão deve responder à pergunta planejada, sem escolher apenas o resultado mais favorável entre várias tentativas.
+
+\section{Escolhendo a análise a partir do desenho}
+\label{sec:escolha-teste}
+
+Vamos organizar a decisão antes de abrir o menu. Primeiro, escreva qual é a variável resposta e o que uma linha representa. Depois, identifique se as observações vêm de pessoas distintas ou se a mesma pessoa aparece em mais de uma condição. Por fim, explicite a quantidade que queremos estimar: uma média, uma diferença média, uma proporção ou uma associação.
+
+\begin{table}[H]
+\centering
+\caption{Perguntas iniciais para orientar a análise}
+\begin{tabular}{p{0.30\textwidth}p{0.27\textwidth}p{0.32\textwidth}}
+\hline
+Pergunta & Estrutura & Ponto de partida \\
+\hline
+Média versus referência & Uma medida por pessoa & t de uma amostra \\
+Duas médias & Dois grupos independentes & t independente; considerar Welch \\
+Mudança média & Duas medidas da mesma pessoa & t pareado nas diferenças \\
+Mais de duas médias & Grupos independentes & ANOVA de um fator \\
+Evolução em três ocasiões & Medidas das mesmas pessoas & ANOVA de medidas repetidas \\
+Percentual versus referência & Resposta binária & Teste binomial \\
+\hline
+\end{tabular}
+\label{tab:perguntas-testes}
+\end{table}
+
+A tabela não encerra a escolha. Por exemplo, pessoas agrupadas em escolas podem continuar dependentes mesmo que cada pessoa tenha uma única linha. Uma escala ordinal com poucas categorias também não deve ser tratada automaticamente como uma medida contínua. Nos capítulos seguintes, retomaremos o desenho para escolher modelos com fatores, covariáveis e respostas categóricas.
+
+\section{Mann--Whitney e Wilcoxon na prática}
+
+\subsection{Dois grupos independentes}
+
+Para praticar Mann--Whitney, mantenha somente Leitura e Vídeo em \texttt{exemplo\_notas.csv}, como na comparação de Welch. Abra o teste t de amostras independentes, atribua \texttt{depois} à resposta e \texttt{grupo} ao agrupamento e selecione a opção \textbf{Mann--Whitney U}. Acrescente as descritivas por grupo e examine a distribuição dos valores \parencite{JamoviTIndependente}.
+
+O procedimento usa a ordenação conjunta das observações. Valores iguais recebem postos médios. Sob a hipótese nula usual de distribuições iguais, os rótulos dos grupos são intercambiáveis entre observações independentes; a interpretação como deslocamento de localização pede condições adicionais. Se as formas e dispersões forem diferentes, um resultado pode refletir essas diferenças, sem uma interpretação exclusiva em termos de medianas.
+
+Na leitura da saída, registre o tamanho de cada grupo, a estatística, a alternativa e o método de cálculo do valor de $p$. As convenções para a estatística de postos variam: uma soma de postos e um $U$ podem codificar a mesma ordenação com números diferentes. A documentação do R discute essa diferença e distingue a estimativa de localização da simples subtração de medianas \parencite{RWilcoxon}.
+
+\subsection{Duas medidas pareadas}
+
+Desative o filtro e abra o teste de amostras pareadas. Forme o par \texttt{depois} menos \texttt{antes} e selecione \textbf{Wilcoxon de postos sinalizados (Wilcoxon signed-rank)} \parencite{JamoviTPareado}. O procedimento ordena as magnitudes das diferenças não nulas e considera seus sinais; ele preserva a ligação entre as duas medidas de cada pessoa.
+
+No nosso arquivo, todas as 18 diferenças são positivas. Sem diferenças nulas, os postos de 1 a 18 somam $18\times19/2=171$: toda a soma está do lado positivo. Esse cálculo ajuda a entender a estatística; não substitui a identificação da convenção e do método de inferência adotados na saída. Empates, zeros e aproximações podem afetar o cálculo. Para interpretar o procedimento como um teste de localização das diferenças, precisamos também considerar sua simetria \parencite{RWilcoxon}.
+
+Um relato deve indicar que as medidas são pareadas, apresentar uma descrição das diferenças e identificar o teste. Não escolha entre t pareado e Wilcoxon apenas pelo menor valor de $p$. Defina a pergunta e a estratégia principal e, se fizer uma análise de sensibilidade, explique sua finalidade.
+
+\section{Erros, poder e planejamento amostral}
+
+O erro do tipo I consiste em rejeitar uma hipótese nula verdadeira. O erro do tipo II consiste em deixar de rejeitá-la diante de uma alternativa específica verdadeira. Chamamos de poder a probabilidade de rejeição nessa alternativa, $1-\beta$. Não existe um único poder de um teste sem especificar o tamanho do efeito e as demais condições.
+
+Considere um estudo futuro com dois grupos independentes, alocação igual e uma diferença de interesse de 5 pontos. Se o desvio padrão comum planejado for 10 pontos, a diferença padronizada será $d=5/10=0{,}5$. Para um teste t bilateral com $\alpha=0{,}05$ e poder de 80\%, o cálculo convencional indica aproximadamente \textbf{64 pessoas por grupo}, antes de considerar perdas. A função oficial \texttt{power.t.test} do R permite reproduzir o planejamento informando diferença, desvio padrão, poder, nível e tipo de teste \parencite{RPoderT}.
+
+Esse número depende das suposições. Não o reutilize para um estudo pareado, por conglomerados ou com outro desfecho. Documente de onde vieram a diferença relevante e o desvio padrão. Quando não há boa informação prévia, compare cenários plausíveis e inclua o tratamento de perdas no planejamento. Os seis casos por grupo da nossa base foram escolhidos para facilitar a prática; não representam uma recomendação de amostra.
+
+Depois de coletar os dados, examine principalmente as estimativas e seus intervalos. Um resultado impreciso continua impreciso, mesmo que receba uma explicação baseada em ``baixo poder''. Planejar a precisão antes da coleta é mais útil do que tentar justificar a conclusão após observar o valor de $p$.
+
+\section{Múltiplas perguntas e ajustes}
+
+Se fizermos 20 testes independentes, todos com hipóteses nulas verdadeiras e nível de 5\%, a probabilidade de pelo menos uma rejeição será $1-(1-0{,}05)^{20}\approx64\%$. A conta pressupõe independência; o problema da multiplicidade, porém, também existe quando os testes são dependentes. Precisamos definir quais testes pertencem à mesma família de perguntas.
+
+Bonferroni compara cada valor de $p$ com $\alpha/m$, ou multiplica cada valor por $m$, limitando o resultado a 1. Holm ordena os valores e aplica um ajuste sequencial que controla a probabilidade de pelo menos um erro do tipo I na família. Por exemplo, para três valores brutos $0{,}010$, $0{,}030$ e $0{,}040$, os valores ajustados de Holm são $0{,}030$, $0{,}060$ e $0{,}060$ \parencite{RAjusteP}.
+
+Procedimentos voltados à taxa de falsas descobertas, como Benjamini--Hochberg, têm outro objetivo de controle e condições próprias. Eles não significam que cada resultado rejeitado tenha, individualmente, uma probabilidade de 5\% de ser falso. A documentação de \texttt{p.adjust} distingue essas famílias de procedimentos \parencite{RAjusteP}. No jamovi, use as opções de ajuste oferecidas pela análise correspondente e informe o método; não suponha que uma escolha em um painel ajustará automaticamente todos os testes da sessão.
+
+\section{Vamos praticar: perguntas e comentários}
+
+Antes de consultar os comentários, escreva uma resposta curta para cada situação.
+
+\begin{enumerate}
+  \item Uma turma faz a mesma avaliação em dois momentos. Podemos usar um teste independente porque existem duas colunas?
+  \item O teste de Welch produziu $p=0{,}227$ para Leitura versus Vídeo. Isso demonstra equivalência?
+  \item Um teste de Mann--Whitney apresentou evidência de diferença. Podemos escrever automaticamente que as medianas populacionais diferem?
+  \item Em três testes planejados, os valores de $p$ foram $0{,}010$, $0{,}030$ e $0{,}040$. Quais rejeitamos a 5\% usando Holm?
+\end{enumerate}
+
+\subsection*{Comentários das respostas}
+
+\begin{enumerate}
+  \item Não. São medidas das mesmas pessoas; precisamos preservar os pares. Para uma pergunta sobre mudança média, o t pareado trabalha com as diferenças individuais.
+  \item Não. O IC95\% da diferença, $[-15{,}037;4{,}037]$, inclui valores em ambos os sentidos. Uma pergunta de equivalência exige margens justificadas e análise própria.
+  \item Não sem condições adicionais. Precisamos examinar o desenho e a forma das distribuições e identificar a quantidade que o teste permite interpretar.
+  \item Apenas a primeira hipótese, pois os valores ajustados são $0{,}030$, $0{,}060$ e $0{,}060$. A família deve incluir os testes pertinentes, inclusive os que não tiveram resultados favoráveis.
+\end{enumerate}
