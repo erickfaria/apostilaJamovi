@@ -1,63 +1,100 @@
-# Introdução ao Jamovi
+# Apostila de jamovi em português
 
-## Sobre o Jamovi
+Uma apostila para aprender a organizar dados, escolher análises e interpretar resultados no jamovi. O material combina explicações, exemplos guiados e exercícios comentados, com escrita voltada ao estudo e referências oficiais verificáveis.
 
-O Jamovi é um software livre e de código aberto que oferece uma ampla gama de recursos estatísticos e de análise de dados. Ele foi projetado para ser intuitivo, acessível e eficiente, permitindo que usuários de diferentes níveis de experiência possam realizar análises estatísticas de forma eficaz.
+**[Ler o PDF](https://github.com/erickfaria/apostilaJamovi/blob/main/apostila_jamovi.pdf)** · **[Baixar o PDF](https://raw.githubusercontent.com/erickfaria/apostilaJamovi/main/apostila_jamovi.pdf)** · **[Versões da apostila](https://github.com/erickfaria/apostilaJamovi/tags)** · **[Histórico de alterações](CHANGELOG.md)**
 
-## Sobre a Apostila
+O jamovi é um software estatístico livre e de código aberto. Consulte o [site oficial](https://www.jamovi.org/) para instalação e acesso e a [documentação oficial](https://docs.jamovi.org/) para os recursos da versão utilizada.
 
-Esta apostila foi criada com o objetivo de fornecer um guia prático e abrangente para aqueles que desejam aprender a utilizar o Jamovi para análise estatística. Ela abrange desde conceitos básicos até técnicas mais avançadas, tudo apresentado de forma clara e concisa.
+## Conteúdo
 
-### Conteúdo
+| Capítulo | O que vamos estudar |
+| --- | --- |
+| 1. Introdução | Instalação, primeiros passos, módulos, Rj e roteiro de estudo |
+| 2. Manipulação de dados | Tipos de variáveis, organização, transformações, filtros, valores ausentes e exportação |
+| 3. Estatística descritiva | Frequências, medidas de posição e dispersão, gráficos e interpretação |
+| 4. Testes de hipóteses | Valor de p, intervalos, testes t, Mann–Whitney, Wilcoxon, planejamento amostral e multiplicidade |
+| 5. ANOVA | Um fator, contrastes, interação fatorial, medidas repetidas, desenho misto, ANCOVA, Kruskal–Wallis e Friedman |
+| 6. Regressão linear | Modelos simples e múltiplos, fatores, interações, diagnósticos e intervalos de média e predição |
+| 7. Dados categóricos | Tabelas, proporções, aderência, McNemar e regressão logística binária |
 
-A apostila está organizada em capítulos, abordando os seguintes tópicos:
+A intenção é ampliar continuamente o material em língua portuguesa. Modelos lineares mistos, regressões ordinal e multinomial, análise fatorial e confiabilidade de escalas ainda precisam de tratamento próprio.
 
-1. Introdução ao Jamovi
-2. Manipulação de Dados no Jamovi
-3. Estatística Descritiva
-4. Testes de hipóteses: testes t, Mann–Whitney, Wilcoxon, planejamento amostral e multiplicidade
-5. ANOVA: um fator, contrastes, interação fatorial, medidas repetidas, desenho misto, ANCOVA, Kruskal–Wallis e Friedman
-6. Regressão linear: modelos simples e múltiplos, fatores, interações, diagnósticos e intervalos
-7. Dados categóricos: tabelas, proporções, aderência, McNemar e regressão logística binária
+## Como acompanhar os exemplos
 
-Cada capítulo apresenta uma combinação de explicações teóricas e exemplos práticos, com a demonstração passo a passo de como realizar as análises estatísticas utilizando o Jamovi.
+1. Baixe o PDF e abra o jamovi.
+2. Escolha um dos arquivos da pasta [`dados`](dados/README.md), seguindo o capítulo.
+3. Consulte o dicionário para conferir o que cada linha representa, os tipos das variáveis e as opções da análise.
+4. Salve seu trabalho em `.omv` e escreva sua interpretação antes de consultar os comentários dos exercícios.
 
-### Exemplos e referências
+Há **oito CSVs fictícios**. Eles distinguem pessoas independentes, medidas repetidas e contagens agregadas; não representam resultados de pesquisas reais.
 
-A pasta [`dados`](dados/README.md) contém oito CSVs fictícios, o dicionário das variáveis e resultados de conferência. Os exemplos distinguem pessoas independentes, medidas repetidas e contagens agregadas. Há exercícios com comentários nos capítulos 4 a 7 e um roteiro de estudo no capítulo inicial. As bases não representam resultados de pesquisas reais.
+| Arquivo | Uso principal |
+| --- | --- |
+| [`exemplo_notas.csv`](dados/exemplo_notas.csv) | Descritivas, testes t, ANOVA de um fator e regressão linear |
+| [`exemplo_frequencias.csv`](dados/exemplo_frequencias.csv) | Associação em tabela de contingência |
+| [`exemplo_fatorial.csv`](dados/exemplo_fatorial.csv) | Dois fatores e interação |
+| [`exemplo_medidas_repetidas.csv`](dados/exemplo_medidas_repetidas.csv) | Tempo, medidas repetidas e desenho misto |
+| [`exemplo_logistica.csv`](dados/exemplo_logistica.csv) | Regressão logística binária |
+| [`exemplo_binomial.csv`](dados/exemplo_binomial.csv) | Uma proporção |
+| [`exemplo_aderencia.csv`](dados/exemplo_aderencia.csv) | Proporções de várias categorias |
+| [`exemplo_mcnemar.csv`](dados/exemplo_mcnemar.csv) | Respostas binárias pareadas |
 
-Os capítulos usam documentação oficial do jamovi e do R, o manual NIST/SEMATECH e a declaração da American Statistical Association sobre valores de p. A discussão de calibração remete à documentação oficial do scikit-learn. As referências da web incluem URLs e datas de consulta em `bibliografia.bib`; as figuras novas usam TikZ/PGFPlots e são identificadas como elaboração própria. As capturas anteriores foram preservadas como ilustrações, com indicação de que a interface pode ter mudado.
+Os capítulos 4 a 7 incluem **16 exercícios comentados**. Os cálculos novos podem ser reproduzidos com Python 3, NumPy e SciPy:
 
-O script [`scripts/conferir_exemplos.py`](scripts/conferir_exemplos.py), com NumPy e SciPy, recalcula os novos exemplos diretamente dos CSVs, incluindo coeficientes, intervalos e estatísticas de teste. Ele não depende de uma compilação do PDF. Veja o dicionário para o comando e as opções que definem cada resultado.
+```bash
+python scripts/conferir_exemplos.py
+```
 
-A expansão atual desenvolve os capítulos de inferência e modelos. Modelos lineares mistos, regressões ordinal e multinomial, análise fatorial e confiabilidade de escalas ainda precisam de tratamento próprio; as menções a esses caminhos não equivalem a capítulos completos sobre eles.
+O script lê os CSVs e exibe os resultados, sem modificar os dados nem acessar a rede. O [dicionário](dados/README.md) registra as opções e os valores esperados.
 
-### Balaio Científico
+## Referências e materiais complementares
 
-A [página atual da apostila](https://www.balaiocientifico.com/2022/11/apostila-de-jamovi.html) reúne o acesso à edição web e aos materiais complementares. A [página sobre o Balaio](https://www.balaiocientifico.com/p/sobre-o-balaio-cientifico.html) substitui o endereço antigo de autor nos links da apostila. O PDF e a edição web podem ser revisados em momentos diferentes; confira a data de cada edição.
+As referências estão em [`bibliografia.bib`](bibliografia.bib), com URLs e datas de consulta para fontes da web. O texto utiliza documentação oficial do jamovi e do R, o manual NIST/SEMATECH e a declaração da American Statistical Association sobre valores de p. A discussão de calibração remete à documentação oficial do scikit-learn.
 
-### Como Utilizar
+As figuras explicativas novas são de elaboração própria em TikZ/PGFPlots. As capturas anteriores foram preservadas com indicação de que a interface pode ter mudado.
 
-- Faça o download do repositório ou clone-o em sua máquina local.
-- Caso prefira, você também pode fazer o download da apostila completa em formato PDF para estudar offline.
-- Você também pode acessar a [versão atualizada da apostila no GitHub](https://github.com/erickfaria/apostilaJamovi/blob/main/apostila_jamovi.pdf).
+- [Página da apostila no Balaio Científico](https://www.balaiocientifico.com/2022/11/apostila-de-jamovi.html).
+- [Sobre o Balaio Científico](https://www.balaiocientifico.com/p/sobre-o-balaio-cientifico.html).
+- [Videoaulas no YouTube](https://www.youtube.com/@BalaioCientifico).
 
-### Contribuições
+A edição web e o PDF podem receber revisões em momentos diferentes. Confira a data de atualização de cada material.
 
-Este repositório está aberto a contribuições. Se você encontrar erros, tiver sugestões de melhoria ou desejar adicionar mais conteúdo relevante, sinta-se à vontade para enviar uma solicitação de pull. Seu feedback é valioso e ajudará a aprimorar ainda mais esta apostila.
+## Versões da apostila
 
-### Compilação e atualização automática do PDF
+O arquivo [`VERSION`](VERSION) identifica a edição em preparação; [`CHANGELOG.md`](CHANGELOG.md) registra suas alterações. As tags são anotadas e seguem `vMAIOR.MENOR.CORREÇÃO`:
 
-As alterações na apostila devem ser feitas em uma branch e enviadas por pull request para `main`. O GitHub Actions compila `apostila_jamovi.tex` com pdfLaTeX e Biber, usando TeX Live 2026, para verificar os fontes antes da integração. O PDF de cada compilação fica disponível como artefato `apostila-jamovi` na execução do workflow por sete dias.
+- **MAIOR:** reorganizações amplas da estrutura e do percurso de estudo.
+- **MENOR:** novos temas ou ampliações de conteúdo.
+- **CORREÇÃO:** ajustes de texto, cálculos, referências ou links.
 
-Ao integrar as alterações à `main`, o workflow compila novamente e faz um commit automático apenas de `apostila_jamovi.pdf`, na raiz do repositório. Assim, o PDF continua no mesmo caminho e os links que apontam para esse arquivo na `main` continuam válidos:
+A `v1.0.0` identifica a revisão anterior já compilada. A `v1.1.0` identifica a ampliação dos capítulos finais e será marcada automaticamente quando seu PDF for publicado pelo Actions.
 
-- [Visualizar o PDF no GitHub](https://github.com/erickfaria/apostilaJamovi/blob/main/apostila_jamovi.pdf)
-- [Baixar o PDF diretamente](https://raw.githubusercontent.com/erickfaria/apostilaJamovi/main/apostila_jamovi.pdf)
+Para consultar uma edição fixa, abra a [lista de tags](https://github.com/erickfaria/apostilaJamovi/tags), selecione a versão e acesse `apostila_jamovi.pdf`. Cada tag inclui os fontes e o PDF daquela edição. A versão da `main` continua sendo atualizada no mesmo endereço público.
 
-Também é possível recompilar manualmente em **Actions → Compilar apostila → Run workflow**, selecionando `main`. Alterações apenas em arquivos Markdown ou no próprio PDF não disparam a compilação automática. Se a compilação falhar, o PDF publicado anteriormente permanece disponível. Execuções de pull requests ou de outras branches nunca publicam na `main`.
+## Como contribuir
 
-O workflow usa o `GITHUB_TOKEN` do próprio repositório, sem necessidade de cadastrar tokens adicionais. A etapa de publicação precisa de permissão de escrita em `contents`; se futuramente forem criadas regras de proteção para `main`, elas precisarão permitir o commit automático do PDF.
+Correções, sugestões e novos exemplos são bem-vindos. Abra uma issue ou um pull request e indique o capítulo, a pergunta e as fontes usadas.
 
+O fluxo de trabalho é:
 
+1. Atualizar a `main` e criar uma branch com nome descritivo, como `conteudo/novo-tema` ou `docs/corrigir-referencia`.
+2. Fazer commits pequenos e manter o tom didático e colaborativo. Preservar o template e citar fontes oficiais quando cabível.
+3. Conferir os exemplos, atualizar o README quando o conteúdo mudar e registrar a edição em `VERSION` e `CHANGELOG.md` quando houver uma nova versão.
+4. Abrir um PR para `main`. Depois da integração, sincronizar a cópia local e apagar as branches incorporadas.
 
+## Compilação e publicação automática
+
+O [workflow da apostila](.github/workflows/compilar-apostila.yml) usa pdfLaTeX e Biber com TeX Live 2026. Ele compila os fontes em PRs para `main` e disponibiliza o PDF como artefato `apostila-jamovi` por sete dias.
+
+Após a integração à `main`, o Actions compila novamente e atualiza apenas `apostila_jamovi.pdf` na raiz. Se a versão de `VERSION` ainda não tiver tag, publica uma tag anotada **no commit que contém o PDF compilado**. Tags existentes são preservadas; novas edições devem receber novos números.
+
+Assim, os links de leitura e download continuam os mesmos. Se a compilação falhar, o PDF anteriormente publicado permanece disponível e a nova tag não é criada. PRs e branches de trabalho não publicam na `main`.
+
+Os testes de publicação usam repositórios Git temporários e podem ser executados sem rede com `python3 -m unittest discover -s tests -v`.
+
+Também é possível recompilar em **Actions → Compilar apostila → Run workflow**, selecionando `main`. Alterações apenas em Markdown ou no próprio PDF não disparam compilação automática; alterar `VERSION` dispara. O workflow usa o `GITHUB_TOKEN` do repositório.
+
+## Autoria e licença
+
+Material de **Erick Faria**, do Balaio Científico, sob a licença [Creative Commons Atribuição 4.0 Internacional — CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.pt_BR). Ao compartilhar ou adaptar, atribua a autoria e indique as modificações.
