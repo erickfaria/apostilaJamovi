@@ -1,11 +1,97 @@
 \chapter{Regressão Linear}
+\label{cap:regressao}
 
-A regressão linear é uma técnica estatística que estuda e modela a relação entre uma variável dependente (ou resposta) e uma ou mais variáveis independentes (ou preditoras). É amplamente utilizada para prever ou estimar o valor de uma variável dependente com base nos valores conhecidos ou observados das variáveis independentes \parencite{Bussab2017}.
+A regressão linear estuda a relação entre uma resposta contínua e uma ou mais variáveis explicativas. Na regressão simples, usamos um preditor; na múltipla, usamos vários. Vamos começar pela relação entre horas de estudo e nota posterior no arquivo fictício \texttt{exemplo\_notas.csv}.
 
-Na regressão linear, a relação entre as variáveis é representada por uma equação linear, que é uma linha reta no caso de uma regressão linear simples com uma variável independente, ou um hiperplano em regressões lineares múltiplas com mais de uma variável independente. A equação linear estima a relação entre as variáveis, permitindo fazer previsões ou inferências sobre o comportamento da variável dependente em função das variáveis independentes.
+A pergunta desta seção é: como a nota média se relaciona com as horas de estudo \textbf{no modelo ajustado}? Ela não é equivalente a perguntar quanto a nota de uma pessoa aumentaria se ela fosse obrigada a estudar uma hora a mais. A segunda pergunta envolve uma interpretação causal que a reta, isoladamente, não fornece.
 
-O objetivo da regressão linear é encontrar os coeficientes da equação linear que melhor se ajustem aos dados. Isso é feito por meio de técnicas de otimização que minimizam a diferença entre os valores previstos pela equação linear e os valores observados dos dados. O coeficiente de inclinação (ou declive) da linha ou hiperplano indica a taxa de mudança da variável dependente para cada unidade de mudança nas variáveis independentes, enquanto o coeficiente de interceptação representa o valor estimado da variável dependente quando todas as variáveis independentes são iguais a zero.
+\section{Correlação e regressão}
 
-A regressão linear é usada em uma ampla gama de aplicações, desde previsão de vendas e análise de mercado até estudos científicos e análise de dados em ciências sociais. Ela permite examinar e quantificar as relações entre variáveis, identificar tendências e padrões nos dados, e fornecer insights úteis para tomadas de decisão e planejamento.
+A correlação de Pearson resume a direção e a intensidade da associação linear entre duas variáveis. Ela é simétrica: trocar a ordem das variáveis não muda o coeficiente. Já a regressão distingue uma resposta de seus preditores e expressa uma relação nas unidades dessas variáveis.
 
-É importante ressaltar que a regressão linear pressupõe uma relação linear entre as variáveis, e sua eficácia depende da validade dessas suposições. Além disso, existem outras variantes da regressão linear, como regressão linear múltipla, regressão linear ponderada e regressão linear não linear, que permitem lidar com casos mais complexos e não lineares.
+O jamovi oferece Pearson, Spearman e Kendall na \textbf{Matriz de correlação (Correlation Matrix)}, no grupo de análises de \textbf{Regressão}. Solicite o número de casos e intervalos quando forem pertinentes \parencite{JamoviCorrelacao}. Spearman trabalha com postos e pode descrever associações monotônicas; não é simplesmente um botão que resolve qualquer dificuldade de distribuição ou de desenho.
+
+Uma correlação de Pearson próxima de zero não exclui toda relação possível: duas variáveis podem ter uma associação curva e correlação linear pequena. Por isso, examine um gráfico de dispersão antes de resumir a relação em um único coeficiente.
+
+\section{O modelo de uma reta}
+
+Escrevemos o modelo simples como:
+\[
+Y_i=\beta_0+\beta_1X_i+\varepsilon_i.
+\]
+Aqui, $Y_i$ é a nota da pessoa $i$, $X_i$ é o número de horas de estudo, $\beta_0$ é o intercepto e $\beta_1$ é a inclinação. O termo $\varepsilon_i$ representa a parte da resposta não descrita pela média condicional modelada.
+
+Depois do ajuste, usamos coeficientes estimados e obtemos uma previsão da média, $\widehat{Y}_i=\widehat{\beta}_0+\widehat{\beta}_1X_i$. O resíduo é a diferença entre o observado e o ajustado: $e_i=Y_i-\widehat{Y}_i$. O método dos mínimos quadrados escolhe os coeficientes que minimizam a soma dos quadrados desses resíduos \parencite{NISTRegressao}.
+
+\section{Ajustando a regressão no jamovi}
+
+\begin{enumerate}
+  \item Abra \texttt{exemplo\_notas.csv} e desative os filtros. Confira que as colunas \texttt{horas} e \texttt{depois} estão como contínuas.
+  \item Acesse \textbf{Análises $\rightarrow$ Regressão $\rightarrow$ Regressão linear (Linear Regression)}.
+  \item Atribua \texttt{depois} à \textbf{Variável dependente (Dependent Variable)} e \texttt{horas} às \textbf{Covariáveis (Covariates)}. Mantenha o intercepto no modelo.
+  \item Solicite o intervalo de confiança dos coeficientes e examine as medidas de ajuste. Nos diagnósticos, peça o gráfico Q-Q dos resíduos e os gráficos de resíduos.
+\end{enumerate}
+
+As opções de coeficientes, ajuste, resíduos e medidas de influência são documentadas pelo projeto jamovi \parencite{JamoviRegressao}. Os nomes de algumas opções podem aparecer em inglês mesmo quando outros menus estão traduzidos.
+
+\subsection{Conferindo a equação e as unidades}
+
+O ajuste aos 18 casos fictícios resulta aproximadamente em:
+\[
+\widehat{\text{nota posterior}}=49{,}764+5{,}221\times\text{horas}.
+\]
+No modelo simples, uma hora adicional está associada a um aumento de aproximadamente $5{,}22$ pontos na nota média ajustada. O coeficiente tem unidade de pontos por hora. Para três horas, a previsão da média é aproximadamente $65{,}43$ pontos.
+
+O intercepto é a previsão quando \texttt{horas} vale zero. Como o banco contém apenas valores de uma a cinco horas, sua interpretação prática em zero exige extrapolação. Não confunda a existência de um intercepto na equação com evidência observada sobre pessoas que estudaram zero horas.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.88\textwidth,height=6cm,
+  xlabel={Horas de estudo},ylabel={Nota posterior (pontos)},
+  xmin=0.7,xmax=5.3,ymin=45,ymax=86,
+  xtick={1,2,3,4,5},grid=major,
+  legend style={at={(0.03,0.97)},anchor=north west,font=\small}
+]
+  \addplot[only marks,mark=*,blue] coordinates {
+    (1,50) (2,56) (2,55) (3,61) (4,63) (5,70)
+    (1,54) (2,60) (2,62) (3,66) (4,70) (5,76)
+    (1,58) (2,64) (2,67) (3,73) (4,75) (5,82)
+  };
+  \addlegendentry{Dados fictícios}
+  \addplot[red,thick,domain=1:5,samples=2] {49.76410256+5.22051282*x};
+  \addlegendentry{Reta ajustada}
+\end{axis}
+\end{tikzpicture}
+\caption{Regressão simples de nota posterior em horas de estudo. Pontos e reta calculados a partir do CSV da apostila; elaboração própria.}
+\label{fig:regressao-notas}
+\end{figure}
+
+\subsection{O que o R quadrado informa}
+
+Para esse ajuste com intercepto, $R^2\approx0{,}705$. Isso significa que a reta descreve cerca de 70,5\% da soma de quadrados da variação observada das notas em torno da média amostral. Não significa que ela acerte 70,5\% das pessoas nem que as horas tenham causado essa fração das notas.
+
+Ao acrescentar preditores, o $R^2$ do ajuste por mínimos quadrados não diminui, mesmo quando a nova variável acrescenta pouco conhecimento. Por isso, examine também a pergunta, a incerteza dos coeficientes, o número de parâmetros, o $R^2$ ajustado e os diagnósticos. Um modelo mais complexo não é automaticamente mais útil.
+
+\section{Resíduos, pressupostos e limites}
+
+Nos gráficos de resíduos, procure padrões que contrariem o modelo: uma curva pode sugerir forma funcional inadequada; um formato de funil pode indicar variância que muda ao longo dos valores ajustados. O gráfico Q-Q ajuda a examinar a aproximação normal dos erros usada na inferência usual. Essa suposição não exige que o próprio preditor \texttt{horas} tenha distribuição normal.
+
+A independência dos erros também precisa ser justificada pelo desenho. Notas repetidas da mesma pessoa, pessoas da mesma turma ou medições ao longo do tempo podem exigir uma estrutura que a regressão simples não contempla. As ferramentas de diagnóstico não substituem esse conhecimento sobre a coleta.
+
+Observe possíveis casos influentes e confira os registros originais. Um ponto pode ser extremo em uma variável e não ter grande influência sobre a reta, ou pode mudar bastante o ajuste. Não exclua casos apenas para aumentar $R^2$ ou diminuir o valor de $p$.
+
+\subsection{Adicionando uma variável explicativa}
+
+Uma continuação possível é incluir \texttt{antes} junto com \texttt{horas}. Nesse modelo, a inclinação das horas descreve a associação com a nota posterior \textbf{condicionalmente à nota anterior incluída no modelo}. Se você incluir \texttt{grupo}, atribua-o a \textbf{Fatores (Factors)}, pois suas categorias não são quantidades contínuas.
+
+Com apenas 18 casos, acrescentar muitos termos torna a estimação instável. A existência de vários coeficientes não produz, por si só, controle adequado de todas as diferenças entre pessoas. Também não transforma o exemplo fictício em um desenho capaz de demonstrar causalidade.
+
+\section{Como relatar a regressão}
+
+Um relato inicial possível é: ``Nos dados fictícios, uma regressão linear simples com intercepto relacionou nota posterior a horas de estudo. A inclinação estimada foi de $5{,}22$ pontos por hora e o intercepto foi $49{,}76$ pontos; o ajuste apresentou $R^2=0{,}705$.'' Em um relatório completo, acrescente o intervalo dos coeficientes, o número de observações, os diagnósticos e os limites de generalização.
+
+\begin{tcolorbox}[colback=white,colframe=green,title={Dica de Conteúdo}]
+A reta estima uma média condicional. Uma previsão para uma pessoa tem incerteza adicional em relação à estimativa dessa média. Evite extrapolar para horas muito além do intervalo observado e não interprete associação como efeito de uma intervenção sem justificar o desenho do estudo.
+\end{tcolorbox}

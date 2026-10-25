@@ -17,11 +17,11 @@ Deixe-me contar algo importante antes de começarmos a falar sobre análises est
 
 Quando eu comecei a trabalhar com análise de dados, confesso que subestimava essa etapa. Achava que era apenas uma questão de abrir a planilha e começar a analisar. Mas rapidamente aprendi que dados do mundo real raramente vêm organizados e prontos para uso. Eles chegam com erros de digitação, valores faltantes, formatos inconsistentes e tantos outros problemas que, se não tratados adequadamente, podem comprometer toda a análise posterior.
 
-A manipulação de dados é como preparar o terreno antes de construir uma casa. Sem uma base sólida, todo o resto fica comprometido. Ela envolve desde a limpeza básica (corrigir erros, eliminar duplicatas), passando pela transformação de variáveis (converter formatos, criar novas variáveis a partir das existentes), até filtragem, agregação e reestruturação dos dados. Parece trabalhoso? Sim, pode ser. Mas acredite, este investimento inicial economiza horas de frustração mais tarde.
+A preparação dos dados começa pela conferência dos registros e de seu significado. Ela envolve desde a limpeza básica (corrigir erros, eliminar duplicatas), passando pela transformação de variáveis (converter formatos, criar novas variáveis a partir das existentes), até filtragem, agregação e reestruturação dos dados. Parece trabalhoso? Sim, pode ser. Mas acredite, este investimento inicial economiza horas de frustração mais tarde.
 
 O Jamovi, felizmente, nos ajuda bastante nessa jornada. Ele oferece várias ferramentas que facilitam a manipulação básica e intermediária dos dados. Você pode criar e transformar variáveis, recodificar valores, filtrar observações, tratar dados ausentes e muito mais, tudo através de uma interface amigável que não exige conhecimentos avançados de programação.
 
-No entanto, é importante que você saiba que, como qualquer software, o Jamovi tem suas limitações. Quando trabalhamos com conjuntos de dados muito grandes ou precisamos fazer operações de reestruturação complexas, podemos enfrentar alguns desafios. O software pode ficar lento ao processar milhares de observações, e algumas técnicas avançadas de limpeza de dados não estão disponíveis nativamente.
+No entanto, é importante que você saiba que, como qualquer software, o Jamovi tem suas limitações. Quando trabalhamos com conjuntos de dados muito grandes ou precisamos fazer operações de reestruturação complexas, podemos enfrentar alguns desafios. O desempenho depende do volume de dados, das análises e dos recursos do computador. Operações mais complexas de reestruturação podem exigir ferramentas complementares.
 
 Por isso, em muitos dos meus projetos, acabo utilizando uma abordagem híbrida. Uso o Excel ou Google Sheets para algumas limpezas iniciais e organização básica, principalmente quando preciso fazer verificações visuais rápidas ou ajustes em massa. Para manipulações mais complexas, recorro ocasionalmente ao R ou Python, especialmente em projetos maiores. Só então importo os dados para o Jamovi para a análise estatística final.
 
@@ -29,7 +29,7 @@ Não se preocupe se você não tem experiência com essas outras ferramentas. O 
 
 O mais importante é entender que a manipulação de dados não é apenas uma etapa técnica, mas uma parte fundamental do processo analítico que influencia diretamente a qualidade dos seus resultados. Quanto mais limpos e bem organizados estiverem seus dados, mais confiáveis serão suas análises e conclusões.
 
-Nas próximas páginas, vamos explorar juntos como realizar essas tarefas no Jamovi, com exemplos práticos e orientações passo a passo. Meu objetivo é que, ao final deste capítulo, você se sinta confiante para transformar aqueles dados brutos e desorganizados em um conjunto pronto para revelar seus segredos através da análise estatística.
+Nas próximas páginas, vamos explorar juntos como realizar essas tarefas no Jamovi, com exemplos práticos e orientações passo a passo. Meu objetivo é que, ao final deste capítulo, você se sinta confiante para organizar os dados e documentar as decisões necessárias para uma análise reproduzível.
 
 \section{Interface do Jamovi}
 
@@ -118,6 +118,10 @@ O processo de importação de dados no Jamovi é bastante simples e direto:
     \label{fig:importar_dados_jamovi_1}
 \end{figure}
 
+\subsection{Abrir e importar não são a mesma operação}
+
+Neste tutorial, usamos \textbf{Abrir} para começar um trabalho com um arquivo. A opção \textbf{Importar}, quando usada sobre um projeto já configurado, atualiza os dados e reaplica as configurações e análises existentes. A documentação informa que essa operação substitui as linhas e relaciona as colunas pelos nomes. Trabalhe em uma cópia se precisar preservar a versão anterior e confira as correspondências antes de interpretar a atualização \parencite{JamoviAtualizarDados}.
+
 \subsection{Biblioteca de dados integrada}
 
 O Jamovi inclui uma biblioteca de conjuntos de dados pré-carregados que podem ser úteis para prática e ensino:
@@ -172,7 +176,7 @@ No entanto, é importante ressaltar que para conjuntos de dados grandes ou compl
 O processo para adicionar uma nova variável no Jamovi é bastante simples:
 
 \begin{enumerate}
-    \item Clique no menu \textbf{Variáveis} na barra superior.
+    \item Na aba \textbf{Dados (Data)}, acesse as ferramentas de variáveis.
     \item Selecione a opção \textbf{Adicionar}.
     \item Na janela que aparece, selecione \textbf{Acrescentar} para adicionar uma nova coluna ao final da tabela.
     \item Uma nova variável será adicionada com um nome padrão (geralmente "var").
@@ -277,9 +281,9 @@ Antes de analisarmos dados, é essencial compreender que diferentes variáveis r
 
 Configurar incorretamente o tipo de medida pode levar a análises inadequadas e conclusões equivocadas. Por isso, dedicamos esta seção especial para compreender a fundo este conceito.
 
-\subsection{Os três principais tipos de medida no Jamovi}
+\subsection{Tipos de medida e identificadores}
 
-O Jamovi trabalha com três tipos fundamentais de medidas:
+Para as análises desta apostila, vamos distinguir nominal, ordinal e contínua. O jamovi também oferece o tipo \textbf{ID}, destinado a identificadores. Tipo de medida não é a mesma coisa que tipo de armazenamento: uma coluna de números inteiros pode conter categorias ou identificadores \parencite{JamoviPlanilha}.
 
 \begin{enumerate}
     \item \textbf{Nominal}
@@ -307,7 +311,7 @@ Vamos explorar cada um deles em detalhes:
         \item Sobrevivência ao naufrágio (sim/não)
     \end{itemize}
     \item \textbf{Operações permitidas}: Contagem de frequências, verificação de igualdade ($=$, $\neq$)
-    \item \textbf{No Jamovi}: Identificadas pelo símbolo \faList\ quando são textuais
+    \item \textbf{No Jamovi}: Configure o tipo de medida como nominal, mesmo que as categorias estejam codificadas por números.
 \end{itemize}
 
 \subsection{Variáveis Ordinais}
@@ -339,7 +343,7 @@ Vamos explorar cada um deles em detalhes:
         \item Permitem operações aritméticas entre seus valores
         \item Possuem unidades de medida bem definidas
         \item As distâncias entre valores são uniformes e significativas
-        \item Relações de proporção são válidas (40 é o dobro de 20)
+        \item Podem representar escalas de intervalo ou de razão. Proporções só têm interpretação direta quando a escala possui zero significativo; 40 graus Celsius não é o dobro da temperatura de 20 graus Celsius.
     \end{itemize}
     \item \textbf{Exemplos}:
     \begin{itemize}
@@ -357,7 +361,7 @@ Para verificar e alterar o tipo de medida de uma variável no Jamovi:
 
 \begin{enumerate}
     \item Clique duas vezes no cabeçalho da variável que deseja configurar, ou:
-    \item Acesse o menu \textbf{Variáveis} e clique na variável desejada
+    \item Na aba \textbf{Dados}, selecione a variável e abra \textbf{Configurar (Setup)}
     \item Na janela que se abre, você verá opções para definir o tipo de medida (nominal, ordinal ou contínua)
     \item Selecione a opção apropriada para aquela variável
     \item Confirme a alteração clicando fora da área de edição
@@ -377,14 +381,14 @@ Para determinar qual o tipo de medida apropriado para cada variável, faça as s
 \begin{enumerate}
     \item A variável representa apenas categorias distintas sem ordem natural? \textbf{Se sim, é nominal}.
     \item A variável representa categorias com uma ordem natural, mas sem relação matemática definida entre elas? \textbf{Se sim, é ordinal}.
-    \item A variável representa valores numéricos onde operações matemáticas fazem sentido e proporções são válidas? \textbf{Se sim, é contínua}.
+    \item A variável é quantitativa e será tratada em uma escala numérica de intervalo ou de razão? \textbf{Nesse caso, use contínua no jamovi}. A natureza discreta ou contínua da variável continua sendo uma distinção estatística relevante.
 \end{enumerate}
 
 \subsection{Erros comuns na configuração de tipos de medida}
 
 \begin{itemize}
-    \item \textbf{Tratar IDs como contínuas}: Números de identificação, mesmo sendo numéricos, devem ser tratados como nominais, pois não têm significado quantitativo.
-    \item \textbf{Confundir contagem com ordinal}: Contagens (como número de filhos) são variáveis contínuas, não ordinais, pois permitem operações aritméticas.
+    \item \textbf{Tratar IDs como contínuas}: Números de identificação, mesmo sendo numéricos, não são medidas quantitativas. Use o tipo ID quando sua função for apenas identificar registros.
+    \item \textbf{Confundir contagem com ordinal}: Contagens, como número de filhos, são quantitativas discretas. No jamovi, podem ser configuradas como contínuas para as análises numéricas pertinentes; isso não as torna variáveis contínuas em sentido estatístico.
     \item \textbf{Ignorar a ordem em variáveis ordinais}: Classificar como nominal uma variável que possui ordem natural (ex: nível de educação).
     \item \textbf{Interpretar códigos numéricos literalmente}: Um código numérico (ex: 1=masculino, 2=feminino) não torna uma variável contínua ou ordinal se os números são apenas rótulos.
 \end{itemize}
@@ -412,7 +416,7 @@ Para ilustrar como isso é feito, usaremos o Dataset de População - IBGE como 
 
 Neste tutorial, iremos focar em como usar esse dataset para criar categorias populacionais que representam cidades grandes, médias e pequenas. Este é um exemplo comum de como os dados populacionais são categorizados para análises demográficas, urbanísticas ou sociais.
 
-Para começar, precisamos definir quais são os critérios para uma cidade ser considerada grande, média ou pequena. Essa definição pode variar dependendo do contexto, mas para os fins deste tutorial, iremos definir as categorias da seguinte forma: cidades pequenas são aquelas com população inferior a 20.000 habitantes, cidades médias possuem entre 20.000 e 100.000 habitantes, e cidades grandes são aquelas com mais de 100.000 habitantes.\footnote{Por favor, note que essa classificação é puramente ilustrativa e serve apenas para o propósito deste tutorial. Essa divisão de categorias não possui uma base científica rigorosa e pode variar consideravelmente dependendo do contexto específico. É importante ressaltar que, em sua própria análise, você está livre para definir suas próprias categorias com base nos critérios que considerar mais relevantes para o seu estudo.}
+Para começar, precisamos definir quais são os critérios para uma cidade ser considerada grande, média ou pequena. Essa definição pode variar dependendo do contexto, mas para os fins deste tutorial, iremos definir as categorias da seguinte forma: cidades pequenas são aquelas com população de até 20.000 habitantes, cidades médias possuem mais de 20.000 e até 100.000 habitantes, e cidades grandes são aquelas com mais de 100.000 habitantes.\footnote{Por favor, note que essa classificação é puramente ilustrativa e serve apenas para o propósito deste tutorial. Essa divisão de categorias não possui uma base científica rigorosa e pode variar consideravelmente dependendo do contexto específico. É importante ressaltar que, em sua própria análise, você está livre para definir suas próprias categorias com base nos critérios que considerar mais relevantes para o seu estudo.}
 
 Após a importação dos dados, o primeiro passo para criar categorias no Jamovi é utilizar a opção "Transformar Variáveis". Existem duas maneiras de acessar essa funcionalidade.
 
@@ -472,9 +476,9 @@ Finalmente, o passo 3 é onde você seleciona a opção "Adicionar condição de
 
 Chegamos agora à fase em que iremos definir as condições para a criação da nossa variável categórica no Jamovi. Para fazer isso, precisaremos escrever expressões lógicas, um recurso muito comum em programação. 
 
-Como dito anteriormente, o Jamovi foi construído com base na linguagem R, o que significa que muitos dos recursos de sintaxe do R são aplicáveis ao Jamovi. Portanto, uma compreensão básica da linguagem R pode ser muito útil ao usar o Jamovi.
+As regras são avaliadas pelo editor de transformações do próprio jamovi. Não é necessário escrever um programa em R para realizar essa recodificação: selecione as condições e os resultados desejados no painel.
 
-Se você se sentir um pouco perdido(a) nesse ponto, não se preocupe! Para aqueles que desejam se aprofundar mais no uso da linguagem R e, por consequência, melhorar suas habilidades no Jamovi, recomendo o meu livro de \href{https://www.amazon.com.br/Fundamentos-Completo-Iniciantes-programa%C3%A7%C3%A3o-computa%C3%A7%C3%A3o-ebook/dp/B0B36NG18N}{Fundamentos em R: Guia Completo para Iniciantes}. Nele, eu exploro em detalhes como utilizar o R, o que pode ser de grande ajuda para aprimorar seu domínio do Jamovi.
+Se precisar de ajuda para escrever uma expressão, consulte as funções disponíveis no editor e a documentação oficial. Mantenha uma descrição da regra e confira casos próximos aos limites de cada categoria \parencite{JamoviFuncoes}.
 
 Veja na Figura~\ref{fig:criar_categoria_jamovi_5}, o local em que você deve selecionar as condições para criarmos as categorias de cidades: pequenas, médias e grandes. Clique na seção de operadores e selecione ou escreva conforme eu escrevi na tabela \ref{fig:criar_categoria_jamovi_6}
 
@@ -500,7 +504,7 @@ Um recurso interessante do Jamovi é que, enquanto você configura as transforma
     \label{fig:criar_categoria_jamovi_6}
 \end{figure}
 
-Em nosso exemplo, nós escrevemos os nomes ``Pequena'', ``Média'' e ``Grande'' diretamente entre aspas, pois, relembrando, o Jamovi possui muitos componentes herdados da linguagem R. A linguagem R, assim como muitas outras linguagens de programação, usa aspas para designar textos. Portanto, sempre que quisermos definir uma categoria com um nome de texto, devemos colocar esse nome entre aspas.
+No editor de fórmulas, textos como ``Pequena'', ``Média'' e ``Grande'' devem estar entre aspas. Valores numéricos usados nos limites são escritos sem aspas. Confira também se as observações com população ausente permanecem ausentes na variável recodificada; não as classifique automaticamente como cidades grandes.
 
 Se você quiser criar categorias com códigos numéricos, as etapas são as mesmas, mas você deve utilizar números sem aspas. Por exemplo, poderíamos codificar ``Pequena'' como 1, ``Média'' como 2 e ``Grande'' como 3. Nesse caso, ao invés de escrever ``Pequena'', ``Média'' e ``Grande'' nas condições, escreveríamos os números correspondentes.
 
@@ -532,7 +536,7 @@ O processo de inserção de descrições no Jamovi é bastante simples e intuiti
 
 \begin{enumerate}
     \item Abra o conjunto de dados no Jamovi.
-    \item Clique no menu \textbf{Variáveis} na barra superior.
+    \item Na aba \textbf{Dados (Data)}, acesse as ferramentas de variáveis.
     \item Para cada variável na lista que aparece, você verá um campo de descrição à direita do nome da variável.
     \item Clique neste campo e digite a descrição desejada.
     \item Após inserir a descrição, clique em qualquer outra área para confirmar.
@@ -620,8 +624,8 @@ A grande vantagem dos filtros, em comparação com a exclusão permanente de dad
 Para criar um filtro no Jamovi:
 
 \begin{enumerate}
-    \item Clique no menu \textbf{Variáveis} na barra superior
-    \item Selecione a opção \textbf{Filtros}
+    \item Na aba \textbf{Dados (Data)}, acesse as ferramentas de variáveis
+    \item Selecione a opção \textbf{Filtros (Filters)} na aba Dados
     \item O Jamovi criará uma coluna especial de filtro na sua planilha de dados
     \item Adicione uma descrição para o filtro, explicando seu propósito (ex: "Sobreviventes do Titanic")
     \item Na caixa de expressão, clique no botão de função (f(x)) e selecione a variável que deseja usar como critério
@@ -637,7 +641,7 @@ Para criar um filtro no Jamovi:
 
 \subsection{Sintaxe para expressões de filtro}
 
-As expressões de filtro no Jamovi utilizam a sintaxe da linguagem R. Aqui estão algumas operações comuns:
+Os filtros usam o editor de fórmulas do próprio jamovi; ele não executa código R arbitrário. Confira os nomes de funções e os operadores na documentação e no seletor de funções \parencite{JamoviFuncoes}. Aqui estão algumas operações comuns:
 
 \begin{itemize}
     \item \textbf{Igualdade}: Use o operador \texttt{==} (dois sinais de igual). Ex: \texttt{survived == 1}
@@ -672,8 +676,8 @@ Você pode criar filtros mais complexos combinando múltiplos critérios:
 \begin{enumerate}
     \item \textbf{Usando operadores lógicos em um único filtro}:
     \begin{itemize}
-        \item \textbf{E lógico}: Use o operador \texttt{\&}. Ex: \texttt{survived == 1 \& sex == "female"}
-        \item \textbf{OU lógico}: Use o operador \texttt{|}. Ex: \texttt{age < 18 | age > 60}
+        \item \textbf{E lógico}: Use \texttt{and}. Ex: \texttt{survived == 1 and sex == 'female'}
+        \item \textbf{OU lógico}: Use \texttt{or}. Ex: \texttt{age < 18 or age > 60}
     \end{itemize}
     
     \item \textbf{Criando múltiplos filtros separados}:
@@ -684,7 +688,7 @@ Você pode criar filtros mais complexos combinando múltiplos critérios:
     \end{itemize}
 \end{enumerate}
 
-A abordagem de múltiplos filtros separados oferece maior flexibilidade, pois permite ativar e desativar cada critério independentemente.
+Vários filtros ativos restringem conjuntamente os casos analisados. Filtros separados são aplicados em cascata: cálculos como médias ou escores padronizados em um filtro posterior podem usar apenas os casos que passaram pelo anterior. Portanto, a ordem pode importar quando o critério depende de resumos do conjunto de dados \parencite{JamoviPlanilha}. Confira o número de casos após cada etapa.
 
 % \begin{figure}[H]
 %     \centering
@@ -713,7 +717,7 @@ Ao trabalhar com filtros no Jamovi, lembre-se de:
     \item \textbf{Documentar seus filtros}: Sempre adicione descrições claras aos seus filtros para lembrar seu propósito
     \item \textbf{Verificar o número de observações}: Após aplicar um filtro, verifique se o número resultante de observações corresponde ao esperado
     \item \textbf{Considerar o impacto em análises estatísticas}: Filtros muito restritivos podem reduzir excessivamente seu tamanho amostral
-    \item \textbf{Desativar filtros ao compartilhar dados}: É geralmente recomendável desativar filtros antes de compartilhar seus arquivos, a menos que haja uma razão específica para mantê-los
+    \item \textbf{Documentar o estado dos filtros}: Ao compartilhar a análise, preserve os filtros que definem a amostra e explique quais estão ativos. Desativá-los muda os resultados; para outro exercício, salve uma cópia e confira o subconjunto desejado.
     \item \textbf{Salvar versões com e sem filtros}: Para análises complexas, considere salvar diferentes versões do seu arquivo
 \end{itemize}
 
@@ -721,6 +725,29 @@ Ao trabalhar com filtros no Jamovi, lembre-se de:
   Para ver na prática como criar e utilizar filtros no Jamovi, confira meu tutorial em vídeo. Nele, demonstro como criar filtros simples e complexos, e como combinar múltiplos critérios para realizar análises mais específicas.\\
   \textcolor{red}{\faYoutube} \href{https://youtu.be/U6sFx7vQhdc?si=rpdJF2qgNyWCO11a}{Como Criar Filtros no Jamovi}
 \end{tcolorbox}
+
+\section{Variáveis calculadas e valores ausentes}
+
+\subsection{Calculando uma mudança individual}
+
+Abra \texttt{exemplo\_notas.csv}, disponível na pasta \texttt{dados} do repositório. Na aba \textbf{Dados}, escolha \textbf{Calcular (Compute)}, dê à nova variável o nome \texttt{mudanca} e use a fórmula:
+\begin{verbatim}
+depois - antes
+\end{verbatim}
+
+A fórmula é aplicada linha por linha. Para a pessoa de \texttt{id} igual a 1, o resultado é $50-45=5$ pontos. Preserve as duas colunas originais: assim, outra pessoa poderá conferir como a mudança foi calculada. Essa coluna também ajuda a examinar a distribuição das diferenças antes de um teste pareado.
+
+\subsection{Cálculos por linha e por coluna}
+
+A função \texttt{MEAN(antes, depois)} calcula uma média para cada pessoa, usando as duas medidas daquela linha. Já \texttt{VMEAN(depois)} resume a coluna de notas posteriores. O prefixo V distingue funções que operam sobre a variável das funções que trabalham linha por linha. Use o seletor de funções para conferir os argumentos, inclusive a regra para ausentes \parencite{JamoviFuncoes}.
+
+Uma média entre antes e depois não é uma medida de mudança. Para estudar o sentido e a magnitude da mudança, use a diferença explicitamente definida. Escolha a fórmula a partir da pergunta, e não apenas porque ela produz uma nova coluna.
+
+\subsection{Ausência de resposta não é zero}
+
+Uma célula vazia e uma resposta igual a zero podem ter significados diferentes. Se uma pessoa não realizou uma prova, atribuir zero a ela muda a interpretação da nota. Verifique no dicionário do banco como foram registrados não resposta, recusa e valores fora do domínio. Códigos numéricos como 999 precisam ser reconhecidos e tratados como ausentes quando esse for seu significado.
+
+Preserve o dado original e documente a regra de tratamento. Confira na saída o número de casos efetivamente usado por cada análise: um teste pareado precisa de pares completos, enquanto resumos de variáveis diferentes podem ter quantidades válidas diferentes. Não substitua automaticamente os ausentes pela média; essa operação altera a distribuição e pode distorcer a incerteza. O procedimento adequado depende do motivo da ausência e da análise planejada.
 
 \section{Organizando as variáveis}
 
@@ -752,7 +779,7 @@ O Jamovi oferece duas formas principais para editar as propriedades das variáve
 \begin{enumerate}
     \item \textbf{Através do menu Variáveis}:
     \begin{itemize}
-        \item Clique no menu \textbf{Variáveis} na barra superior.
+        \item Na aba \textbf{Dados (Data)}, acesse as ferramentas de variáveis.
         \item Localize a variável que deseja editar.
         \item Clique duas vezes sobre o nome ou descrição para modificá-los.
         \item Ajuste os tipos de medida e outras configurações conforme necessário.
@@ -787,7 +814,7 @@ Por exemplo, ao configurar uma variável de idade onde todos os valores são ano
 \begin{enumerate}
     \item Abra as propriedades da variável.
     \item Na seção "Tipo de dado", selecione "Inteiro".
-    \item Isso automaticamente removerá as casas decimais desnecessárias da exibição.
+    \item Confira os valores antes de converter: alterar o tipo de armazenamento não deve ser usado apenas para esconder casas decimais, pois pode alterar os dados.
 \end{enumerate}
 
 \subsection{Configurando casas decimais}
@@ -795,7 +822,7 @@ Por exemplo, ao configurar uma variável de idade onde todos os valores são ano
 Para variáveis que exigem casas decimais, é importante observar que:
 
 \begin{itemize}
-    \item O Jamovi, assim como a maioria dos softwares estatísticos e linguagens de programação, utiliza o \textbf{ponto} como separador decimal, seguindo o padrão internacional (ex: 10.5, não 10,5).
+    \item Nas fórmulas desta apostila, use ponto decimal, como \texttt{10.5}. Na importação de arquivos, confira o separador decimal e o delimitador das colunas: convenções locais podem variar e uma coluna numérica pode ser lida como texto.
     \item É possível configurar o número de casas decimais exibidas para cada variável.
 \end{itemize}
 
@@ -817,7 +844,7 @@ Ao organizar suas variáveis no Jamovi, considere as seguintes recomendações:
 
 \begin{itemize}
     \item \textbf{Revise seus dados após a importação}: Verifique se os tipos de dados foram detectados corretamente.
-    \item \textbf{Corrija formatos inadequados}: Por exemplo, remova casas decimais em variáveis que representam valores inteiros.
+    \item \textbf{Corrija formatos inadequados}: Confira se números, textos e códigos foram interpretados como pretendido, preservando a precisão dos registros originais.
     \item \textbf{Documente suas variáveis}: Adicione descrições claras para facilitar futuras consultas.
     \item \textbf{Mantenha consistência}: Use o mesmo padrão de nomenclatura e configuração para todas as variáveis.
     \item \textbf{Salve regularmente}: Após realizar modificações nas propriedades das variáveis, salve seu trabalho para evitar perda de configurações.
@@ -836,7 +863,7 @@ Ao trabalhar com o Jamovi, é fundamental saber como salvar seu trabalho e expor
 
 \subsection{Salvando seu projeto no Jamovi}
 
-Salvar seu projeto no Jamovi é uma etapa essencial para preservar tanto seus dados quanto suas análises. Ao contrário de outros programas estatísticos, o Jamovi salva não apenas os dados brutos, mas também todas as análises realizadas, permitindo que você retome seu trabalho exatamente de onde parou.
+O projeto do jamovi preserva os dados e as análises, permitindo retomar o trabalho. Ao terminar uma etapa, salve o projeto e confira se as alterações foram gravadas.
 
 Para salvar seu projeto no Jamovi:
 
@@ -849,52 +876,20 @@ Para salvar seu projeto no Jamovi:
 
 O arquivo será salvo com a extensão .omv, que é o formato nativo do Jamovi. Este formato preserva todas as informações do seu projeto, incluindo dados, análises e configurações.
 
-\subsection{Formatos de exportação disponíveis}
+\subsection{Separando projeto, dados e resultados}
 
-O Jamovi permite exportar seus dados em diversos formatos, cada um com propósitos específicos:
+O arquivo \texttt{.omv} preserva o projeto de análise. Um CSV é uma tabela de dados e não conserva todo o trabalho feito no jamovi. Já PDF e HTML são formatos para apresentar resultados; não substituem o banco que permite refazer a análise.
 
-\begin{itemize}
-    \item \textbf{CSV (Comma-Separated Values)}: Formato universal, ideal para compartilhamento e uso em diversos programas.
-    \item \textbf{Excel (.xlsx)}: Útil para quem precisa continuar trabalhando com os dados no Microsoft Excel.
-    \item \textbf{SPSS (.sav)}: Compatível com o software SPSS, muito usado em pesquisas acadêmicas.
-    \item \textbf{JASP (.jasp)}: Para compartilhar com usuários do JASP, outro software estatístico gratuito.
-    \item \textbf{PDF}: Para compartilhar relatórios finalizados que não precisam ser editados.
-    \item \textbf{HTML}: Para publicação na web ou visualização em navegadores.
-\end{itemize}
+Para exportar, abra o menu de arquivos e selecione \textbf{Exportar (Export)}. Escolha um formato entre os oferecidos pela versão instalada, defina o nome e o local e abra o arquivo resultante para conferir. Ao preparar um relatório em PDF ou HTML, verifique a disposição das tabelas e gráficos. Para usar uma tabela ou figura em outro documento, examine também as opções de cópia no menu de contexto do próprio resultado.
 
-\subsection{Exportando dados no Jamovi}
-
-Para exportar seus dados para outros formatos:
-
-\begin{enumerate}
-    \item Acesse o menu \textbf{Arquivo} no canto superior esquerdo.
-    \item Selecione a opção \textbf{Exportar}.
-    \item Escolha o formato desejado na lista de opções disponíveis.
-    \item Selecione o local de destino e digite um nome para o arquivo.
-    \item Clique em \textbf{Salvar} para confirmar a exportação.
-\end{enumerate}
-
-
-\subsection{Exportando resultados de análises}
-
-Além de exportar os dados brutos, o Jamovi também permite exportar os resultados das suas análises:
-
-\begin{enumerate}
-    \item Na área de resultados (lado direito da tela), clique no menu suspenso representado por três linhas horizontais.
-    \item Selecione a opção \textbf{Exportar}.
-    \item Escolha entre os formatos disponíveis: PDF, HTML ou imagem.
-    \item Defina o local e nome do arquivo e confirme a exportação.
-\end{enumerate}
-
-Esta funcionalidade é particularmente útil quando você precisa incluir tabelas estatísticas e gráficos em relatórios ou apresentações.
+Mantenha uma cópia dos dados originais, do projeto \texttt{.omv} e do relatório final. Registre quais filtros, transformações e exclusões foram utilizados. Se distribuir somente o relatório, o leitor poderá consultar os resultados, mas não terá todos os elementos necessários para reproduzi-los.
 
 \subsection{Dicas importantes para salvar e exportar}
 
 \begin{itemize}
-    \item \textbf{Salve com frequência}: O Jamovi não possui uma função de salvamento automático, então é recomendável salvar seu trabalho regularmente.
-    \item \textbf{Use nomes descritivos}: Ao nomear seus arquivos, inclua a data ou versão para facilitar o controle de diferentes versões do seu trabalho.
-    \item \textbf{Verifique a exportação}: Após exportar para outros formatos, abra o arquivo exportado para confirmar que todos os dados foram transferidos corretamente.
-    \item \textbf{Exporte em múltiplos formatos}: Se você for compartilhar seu trabalho com várias pessoas que usam diferentes softwares, exporte em mais de um formato para garantir a compatibilidade.
+    \item \textbf{Salve com frequência}: Salve o projeto e confira se ele pode ser reaberto.
+    \item \textbf{Identifique as versões}: Inclua a data ou a versão no nome do arquivo.
+    \item \textbf{Confira a exportação}: Abra o arquivo exportado e confira dados, tabelas e gráficos.
 \end{itemize}
 
 \begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]

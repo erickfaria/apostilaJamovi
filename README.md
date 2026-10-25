@@ -13,20 +13,26 @@ Esta apostila foi criada com o objetivo de fornecer um guia prático e abrangent
 A apostila está organizada em capítulos, abordando os seguintes tópicos:
 
 1. Introdução ao Jamovi
-2. Estatística Descritiva
-3. Testes de Hipóteses
-4. Análise de Variância (ANOVA)
-5. Regressão Linear
-6. Análise de Dados Categóricos
-7. Análise de Sobrevivência
+2. Manipulação de Dados no Jamovi
+3. Estatística Descritiva
+4. Testes de Hipóteses
+5. Análise de Variância (ANOVA)
+6. Regressão Linear
+7. Análise de Dados Categóricos
 
 Cada capítulo apresenta uma combinação de explicações teóricas e exemplos práticos, com a demonstração passo a passo de como realizar as análises estatísticas utilizando o Jamovi.
+
+### Exemplos e referências
+
+A pasta [`dados`](dados/README.md) contém dois CSVs fictícios, o dicionário das variáveis e os resultados esperados dos exercícios. `exemplo_notas.csv` é usado nas descritivas, testes t, ANOVA e regressão; `exemplo_frequencias.csv` contém contagens agregadas para a análise de dados categóricos. Os exemplos são de elaboração própria e não representam resultados de pesquisas reais.
+
+Os capítulos revisados usam a documentação oficial do jamovi, o manual NIST/SEMATECH e a declaração da American Statistical Association sobre valores de p. As referências da web incluem URLs e datas de consulta em `bibliografia.bib`; as figuras explicativas são feitas em TikZ/PGFPlots e identificadas como elaboração própria. As capturas anteriores foram preservadas como ilustrações, com indicação de que a interface pode ter mudado.
 
 ### Como Utilizar
 
 - Faça o download do repositório ou clone-o em sua máquina local.
 - Caso prefira, você também pode fazer o download da apostila completa em formato PDF para estudar offline.
-- Você também pode acessar a apostila online no seguinte link: [Apostila do Jamovi](https://www.balaiocientifico.com/jamovi/apostila-de-jamovi/).
+- Você também pode acessar a [versão atualizada da apostila no GitHub](https://github.com/erickfaria/apostilaJamovi/blob/main/apostila_jamovi.pdf).
 
 ### Contribuições
 

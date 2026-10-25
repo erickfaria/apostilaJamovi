@@ -1,11 +1,70 @@
 \chapter{Análise de Variância (ANOVA)}
+\label{cap:anova}
 
-A Análise de Variância (ANOVA) é uma técnica estatística utilizada para comparar as médias de três ou mais grupos independentes. Ela permite determinar se as diferenças observadas entre as médias dos grupos são estatisticamente significativas ou se podem ser atribuídas ao acaso \parencite{Triola2017}.
+A análise de variância permite investigar diferenças entre médias de grupos a partir de um modelo para a resposta. Neste capítulo, vamos começar pela ANOVA de um fator, comparando as notas posteriores de Leitura, Vídeo e Oficina. Ela pode ser aplicada com dois ou mais níveis; é especialmente útil quando a pergunta envolve mais de dois grupos, pois não exige substituir a pergunta global por vários testes t separados \parencite{NISTAnova}.
 
-A ANOVA baseia-se na decomposição da variabilidade total dos dados em duas componentes: a variabilidade entre os grupos e a variabilidade dentro dos grupos. A ideia fundamental por trás da ANOVA é que, se as médias dos grupos são iguais e as variabilidades dentro dos grupos são semelhantes, então qualquer diferença observada entre as médias pode ser atribuída ao acaso. Por outro lado, se as médias dos grupos são diferentes e/ou as variabilidades dentro dos grupos são grandes em relação à variabilidade entre os grupos, então é mais provável que as diferenças observadas sejam estatisticamente significativas.
+\section{Da pergunta ao modelo}
 
-Na ANOVA, a hipótese nula assume que não há diferenças entre as médias dos grupos, enquanto a hipótese alternativa considera que pelo menos uma das médias é diferente das demais. O teste estatístico da ANOVA utiliza a estatística F, que compara a variabilidade entre os grupos com a variabilidade dentro dos grupos. Se a estatística F é grande o suficiente para rejeitar a hipótese nula, isso indica que pelo menos uma das médias é estatisticamente diferente das demais.
+No arquivo \texttt{exemplo\_notas.csv}, cada pessoa pertence a apenas uma atividade. A nota \texttt{depois} é a variável resposta contínua e \texttt{grupo} é o fator nominal. Para três grupos, a hipótese nula é:
+\[
+H_0:\mu_{\mathrm{Leitura}}=\mu_{\mathrm{Video}}=\mu_{\mathrm{Oficina}}.
+\]
+A alternativa afirma que pelo menos uma média difere de outra; ela não afirma que todos os pares sejam diferentes.
 
-Existem diferentes tipos de ANOVA, dependendo do design do estudo e do número de fatores considerados. A ANOVA de um fator compara as médias de três ou mais grupos independentes, enquanto a ANOVA de dois fatores analisa o efeito de duas variáveis independentes nos grupos. Além disso, a ANOVA pode ser aplicada em diferentes contextos, como experimentos controlados, estudos observacionais ou análise de dados de pesquisas.
+A lógica da ANOVA clássica compara a variação entre médias de grupos com a variação que permanece dentro dos grupos:
+\[
+F=\frac{QM_{\mathrm{entre}}}{QM_{\mathrm{dentro}}}.
+\]
+Os quadrados médios são somas de quadrados divididas pelos respectivos graus de liberdade. Assim, uma variação \textbf{entre grupos} grande em relação à variação \textbf{dentro dos grupos} produz um valor de $F$ maior. Grande dispersão dentro dos grupos, por si só, não favorece a detecção de diferenças entre médias.
 
-A ANOVA é amplamente utilizada em diversas áreas, como ciências sociais, ciências da saúde, ciências naturais e engenharia. Ela fornece uma abordagem estatística robusta para a comparação de médias de vários grupos, permitindo que os pesquisadores determinem se as diferenças observadas são estatisticamente significativas. A ANOVA também permite realizar análises post hoc para identificar quais grupos diferem significativamente entre si, contribuindo para uma compreensão mais aprofundada dos padrões e relações presentes nos dados.
+\subsection{Condições que precisamos examinar}
+
+A ANOVA clássica de grupos independentes usa um modelo com erros independentes, distribuição normal para a inferência exata e variância comum entre os grupos. Examine o desenho do estudo, os resíduos, os gráficos por grupo e possíveis valores influentes. A verificação não se resume a testar se a coluna inteira de notas é normal.
+
+A ANOVA de Welch permite variâncias diferentes entre os grupos. Isso não corrige dependência entre observações nem torna a análise imune a valores extremos. Para medidas repetidas das mesmas pessoas, a estrutura do problema exige outro modelo; não empilhe notas anteriores e posteriores como se viessem de pessoas distintas.
+
+\section{ANOVA de um fator no jamovi}
+
+Desative os filtros usados no capítulo anterior e confira que o banco possui 18 pessoas, seis em cada grupo.
+
+\begin{enumerate}
+  \item Acesse \textbf{Análises $\rightarrow$ ANOVA $\rightarrow$ ANOVA de um fator (One-Way ANOVA)}.
+  \item Mova \texttt{depois} para as variáveis dependentes e \texttt{grupo} para a variável de agrupamento.
+  \item Solicite descritivas e o gráfico por grupo. Confira os valores da tabela~\ref{tab:descritivas-notas}.
+  \item Escolha a versão clássica, identificada como \textbf{Fisher}, ou a versão \textbf{Welch}, de acordo com a análise planejada. O painel pode oferecer ambas; identifique qual resultado está relatando.
+  \item Examine o gráfico Q-Q dos resíduos e a avaliação de homogeneidade, quando solicitados.
+\end{enumerate}
+
+As opções dessa análise, incluindo Welch e os procedimentos de comparação entre pares, constam na documentação oficial \parencite{JamoviAnova}.
+
+\subsection{Conferindo o exemplo clássico}
+
+Nos dados fictícios, a soma de quadrados entre grupos é aproximadamente $341{,}444$ e a soma de quadrados dentro dos grupos é $915$. Com três grupos e 18 observações, os graus de liberdade são $2$ e $15$. Portanto,
+\[
+F=\frac{341{,}444/2}{915/15}\approx2{,}799.
+\]
+O resultado clássico é $F(2,15)\approx2{,}799$, $p\approx0{,}093$. Com $\alpha=0{,}05$, não rejeitamos a igualdade das médias nesse teste. As médias amostrais são distintas, mas a informação disponível não permite declarar uma diferença populacional segundo a regra escolhida.
+
+Para a versão de Welch, você deve encontrar aproximadamente $F=2{,}652$ e $p=0{,}119$. Os graus de liberdade do denominador são aproximados e diferem dos da ANOVA clássica. Nenhum dos resultados demonstra que as três atividades sejam equivalentes.
+
+\section{Comparações múltiplas}
+
+O teste global não identifica quais pares diferem. Quando comparações entre pares fizerem parte do plano de análise, precisamos considerar o problema da multiplicidade: realizar muitos testes sem ajuste aumenta a possibilidade de obter ao menos uma rejeição indevida.
+
+No painel de comparações posteriores, o jamovi oferece \textbf{Tukey} para comparações com suposição de variâncias iguais e \textbf{Games--Howell} quando essa igualdade não é assumida \parencite{JamoviAnova}. Leia a diferença de médias e a direção da comparação, além do valor de $p$ ajustado. Um intervalo que inclua zero, quando produzido com o mesmo procedimento e nível, indica a incerteza correspondente àquela comparação.
+
+No nosso exemplo, uma comparação Leitura menos Oficina por Tukey produz diferença de aproximadamente $-10{,}67$ pontos e $p$ ajustado de $0{,}077$. Essa comparação está apresentada apenas para praticar a leitura da saída: não selecione o par com o menor valor de $p$ e omita os demais. Contrastes definidos antes da coleta e explorações posteriores devem ser identificados no relatório.
+
+\section{Magnitude e relato do resultado}
+
+Para a ANOVA clássica de um fator, uma medida descritiva da magnitude é:
+\[
+\eta^2=\frac{SQ_{\mathrm{entre}}}{SQ_{\mathrm{total}}}.
+\]
+No exemplo, $SQ_{\mathrm{total}}=341{,}444+915$ e $\eta^2\approx0{,}272$. Essa é uma razão calculada sobre a amostra e o modelo; ela não indica que o método de ensino causou 27,2\% da variação das notas. Não transplante esse cálculo para a estatística de Welch como se fosse a mesma decomposição de somas de quadrados.
+
+Um relato possível é: ``Nas 18 observações fictícias, as médias posteriores foram $59{,}17$, $64{,}67$ e $69{,}83$ pontos para Leitura, Vídeo e Oficina. A ANOVA clássica de um fator resultou em $F(2,15)=2{,}80$, $p=0{,}093$. O exemplo não forneceu evidência suficiente para rejeitar a igualdade das médias ao nível de 5\%.'' Em um trabalho real, acrescente os diagnósticos, as estimativas de interesse e a justificativa da análise escolhida.
+
+\begin{tcolorbox}[colback=white,colframe=green,title={Dica de Conteúdo}]
+ANOVA de grupos independentes, ANOVA de medidas repetidas e modelos com mais de um fator respondem a estruturas diferentes. Antes de adicionar fatores ou medidas, desenhe quem foi observado, quantas vezes e em quais condições. A organização do banco deve acompanhar esse desenho.
+\end{tcolorbox}
