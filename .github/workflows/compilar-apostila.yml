@@ -1,0 +1,87 @@
+name: Compilar apostila
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - 'apostila_jamovi.pdf'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: apostila-pdf-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compilar:
+    name: Compilar LaTeX e bibliografia
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Obter os fontes
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Compilar a apostila com pdfLaTeX e Biber
+        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4
+        with:
+          root_file: apostila_jamovi.tex
+          texlive_version: '2026'
+          args: -gg -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Disponibilizar o PDF desta compilação
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: apostila-jamovi
+          path: apostila_jamovi.pdf
+          if-no-files-found: error
+          retention-days: 7
+
+  publicar:
+    name: Atualizar o PDF na main
+    needs: compilar
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Obter a main atual
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+
+      - name: Baixar o PDF compilado nesta execução
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: apostila-jamovi
+          path: .
+
+      - name: Salvar o PDF no mesmo caminho do repositório
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          # Uma execução antiga nunca deve publicar sobre fontes mais novos.
+          if [ "$(git rev-parse HEAD)" != "$SOURCE_SHA" ]; then
+            echo "A main já recebeu outro commit; o PDF será atualizado pela execução mais recente."
+            exit 0
+          fi
+
+          git add -- apostila_jamovi.pdf
+          if git diff --cached --quiet; then
+            echo "O PDF já está atualizado."
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'docs: atualiza o PDF da apostila automaticamente'
+          # O GITHUB_TOKEN não dispara outro workflow de push.
+          # Sem force: se a main avançar durante a publicação, o push será rejeitado.
+          git push origin HEAD:main

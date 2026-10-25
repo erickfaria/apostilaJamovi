@@ -32,5 +32,18 @@ Cada capítulo apresenta uma combinação de explicações teóricas e exemplos 
 
 Este repositório está aberto a contribuições. Se você encontrar erros, tiver sugestões de melhoria ou desejar adicionar mais conteúdo relevante, sinta-se à vontade para enviar uma solicitação de pull. Seu feedback é valioso e ajudará a aprimorar ainda mais esta apostila.
 
+### Compilação e atualização automática do PDF
+
+As alterações na apostila devem ser feitas em uma branch e enviadas por pull request para `main`. O GitHub Actions compila `apostila_jamovi.tex` com pdfLaTeX e Biber, usando TeX Live 2026, para verificar os fontes antes da integração. O PDF de cada compilação fica disponível como artefato `apostila-jamovi` na execução do workflow por sete dias.
+
+Ao integrar as alterações à `main`, o workflow compila novamente e faz um commit automático apenas de `apostila_jamovi.pdf`, na raiz do repositório. Assim, o PDF continua no mesmo caminho e os links que apontam para esse arquivo na `main` continuam válidos:
+
+- [Visualizar o PDF no GitHub](https://github.com/erickfaria/apostilaJamovi/blob/main/apostila_jamovi.pdf)
+- [Baixar o PDF diretamente](https://raw.githubusercontent.com/erickfaria/apostilaJamovi/main/apostila_jamovi.pdf)
+
+Também é possível recompilar manualmente em **Actions → Compilar apostila → Run workflow**, selecionando `main`. Alterações apenas em arquivos Markdown ou no próprio PDF não disparam a compilação automática. Se a compilação falhar, o PDF publicado anteriormente permanece disponível. Execuções de pull requests ou de outras branches nunca publicam na `main`.
+
+O workflow usa o `GITHUB_TOKEN` do próprio repositório, sem necessidade de cadastrar tokens adicionais. A etapa de publicação precisa de permissão de escrita em `contents`; se futuramente forem criadas regras de proteção para `main`, elas precisarão permitir o commit automático do PDF.
+
 
 

@@ -95,7 +95,7 @@ No conjunto de dados representado dentro do círculo abaixo (\ref{fig:circulo_mo
         \foreach \i in {1,...,11} {
             % Obtém o número atual
             \pgfmathparse{\numbers[\i-1]}
-            \let\number\pgfmathresult
+            \let\modeValue\pgfmathresult
             
             % Define um ângulo e um raio aleatórios
             \pgfmathsetmacro{\angle}{rnd*360}
@@ -109,7 +109,7 @@ No conjunto de dados representado dentro do círculo abaixo (\ref{fig:circulo_mo
                 \pgfmathparse{atan2(sin(\angle)*\radius-sin(\numbers[\j-1])*2,cos(\angle)*\radius-cos(\numbers[\j-1])*2)}
                 \pgfmathtruncatemacro{\angleDiff}{\pgfmathresult}
                 \ifnum\angleDiff=0
-                    \ifnum\number=\existingNumber
+                    \ifnum\modeValue=\existingNumber
                         \pgfmathtruncatemacro{\overlap}{1}
                     \fi
                 \fi
@@ -121,17 +121,17 @@ No conjunto de dados representado dentro do círculo abaixo (\ref{fig:circulo_mo
             }
             
             % Verifica se o número é igual a 6 e não há sobreposição
-            \ifnum\number=6
+            \ifnum\modeValue=6
                 \ifnum\overlap=0
                     % Se for igual a 6 e não houver sobreposição, desenha o número em vermelho
-                    \node[text=red, circle, minimum size=0.3cm] at (\angle:\radius cm) {\number};
+                    \node[text=red, circle, minimum size=0.3cm] at (\angle:\radius cm) {\modeValue};
                 \else
                     % Se houver sobreposição, não desenha o número
                 \fi
             \else
                 % Caso contrário, desenha o número normalmente
                 \ifnum\overlap=0
-                    \node[circle, minimum size=0.3cm] at (\angle:\radius cm) {\number};
+                    \node[circle, minimum size=0.3cm] at (\angle:\radius cm) {\modeValue};
                 \else
                     % Se houver sobreposição, não desenha o número
                 \fi
