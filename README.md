@@ -17,8 +17,10 @@ O jamovi é um software estatístico livre e de código aberto. Consulte o [site
 | 5. ANOVA | Um fator, contrastes, interação fatorial, medidas repetidas, desenho misto, ANCOVA, Kruskal–Wallis e Friedman |
 | 6. Regressão linear | Modelos simples e múltiplos, fatores, interações, diagnósticos e intervalos de média e predição |
 | 7. Dados categóricos | Tabelas, proporções, aderência, McNemar e regressão logística binária |
+| 8. Probabilidade, amostragem e estimação | Probabilidades condicionais, binomial, normal, distribuição amostral, viés, intervalos e bootstrap no Rj |
+| 9. Escores e confiabilidade | Itens invertidos, pontuação, covariâncias, alfa de Cronbach, correlação item–resto e fundamentos do ômega |
 
-A intenção é ampliar continuamente o material em língua portuguesa. Modelos lineares mistos, regressões ordinal e multinomial, análise fatorial e confiabilidade de escalas ainda precisam de tratamento próprio.
+A intenção é ampliar continuamente o material em língua portuguesa. Modelos lineares mistos, regressões ordinal e multinomial, análise fatorial em profundidade ainda precisam de tratamento próprio.
 
 ## Como acompanhar os exemplos
 
@@ -27,7 +29,7 @@ A intenção é ampliar continuamente o material em língua portuguesa. Modelos 
 3. Consulte o dicionário para conferir o que cada linha representa, os tipos das variáveis e as opções da análise.
 4. Salve seu trabalho em `.omv` e escreva sua interpretação antes de consultar os comentários dos exercícios.
 
-Há **oito CSVs fictícios**. Eles distinguem pessoas independentes, medidas repetidas e contagens agregadas; não representam resultados de pesquisas reais.
+Há **nove CSVs fictícios**. Eles distinguem pessoas independentes, medidas repetidas e contagens agregadas; não representam resultados de pesquisas reais.
 
 | Arquivo | Uso principal |
 | --- | --- |
@@ -39,8 +41,9 @@ Há **oito CSVs fictícios**. Eles distinguem pessoas independentes, medidas rep
 | [`exemplo_binomial.csv`](dados/exemplo_binomial.csv) | Uma proporção |
 | [`exemplo_aderencia.csv`](dados/exemplo_aderencia.csv) | Proporções de várias categorias |
 | [`exemplo_mcnemar.csv`](dados/exemplo_mcnemar.csv) | Respostas binárias pareadas |
+| [`exemplo_escalas.csv`](dados/exemplo_escalas.csv) | Recodificação de itens, escores e consistência interna |
 
-Os capítulos 4 a 7 incluem **16 exercícios comentados**. Os cálculos novos podem ser reproduzidos com Python 3, NumPy e SciPy:
+Os capítulos 4 a 9 incluem **28 exercícios comentados**. Os capítulos novos acrescentam **12 figuras em TikZ/PGFPlots**, com fórmulas explicadas passo a passo. Os cálculos novos podem ser reproduzidos com Python 3, NumPy e SciPy:
 
 ```bash
 python scripts/calcular_exemplos.py
@@ -50,7 +53,7 @@ O script lê os CSVs e exibe os resultados, sem modificar os dados nem acessar a
 
 ## Referências e materiais complementares
 
-As referências estão em [`bibliografia.bib`](bibliografia.bib), com URLs e datas de consulta para fontes da web. O texto utiliza documentação oficial do jamovi e do R, o manual NIST/SEMATECH e a declaração da American Statistical Association sobre valores de p. A discussão de calibração remete à documentação oficial do scikit-learn.
+As referências estão em [`bibliografia.bib`](bibliografia.bib), com URLs e datas de consulta para fontes da web. O texto utiliza documentação oficial do jamovi, do R e do pacote psych, o manual NIST/SEMATECH e a declaração da American Statistical Association sobre valores de p. O capítulo de questionários também remete aos Standards de AERA, APA e NCME e ao artigo original de Cronbach. A discussão de calibração remete à documentação oficial do scikit-learn.
 
 As figuras explicativas novas são de elaboração própria em TikZ/PGFPlots. As capturas anteriores foram preservadas com indicação de que a interface pode ter mudado.
 
@@ -68,7 +71,7 @@ O arquivo [`VERSION`](VERSION) identifica a edição em preparação; [`CHANGELO
 - **MENOR:** novos temas ou ampliações de conteúdo.
 - **CORREÇÃO:** ajustes de texto, cálculos, referências ou links.
 
-A `v1.0.0` identifica a revisão anterior já compilada. A `v1.1.0` identifica a ampliação dos capítulos finais e será marcada automaticamente quando seu PDF for publicado pelo Actions.
+A `v1.0.0` identifica a revisão inicial já compilada, e a `v1.1.0` registra a ampliação dos capítulos de inferência e modelos. A edição em preparação, `v1.2.0`, acrescenta os fundamentos visuais e o capítulo de escores; sua tag será criada automaticamente quando o novo PDF for publicado pelo Actions.
 
 Para consultar uma edição fixa, abra a [lista de tags](https://github.com/erickfaria/apostilaJamovi/tags), selecione a versão e acesse `apostila_jamovi.pdf`. Cada tag inclui os fontes e o PDF daquela edição. A versão da `main` continua sendo atualizada no mesmo endereço público.
 
