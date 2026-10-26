@@ -2,9 +2,17 @@
 
 Uma apostila para aprender a organizar dados, escolher análises e interpretar resultados no jamovi. O material combina explicações, exemplos guiados e exercícios comentados, com escrita voltada ao estudo e referências oficiais verificáveis.
 
-**[Ler o PDF](https://github.com/erickfaria/apostilaJamovi/blob/main/apostila_jamovi.pdf)** · **[Baixar o PDF](https://raw.githubusercontent.com/erickfaria/apostilaJamovi/main/apostila_jamovi.pdf)** · **[Versões da apostila](https://github.com/erickfaria/apostilaJamovi/tags)** · **[Histórico de alterações](CHANGELOG.md)**
+**[Ler o PDF](https://github.com/erickfaria/apostilaJamovi/blob/main/apostila_jamovi.pdf)** · **[Baixar o PDF](https://raw.githubusercontent.com/erickfaria/apostilaJamovi/main/apostila_jamovi.pdf)** · **[Versões da apostila](https://github.com/erickfaria/apostilaJamovi/tags)** · **[Histórico de alterações](CHANGELOG.md)** · **[Usar e adaptar](docs/LICENCIAMENTO.md)** · **[Contribuir](CONTRIBUTING.md)**
 
 O jamovi é um software estatístico livre e de código aberto. Consulte o [site oficial](https://www.jamovi.org/) para instalação e acesso e a [documentação oficial](https://docs.jamovi.org/) para os recursos da versão utilizada.
+
+## Feita para ajudar e ser usada
+
+Criei esta apostila para ajudar as pessoas a aprender estatística e análise de dados com o jamovi. Quero que ela seja útil em sala de aula, em cursos, em grupos de estudo e para quem aprende por conta própria.
+
+**Professoras e professores podem adotar a apostila inteira ou selecionar apenas o que fizer sentido para suas turmas.** Você pode imprimir, distribuir, retirar capítulos, mudar a ordem, reescrever explicações, traduzir, acrescentar atividades e publicar uma adaptação. Pode também usar e alterar os fontes LaTeX/TikZ e os scripts. Não precisa pedir autorização prévia nem contribuir de volta para usar o material.
+
+O conteúdo e os fontes da apostila usam **CC BY 4.0**, com crédito e indicação das mudanças; os scripts e workflows usam **MIT**, preservando os avisos dessa licença. Ambas permitem uso comercial. Veja os exemplos de créditos e o escopo de cada licença no [guia de uso e adaptação](docs/LICENCIAMENTO.md).
 
 ## Conteúdo
 
@@ -81,20 +89,17 @@ O arquivo [`VERSION`](VERSION) identifica a edição em preparação; [`CHANGELO
 - **MENOR:** novos temas ou ampliações de conteúdo.
 - **CORREÇÃO:** ajustes de texto, cálculos, referências ou links.
 
-As edições `v1.0.0`, `v1.1.0` e `v1.2.0` estão publicadas. A edição em preparação, `v1.3.0`, revisa os nove capítulos anteriores e acrescenta dimensões, regressões multinomial e ordinal e projetos integradores. Sua tag será criada automaticamente quando o novo PDF for publicado pelo Actions.
+As edições de `v1.0.0` a `v1.3.0` estão publicadas. A edição em preparação, `v1.3.1`, explicita as licenças, as liberdades de adoção e adaptação e as orientações para contribuir. Sua tag será criada automaticamente quando o novo PDF for publicado pelo Actions.
 
 Para consultar uma edição fixa, abra a [lista de tags](https://github.com/erickfaria/apostilaJamovi/tags), selecione a versão e acesse `apostila_jamovi.pdf`. Cada tag inclui os fontes e o PDF daquela edição. A versão da `main` continua sendo atualizada no mesmo endereço público.
 
 ## Como contribuir
 
-Correções, sugestões e novos exemplos são bem-vindos. Abra uma issue ou um pull request e indique o capítulo, a pergunta e as fontes usadas.
+Correções de texto ou cálculo, sugestões, novos exemplos e relatos de uso em cursos são bem-vindos. Você pode abrir uma [issue](https://github.com/erickfaria/apostilaJamovi/issues/new/choose) mesmo sem conhecer LaTeX ou Git.
 
-O fluxo de trabalho é:
+O [guia de contribuição](CONTRIBUTING.md) explica onde editar, como enviar um PR e os cuidados didáticos com fórmulas, figuras, dados e referências. O projeto trabalha com branches descritivas, commits pequenos e remoção das branches incorporadas. O template é preservado e o PDF é publicado pela automação.
 
-1. Atualizar a `main` e criar uma branch com nome descritivo, como `conteudo/novo-tema` ou `docs/corrigir-referencia`.
-2. Fazer commits pequenos e manter o tom didático e colaborativo. Preservar o template e citar fontes oficiais quando cabível.
-3. Conferir os exemplos, atualizar o README quando o conteúdo mudar e registrar a edição em `VERSION` e `CHANGELOG.md` quando houver uma nova versão.
-4. Abrir um PR para `main`. Depois da integração, sincronizar a cópia local e apagar as branches incorporadas.
+Para adotar ou adaptar a apostila, consulte o [guia de uso e licenças](docs/LICENCIAMENTO.md). Para referenciar uma edição em aulas e trabalhos, veja [como citar](CITATION.md).
 
 ## Compilação e publicação automática
 
@@ -108,4 +113,13 @@ Também é possível recompilar em **Actions → Compilar apostila → Run workf
 
 ## Autoria e licença
 
-Material de **Erick Faria**, do Balaio Científico, sob a licença [Creative Commons Atribuição 4.0 Internacional — CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.pt_BR). Ao compartilhar ou adaptar, atribua a autoria e indique as modificações.
+Material de **Erick Faria — Balaio Científico**, criado para ajudar as pessoas a aprender e compartilhar conhecimento.
+
+| Parte do repositório | Licença |
+| --- | --- |
+| Conteúdo e PDF; fontes LaTeX/TikZ; documentação, dados fictícios e figuras originais | [CC BY 4.0](LICENSE) |
+| Scripts Python/shell e workflows de automação | [MIT](scripts/LICENSE) |
+
+Você pode compartilhar e adaptar o conteúdo, inclusive para uso comercial, com os créditos e avisos aplicáveis, um link para a licença e indicação das mudanças. A CC BY não exige que a adaptação use a mesma licença. Para os scripts, mantenha o aviso de copyright e o texto da MIT ao redistribuir cópias ou partes substanciais.
+
+O [guia de licenciamento](docs/LICENCIAMENTO.md) detalha as permissões e oferece um modelo de crédito. Materiais de terceiros identificados no projeto conservam seus próprios direitos e condições.
