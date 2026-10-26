@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Erick Faria
 """Recalcula PCA e resumos de dimensões a partir do CSV; requer NumPy e SciPy.
 
 Execute: python scripts/calcular_dimensoes.py

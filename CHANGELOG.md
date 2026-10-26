@@ -2,6 +2,17 @@
 
 As versões seguem `MAIOR.MENOR.CORREÇÃO`. As tags `vX.Y.Z` preservam os fontes e o PDF da mesma edição. O arquivo [`VERSION`](VERSION) informa a versão preparada para publicação.
 
+## 1.3.1 — 2026-10-25
+
+- Texto integral da CC BY 4.0 em `LICENSE`, formalizando no repositório a licença já indicada na apostila.
+- Licença MIT para scripts e workflows, com identificação nos fontes e texto em `scripts/LICENSE`.
+- README e apresentação ao leitor explicam a finalidade de ajudar, a adoção em cursos e a liberdade de retirar, reorganizar, traduzir e adaptar o conteúdo.
+- Guia de uso e licenças com escopo, exemplos de créditos e distinção entre adoção da apostila e contribuição ao repositório.
+- Guias `CONTRIBUTING.md` e `CITATION.md`, além de modelos de issues e pull requests em português.
+- Template e funcionamento da automação preservados; nenhuma suíte de testes adicionada.
+
+A tag `v1.3.1` será criada automaticamente após a publicação do PDF desta edição.
+
 ## 1.3.0 — 2026-10-25
 
 - Revisão completa dos nove capítulos anteriores, preservando o template e o tom didático.
@@ -15,7 +26,7 @@ As versões seguem `MAIOR.MENOR.CORREÇÃO`. As tags `vX.Y.Z` preservam os fonte
 - Projetos com entregáveis .omv, dicionário e relatório, incluindo uma atividade opcional descritiva com o CNES.
 - README, catálogo de recursos e versão atualizados; nenhuma suíte de testes adicionada.
 
-A tag `v1.3.0` será criada automaticamente após a publicação bem-sucedida do PDF, preservando o endereço atual da apostila.
+A tag `v1.3.0` identifica os fontes e o PDF publicados dessa edição.
 
 ## 1.2.0 — 2026-10-25
 

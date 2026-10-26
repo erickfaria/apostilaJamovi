@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Erick Faria
 """Cálculos didáticos dos modelos multinomial e ordinal do capítulo 11.
 
 Requer NumPy e SciPy. Lê os CSVs, ajusta por máxima verossimilhança e

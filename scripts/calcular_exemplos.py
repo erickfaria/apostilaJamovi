@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Erick Faria
 """Recalcula os exemplos a partir dos CSVs; requer NumPy e SciPy.
 
 Execute na raiz: python scripts/calcular_exemplos.py

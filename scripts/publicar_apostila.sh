@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Erick Faria
 # Executado pelo job de publicação, depois de baixar o PDF compilado.
 set -euo pipefail
 
