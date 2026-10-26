@@ -162,3 +162,223 @@ Identifique sempre o denominador de uma porcentagem. Se duas das 18 pessoas não
 Um relato possível para os dados fictícios é: ``Foram analisadas 18 observações, sem valores ausentes nas notas posteriores. A média foi de $64{,}56$ pontos, com desvio padrão amostral de $8{,}60$. As médias por atividade foram $59{,}17$, $64{,}67$ e $69{,}83$ pontos, respectivamente para Leitura, Vídeo e Oficina.''
 
 Esse relato informa a variável, a unidade, a quantidade de observações e o significado da medida de dispersão. Acrescente um gráfico quando ele ajudar o leitor a compreender a distribuição. Antes de avançar, pratique: substitua uma nota por um valor extremo em uma cópia do arquivo, observe a mudança na média e na mediana e restaure o valor original. Guarde a versão usada em cada análise.
+
+\section{Lendo posições: percentis e distribuição acumulada}
+\label{sec:quantis-acumulada}
+
+\subsection{O que um percentil informa}
+
+Um percentil descreve uma posição na distribuição. Se uma nota corresponde aproximadamente ao percentil 75 de um conjunto, a comparação é com os valores desse conjunto; não significa que a pessoa acertou 75\% da prova. Para interpretar a posição, precisamos saber quem compõe a referência e qual convenção de quantil foi empregada.
+
+Os termos \textbf{percentual de acertos} e \textbf{percentil} respondem a perguntas diferentes. Uma pessoa pode acertar 60\% das questões e ocupar uma posição elevada em uma prova difícil, ou uma posição baixa em um conjunto no qual quase todas acertaram mais. Quando há muitos empates, a identificação de uma posição exata exige ainda mais cuidado.
+
+A documentação do R descreve diferentes algoritmos de quantis amostrais \parencite{RQuantis}. Para compreender a interpolação, vamos usar explicitamente o \textbf{tipo 7}, sem supor que todo gráfico e toda tabela de qualquer programa adotem essa mesma regra. Para valores ordenados $x_{(1)},\ldots,x_{(n)}$ e uma proporção $p$, calculamos:
+\[
+ h=1+(n-1)p,\qquad j=\lfloor h\rfloor,\qquad \gamma=h-j,
+\]
+\[
+ Q(p)=(1-\gamma)x_{(j)}+\gamma x_{(j+1)},
+\]
+quando $j<n$; nos extremos, usamos o menor ou o maior valor correspondente. A parte inteira de $h$ localiza a posição inferior e $\gamma$ indica quanto avançar em direção ao valor seguinte.
+
+Para os valores ordenados $2,3,5,7,8,10$ e $p=0{,}25$, temos $h=2{,}25$. O primeiro quartil fica um quarto do caminho entre 3 e 5: $Q_1=3+0{,}25(5-3)=3{,}5$. A figura~\ref{fig:interpolacao-quartil} representa esse cálculo. O resultado não precisa ser um dos seis valores observados.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.75cm,y=1cm]
+  \draw[->] (-0.25,0) -- (4.5,0) node[right] {Valor};
+  \foreach \x in {0,1,2,3,4} {
+    \draw (\x,0.08) -- (\x,-0.08);
+  }
+  \node[below] at (0,-0.1) {3};
+  \node[below] at (1,-0.1) {$3{,}5$};
+  \node[below] at (2,-0.1) {4};
+  \node[below] at (3,-0.1) {$4{,}5$};
+  \node[below] at (4,-0.1) {5};
+  \fill[blue] (4,0) circle (2.5pt);
+  \fill[blue] (0,0) circle (2.5pt);
+  \fill[red] (1,0) circle (2.5pt);
+  \draw[->,red,thick] (0,0.7) -- (1,0.7);
+  \node[above,align=center] at (1.6,0.9) {$Q_1=3+0{,}25(5-3)=3{,}5$\\Um quarto do intervalo entre 3 e 5};
+  \draw[dashed] (1,0.1) -- (1,0.6);
+\end{tikzpicture}
+\caption{Interpolação do primeiro quartil pelo tipo 7 entre os dois valores vizinhos usados no cálculo. Elaboração própria.}
+\label{fig:interpolacao-quartil}
+\end{figure}
+
+No banco completo de notas posteriores, esse método fornece $Q_1=58{,}5$, mediana $63{,}5$ e $Q_3=70$. Se encontrar um valor diferente em um cálculo manual ou em um boxplot, confira primeiro a convenção, os filtros e os ausentes. Uma divergência pequena entre métodos de quartis não demonstra, sozinha, um erro no banco.
+
+\subsection{Contando tudo o que está até um valor}
+
+A distribuição acumulada empírica responde: ``Qual fração das observações é menor ou igual a $x$?'' Escrevemos \parencite{RAcumuladaEmpirica}:
+\[
+ \widehat F_n(x)=\frac{\#\{i:x_i\leq x\}}{n}.
+\]
+O símbolo $\#$ representa a contagem dos registros que satisfazem a condição. Com $2,3,5,7$, três dos quatro valores são menores ou iguais a 5; logo, $\widehat F_4(5)=3/4=0{,}75$. A função fica constante entre observações e salta nos valores registrados, como mostra a figura~\ref{fig:distribuicao-acumulada}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=3cm]
+  \draw[->] (0,0) -- (8,0) node[right] {$x$};
+  \draw[->] (0,0) -- (0,1.15) node[above] {$\widehat F_4(x)$};
+  \foreach \x in {2,3,5,7} {\draw (\x,0.02) -- (\x,-0.02) node[below] {\x};}
+  \foreach \yy/\lab in {0.25/{0{,}25},0.5/{0{,}50},0.75/{0{,}75},1/1} {
+    \draw (0.05,\yy) -- (-0.05,\yy) node[left] {$\lab$};
+  }
+  \draw[blue,thick] (0,0) -- (2,0);
+  \draw[blue,thick] (2,0.25) -- (3,0.25);
+  \draw[blue,thick] (3,0.5) -- (5,0.5);
+  \draw[blue,thick] (5,0.75) -- (7,0.75);
+  \draw[blue,thick] (7,1) -- (7.8,1);
+  \foreach \xx/\yy/\prev in {2/0.25/0,3/0.5/0.25,5/0.75/0.5,7/1/0.75} {
+    \draw[blue,dotted] (\xx,\prev) -- (\xx,\yy);
+    \draw[blue,fill=white] (\xx,\prev) circle (2.2pt);
+    \fill[blue] (\xx,\yy) circle (2.2pt);
+  }
+\end{tikzpicture}
+\caption{Distribuição acumulada de quatro valores fictícios. O ponto preenchido inclui a observação do limite, pois a condição é ``menor ou igual''. Elaboração própria.}
+\label{fig:distribuicao-acumulada}
+\end{figure}
+
+No banco de notas, 13 de 18 pessoas têm nota posterior de pelo menos 60 pontos, aproximadamente 72,2\%. Para calcular a fração \emph{menor ou igual} a 60, precisamos incluir a nota 60 e contar os valores até ela: são seis de 18, aproximadamente 33,3\%. Esses percentuais não são complementares, pois os dois critérios incluem o empate em 60. Já ``menor que 60'' e ``maior ou igual a 60'' formam uma divisão sem sobreposição.
+
+A curva acumulada desta seção é uma explicação construída em TikZ. Para reproduzi-la por código no Rj, a função \texttt{ecdf} do R oferece essa representação. Não é necessário localizar uma opção de acumulada em Descritivas para compreender o exemplo.
+
+\section{Um boxplot lido peça por peça}
+
+Vamos tornar os limites do boxplot explícitos. Usando os quartis do tipo 7 acima, temos:
+\[
+ IIQ=70-58{,}5=11{,}5,\qquad 1{,}5\,IIQ=17{,}25.
+\]
+Os limites de sinalização são $58{,}5-17{,}25=41{,}25$ e $70+17{,}25=87{,}25$. Como o menor valor observado é 50 e o maior é 82, todos ficam dentro dos limites. Os bigodes chegam a 50 e 82; eles não precisam chegar aos limites calculados. A figura~\ref{fig:boxplot-anatomia} separa essas posições.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.23cm,y=1cm]
+  \draw[->] (0,0) -- (50,0) node[right] {Pontos};
+  \foreach \xx/\lab in {10/50,18.5/{58{,}5},23.5/{63{,}5},30/70,42/82} {
+    \draw (\xx,0.08) -- (\xx,-0.08);
+    \node[below] at (\xx,-0.1) {$\lab$};
+  }
+  \draw[blue,thick] (10,1.2) -- (18.5,1.2);
+  \draw[blue,thick] (30,1.2) -- (42,1.2);
+  \draw[blue,thick] (10,0.95) -- (10,1.45);
+  \draw[blue,thick] (42,0.95) -- (42,1.45);
+  \draw[blue,fill=blue!10,thick] (18.5,0.8) rectangle (30,1.6);
+  \draw[red,thick] (23.5,0.8) -- (23.5,1.6);
+  \node[above] at (18.5,1.7) {$Q_1$};
+  \node[above] at (30,1.7) {$Q_3$};
+  \node[above,red] at (23.5,2.3) {Mediana};
+  \draw[dashed] (1.25,0.15) -- (1.25,1.8);
+  \draw[dashed] (47.25,0.15) -- (47.25,1.8);
+  \node[align=center,above] at (1.25,1.9) {Limite\\$41{,}25$};
+  \node[align=center,above] at (47.25,1.9) {Limite\\$87{,}25$};
+\end{tikzpicture}
+\caption{Boxplot construído com os quartis tipo 7 das notas posteriores. Os limites tracejados não são observações nem extremidades obrigatórias dos bigodes. Elaboração própria.}
+\label{fig:boxplot-anatomia}
+\end{figure}
+
+Um boxplot sem pontos sinalizados não demonstra ausência de erros. A troca de 61 por 62, por exemplo, pode ser um erro de registro que permanece dentro dos limites. Da mesma forma, um ponto além do limite pode ser uma observação válida. O gráfico identifica situações para conferir à luz da escala e da coleta.
+
+\section{Forma da distribuição e leitura do gráfico Q--Q}
+\label{sec:qq-descritivas}
+
+\subsection{Simetria não é sinônimo de normalidade}
+
+Uma distribuição pode ser aproximadamente simétrica e ainda ter dois picos ou caudas diferentes das de uma distribuição normal. A assimetria descreve o desequilíbrio entre os lados; a curtose está relacionada às caudas e é sensível a valores extremos. A convenção de curtose precisa ser identificada: a normal tem curtose 3 na definição usual e excesso de curtose 0 \parencite{NISTForma}.
+
+Não precisamos decorar um limite universal de assimetria para ``aprovar'' os dados. Examine os pontos, o formato, a quantidade de observações e o modelo que será usado. Em grupos com seis pessoas, um histograma com muitos intervalos ficará quase vazio; com poucos intervalos, padrões distintos podem parecer iguais. Também convém conferir se a junção dos grupos esconde diferenças entre eles.
+
+\subsection{O que o Q--Q compara}
+
+O gráfico Q--Q normal coloca quantis teóricos da normal em comparação com valores ordenados observados. Um padrão aproximadamente linear sugere compatibilidade de forma com essa referência; desvios sistemáticos indicam aspectos que a normal não representa bem. Ele é útil também para examinar resíduos de modelos \parencite{NISTQQNormal}.
+
+Na figura~\ref{fig:qq-esquemas}, os pontos são esquemáticos. O primeiro painel acompanha a reta de referência. No segundo, os valores superiores se afastam para cima: a parte superior cresce mais do que a referência linear indicaria. Um ou dois pontos afastados em uma amostra pequena exigem atenção, mas não revelam automaticamente sua causa.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=0.8cm]
+  \begin{scope}
+    \draw[->] (0,0) -- (4.6,0);
+    \draw[->] (0,0) -- (0,5.2);
+    \draw[dashed] (0.2,0.2) -- (4.3,4.3);
+    \foreach \xx/\yy in {0.4/0.5,0.9/0.85,1.4/1.5,1.9/1.85,2.4/2.5,2.9/2.85,3.4/3.5,3.9/3.85} {\fill[blue] (\xx,\yy) circle (2.2pt);}
+    \node[align=center,above] at (2.2,5.3) {Padrão aproximadamente\\linear};
+    \node[below,align=center] at (2.2,-0.25) {Quantis teóricos};
+    \node[rotate=90] at (-0.5,2.5) {Valores ordenados};
+  \end{scope}
+  \begin{scope}[xshift=7cm]
+    \draw[->] (0,0) -- (4.6,0);
+    \draw[->] (0,0) -- (0,5.2);
+    \draw[dashed] (0.2,0.2) -- (4.3,4.3);
+    \foreach \xx/\yy in {0.4/0.5,0.9/0.85,1.4/1.5,1.9/1.9,2.4/2.55,2.9/3.3,3.4/4.15,3.9/5} {\fill[red] (\xx,\yy) circle (2.2pt);}
+    \node[align=center,above] at (2.2,5.3) {Afastamento na\\parte superior};
+    \node[below,align=center] at (2.2,-0.25) {Quantis teóricos};
+    \node[rotate=90] at (-0.5,2.5) {Valores ordenados};
+  \end{scope}
+\end{tikzpicture}
+\caption{Esquemas de leitura do Q--Q normal. São figuras conceituais e não saídas de uma análise dos CSVs. Elaboração própria.}
+\label{fig:qq-esquemas}
+\end{figure}
+
+Em Descritivas, abra \textbf{Gráficos (Plots)} e solicite \textbf{Q--Q}, mantendo \texttt{grupo} em \textbf{Dividir por} quando quiser examinar os grupos separadamente. A documentação apresenta Q--Q, boxplot e violino entre as opções de exploração \parencite{JamoviGuiaDescritivas}.
+
+O teste de Shapiro--Wilk avalia uma hipótese de normalidade e produz uma estatística e um valor de $p$ \parencite{RShapiro}. Um resultado não significativo não comprova que a distribuição seja normal. Como em outros testes, a quantidade de informação influencia a capacidade de detectar desvios: amostras pequenas podem oferecer pouca evidência, enquanto amostras grandes podem detectar diferenças de pouca consequência prática. Combine a pergunta, o gráfico e o diagnóstico do modelo, em vez de escolher automaticamente um teste estatístico apenas pelo resultado de Shapiro--Wilk.
+
+A quantidade a examinar também muda com o procedimento. No teste t pareado, a discussão se refere à distribuição das \textbf{diferenças}; em regressão, aos erros do modelo, investigados por seus resíduos. A distribuição das notas juntando grupos não substitui essas verificações. Retomaremos esses pontos nos capítulos~\ref{cap:hipoteses} e~\ref{cap:regressao}.
+
+\section{Gráficos e tabelas que permitem comparação}
+
+\subsection{Contagem, proporção e densidade}
+
+Antes de comparar histogramas, leia o eixo vertical. Ele pode representar contagem, proporção ou densidade. Para uma classe $j$ com $n_j$ observações, total $n$ e largura $a_j$, uma altura de densidade é:
+\[
+ h_j=\frac{n_j}{n\,a_j}.
+\]
+Assim, a área do retângulo é $h_j a_j=n_j/n$. Essa construção faz a área total ser 1; a altura, isoladamente, não é uma probabilidade. O NIST distingue as normalizações de frequência relativa e densidade \parencite{NISTHistograma}.
+
+Se quatro de 20 valores estiverem em um intervalo de largura 10, a proporção desse intervalo será $4/20=0{,}20$ e a densidade será $4/(20\times10)=0{,}02$. Um intervalo de largura 20 com os mesmos quatro valores terá densidade 0,01 e a mesma área 0,20. Esse cuidado é especialmente importante quando as larguras dos intervalos diferem.
+
+Nos gráficos de barras de categorias, prefira manter uma linha de base zero e as mesmas escalas entre painéis comparáveis. Se um grupo tem 100 pessoas e outro tem 20, as contagens mostram o volume, enquanto as porcentagens dentro de cada grupo mostram a composição. Escolha a representação conforme a pergunta e informe os respectivos denominadores.
+
+\subsection{Médias de grupos com tamanhos diferentes}
+
+A média geral pode ser reconstruída das médias dos grupos, desde que usemos seus tamanhos:
+\[
+ \bar x=\frac{n_1\bar x_1+\cdots+n_k\bar x_k}{n_1+\cdots+n_k}.
+\]
+No exemplo de notas, cada grupo tem seis pessoas; por isso, a média simples das três médias coincide com a média geral. Se um grupo tivesse dez pessoas e outro duas, dar o mesmo peso às duas médias responderia a outra pergunta. Também não calcule o desvio padrão geral fazendo apenas a média dos desvios padrão dos grupos: a dispersão total envolve tanto a variabilidade dentro dos grupos quanto a distância entre suas médias.
+
+\subsection{Um roteiro de descrição antes da inferência}
+
+Ao finalizar a exploração, tente produzir uma descrição curta que permita ao leitor conferir o caminho. Identifique a unidade observada, o total de registros, os valores válidos e ausentes das variáveis principais. Apresente o centro e a dispersão com suas unidades e acrescente um gráfico compatível com a escala. Em comparações, mantenha os grupos identificados e seus tamanhos visíveis.
+
+Para notas assimétricas, pode ser útil apresentar mediana e quartis juntamente com média e DP. Não são medidas concorrentes: respondem a aspectos diferentes. Quando houver valores muito extremos, explique o que foi conferido e preserve o registro das decisões. O objetivo da exploração é compreender o conjunto e preparar a análise, sem prometer conclusões que os dados e o desenho ainda não sustentam.
+
+\section{Para praticar: interpretar antes de escolher o teste}
+
+\begin{enumerate}
+  \item Para $2,3,5,7,8,10$, calcule a mediana e o primeiro quartil pelo tipo 7. Por que ambos podem ser números não observados?
+  \item No banco completo, usando $Q_1=58{,}5$ e $Q_3=70$, encontre os limites de sinalização do boxplot. O bigode superior deve terminar obrigatoriamente no limite superior?
+  \item Entre 18 pessoas, 13 tiveram nota posterior de pelo menos 60. Por que essa fração não é o complemento da fração com nota menor ou igual a 60?
+  \item Um grupo de dez pessoas tem média 50 e outro, de duas pessoas, média 80. Calcule a média das 12 pessoas e compare-a com a média simples das médias dos grupos.
+  \item Uma amostra de seis pessoas apresenta Shapiro--Wilk com $p>0{,}05$. Podemos afirmar que os dados são normais e ignorar o Q--Q? Ao analisar uma mudança pareada, qual variável merece essa inspeção?
+\end{enumerate}
+
+\subsection{Comentários para conferir o raciocínio}
+
+\begin{enumerate}
+  \item A mediana é $(5+7)/2=6$. Para $p=0{,}25$, $h=2{,}25$ e $Q_1=3{,}5$. A média entre posições centrais e a interpolação produzem resumos que não precisam coincidir com um valor registrado.
+  \item O IIQ é 11,5 e os limites são 41,25 e 87,25. O bigode superior chega à maior observação dentro do limite, que neste banco é 82. O limite de sinalização não é um valor que precise existir na amostra.
+  \item Os dois critérios incluem quem obteve exatamente 60. Os complementos corretos são ``menor que 60'' versus ``maior ou igual a 60'', ou ``menor ou igual a 60'' versus ``maior que 60''.
+  \item A média geral é $(10\times50+2\times80)/12=55$. A média simples das médias é 65 e atribui o mesmo peso aos dois grupos, embora eles tenham tamanhos diferentes.
+  \item Não. A ausência de evidência de desvio não comprova normalidade, especialmente com pouca informação. No teste pareado, examine as diferenças de cada pessoa; na avaliação de um modelo, confira a quantidade à qual o pressuposto se refere.
+\end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+
+A leitura complementar sobre centro e dispersão está em \href{https://www.balaiocientifico.com/2026/10/estatistica-descritiva-no-jamovi-media.html}{Estatística descritiva no Jamovi: média, mediana, moda e dispersão}.
+
+Para acompanhar a análise na interface, veja \href{https://www.youtube.com/watch?v=kQEtA1KAG10}{Jamovi - Estatística Descritiva - Aula 12}.
+
+\textbf{Vamos praticar:} Descreva \texttt{depois} nas 18 pessoas: registre média, mediana, DP e quartis. Depois divida por \texttt{grupo}, exiba os pontos e escreva duas observações sobre a distribuição sem concluir eficácia das atividades.

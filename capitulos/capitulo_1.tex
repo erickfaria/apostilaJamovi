@@ -124,3 +124,66 @@ Vamos trabalhar em uma sequência que pode ser retomada conforme sua experiênci
 Para cada atividade, guarde o arquivo \texttt{.omv} com um nome que identifique o exemplo e registre a versão do jamovi. Escreva um pequeno parágrafo com a pergunta, as observações incluídas, as opções e a interpretação. Se o resultado numérico diferir do indicado, confira primeiro filtros, ausentes, tipos de variáveis, ordem das categorias e correções selecionadas.
 
 Os comentários ao final dos capítulos ajudam a conferir o raciocínio; tente responder antes de consultá-los. Ao levar o procedimento para sua pesquisa, volte ao desenho do estudo: reproduzir um cálculo é uma etapa diferente de justificar sua aplicação a novos dados.
+
+\section{Da pergunta ao projeto de análise}
+\label{sec:projeto-reproduzivel}
+
+Vamos imaginar que uma colega receba seu arquivo \texttt{.omv} daqui a seis meses. Ela conseguirá descobrir por que algumas linhas não entraram na análise e o que significam as colunas? Para tornar essa retomada possível, podemos organizar o trabalho como a figura~\ref{fig:ciclo-projeto-jamovi}. O processo admite voltas: um gráfico pode revelar um erro de digitação que exige revisar a preparação e atualizar as análises.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[draw,rounded corners,text width=3.3cm,align=center,minimum height=1cm] (p) at (0,2) {Pergunta e desenho\\Quem foi observado?};
+  \node[draw,rounded corners,text width=3.3cm,align=center,minimum height=1cm] (d) at (5.5,2) {Dados e dicionário\\O que cada coluna mede?};
+  \node[draw,rounded corners,text width=3.3cm,align=center,minimum height=1cm] (a) at (5.5,0) {Preparação e análise\\Quais regras foram usadas?};
+  \node[draw,rounded corners,text width=3.3cm,align=center,minimum height=1cm] (r) at (0,0) {Relato e revisão\\O que podemos concluir?};
+  \draw[->,thick] (p) -- (d);
+  \draw[->,thick] (d) -- (a);
+  \draw[->,thick] (a) -- (r);
+  \draw[->,dashed] (r) -- (p);
+\end{tikzpicture}
+\caption{Etapas que precisamos conectar para compreender e reproduzir uma análise. Elaboração própria.}
+\label{fig:ciclo-projeto-jamovi}
+\end{figure}
+
+\subsection{Um registro curto que acompanha os números}
+
+No início do projeto, escreva qual é a unidade observada e qual pergunta pretende responder. Por exemplo: ``Cada linha identifica uma pessoa fictícia; queremos descrever suas notas e examinar a mudança entre duas ocasiões.'' Essa frase já nos lembra que \texttt{antes} e \texttt{depois} formam pares. Colocar todas as notas em uma lista e tratá-las como pessoas diferentes apagaria essa informação.
+
+Depois, mantenha um registro das decisões. Ele pode conter a data, a variável afetada, a regra, o motivo e a quantidade de registros envolvidos. ``A nota da pessoa 7 foi corrigida de 600 para 60 após consulta ao formulário'' é uma anotação verificável; ``limpei o banco'' deixa a operação indefinida. Quando houver um critério de exclusão, registre também se ele foi definido antes ou depois da exploração dos resultados.
+
+O modo de sintaxe ajuda a guardar as opções de uma análise, mas o código apresentado não inclui automaticamente a etapa de importação. O arquivo \texttt{.omv}, o dicionário e o registro de decisões cumprem papéis complementares \parencite{JamoviR}. Reproduzir o mesmo cálculo requer conhecer os dados usados; avaliar se o procedimento responde à pergunta exige conhecer também o desenho.
+
+\subsection{Leitura, execução e interpretação}
+
+Ao estudar um procedimento, tente separar três tarefas. Primeiro, identifique a pergunta e a quantidade que será estimada. Depois, configure o programa. Por fim, escreva a interpretação usando a unidade e a população ou conjunto a que ela se refere. Se algum termo da tabela ainda não fizer sentido, volte ao conceito antes de transferir a frase para seu relatório.
+
+Por exemplo, dizer ``a média posterior foi 64,56 pontos entre 18 pessoas fictícias'' descreve um conjunto. Dizer ``a atividade melhorou a aprendizagem'' exige informações adicionais sobre comparação, alocação dos grupos, medidas e possíveis explicações alternativas. Vamos reaproveitar essa distinção em todos os capítulos.
+
+\section{Para praticar: organizando o primeiro projeto}
+
+\begin{enumerate}
+  \item Abra \texttt{exemplo\_notas.csv}. Escreva o significado de uma linha e diga por que há duas colunas de notas, em vez de 36 pessoas diferentes.
+  \item Uma colega enviou somente um PDF com tabelas. Quais materiais faltam para você conferir as opções e refazer os cálculos no jamovi?
+  \item Você ativou um filtro para estudar apenas um grupo e salvou o \texttt{.omv}. Esse arquivo agora documenta uma análise errada? Explique o que deve acompanhar o filtro.
+\end{enumerate}
+
+\subsection{Comentários para conferir o raciocínio}
+
+\begin{enumerate}
+  \item Uma linha identifica uma pessoa. As duas notas pertencem à mesma pessoa e representam ocasiões diferentes. São 18 pessoas com duas medidas, não 36 unidades independentes.
+  \item Precisamos dos dados analisados, das definições das variáveis e das opções da análise. O \texttt{.omv} guarda dados e análises; o dicionário, as versões do programa e dos módulos e o registro de decisões ajudam a compreender o projeto.
+  \item O filtro pode representar exatamente a pergunta do estudo. Ele precisa ter um motivo explícito, um estado conhecido e um número de observações conferido. Para estudar outra pergunta, salvar uma cópia e revisar os filtros evita confundir subconjuntos.
+\end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+\label{sec:trilhas-balaio}
+
+As trilhas ao final dos capítulos conectam a leitura a posts e vídeos do \href{https://www.youtube.com/channel/UCzHAqwm3RSDM-YKdxd4XYTg}{canal Balaio Científico}. Esses materiais podem usar versões do programa e bancos diferentes dos exemplos desta edição. Eles têm papel didático complementar; para definições dos métodos, condições e opções, consulte as fontes oficiais citadas ao longo da apostila. Os endereços e metadados foram conferidos em 25 de outubro de 2026.
+
+
+Para retomar a instalação, a interface e a sequência de estudo, leia \href{https://www.balaiocientifico.com/2026/10/introducao-ao-jamovi-instalacao.html}{Introdução ao Jamovi: instalação, interface e módulos} e \href{https://www.balaiocientifico.com/2022/11/apostila-de-jamovi.html}{Apostila de Jamovi em português: PDF gratuito e capítulos}.
+
+A demonstração visual de entrada no programa é \href{https://www.youtube.com/watch?v=0zGH20Fa_JA}{Jamovi - Introdução ao Jamovi - Aula 1}.
+
+\textbf{Vamos praticar:} Abra \texttt{exemplo\_notas.csv}, confira o identificador e os tipos de medida e salve um \texttt{.omv}. Acrescente uma anotação explicando o que representa uma linha e registre a versão do jamovi.
