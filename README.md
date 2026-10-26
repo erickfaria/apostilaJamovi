@@ -10,17 +10,20 @@ O jamovi é um software estatístico livre e de código aberto. Consulte o [site
 
 | Capítulo | O que vamos estudar |
 | --- | --- |
-| 1. Introdução | Instalação, primeiros passos, módulos, Rj e roteiro de estudo |
+| 1. Introdução | Instalação, primeiros passos, módulos, Rj, acessibilidade e organização de projetos |
 | 2. Manipulação de dados | Tipos de variáveis, organização, transformações, filtros, valores ausentes e exportação |
-| 3. Estatística descritiva | Frequências, medidas de posição e dispersão, gráficos e interpretação |
-| 4. Testes de hipóteses | Valor de p, intervalos, testes t, Mann–Whitney, Wilcoxon, planejamento amostral e multiplicidade |
+| 3. Estatística descritiva | Frequências, posição e dispersão, quantis, acumulada empírica, boxplot, Q–Q e densidade |
+| 4. Testes de hipóteses | Valor de p, intervalos, testes t, efeitos padronizados, equivalência, não paramétricos e planejamento |
 | 5. ANOVA | Um fator, contrastes, interação fatorial, medidas repetidas, desenho misto, ANCOVA, Kruskal–Wallis e Friedman |
 | 6. Regressão linear | Modelos simples e múltiplos, fatores, interações, diagnósticos e intervalos de média e predição |
 | 7. Dados categóricos | Tabelas, proporções, aderência, McNemar e regressão logística binária |
 | 8. Probabilidade, amostragem e estimação | Probabilidades condicionais, binomial, normal, distribuição amostral, viés, intervalos e bootstrap no Rj |
-| 9. Escores e confiabilidade | Itens invertidos, pontuação, covariâncias, alfa de Cronbach, correlação item–resto e fundamentos do ômega |
+| 9. Escores e confiabilidade | Itens invertidos, pontuação, alfa, item–resto, fundamentos do ômega e erro de medida |
+| 10. Dimensões | PCA e AFE, matriz de correlações, autovalores, retenção, rotação, cargas, comunalidades, KMO e Bartlett |
+| 11. Regressões multinomial e ordinal | Categoria de referência, logits, probabilidades, limiares, chances proporcionais e interpretação |
+| 12. Projetos integradores | Notas e modelos, escores e dimensões, descrição documentada do CNES e entregáveis |
 
-A intenção é ampliar continuamente o material em língua portuguesa. Modelos lineares mistos, regressões ordinal e multinomial, análise fatorial em profundidade ainda precisam de tratamento próprio.
+A intenção é ampliar continuamente o material em língua portuguesa. Modelos lineares mistos, análise fatorial confirmatória e modelos para amostragem complexa seguem como possibilidades de aprofundamento; os capítulos atuais explicam os limites dos procedimentos apresentados.
 
 ## Como acompanhar os exemplos
 
@@ -29,7 +32,7 @@ A intenção é ampliar continuamente o material em língua portuguesa. Modelos 
 3. Consulte o dicionário para conferir o que cada linha representa, os tipos das variáveis e as opções da análise.
 4. Salve seu trabalho em `.omv` e escreva sua interpretação antes de consultar os comentários dos exercícios.
 
-Há **nove CSVs fictícios**. Eles distinguem pessoas independentes, medidas repetidas e contagens agregadas; não representam resultados de pesquisas reais.
+Há **12 CSVs fictícios**. Eles distinguem pessoas independentes, medidas repetidas e contagens agregadas; não representam resultados de pesquisas reais.
 
 | Arquivo | Uso principal |
 | --- | --- |
@@ -42,14 +45,19 @@ Há **nove CSVs fictícios**. Eles distinguem pessoas independentes, medidas rep
 | [`exemplo_aderencia.csv`](dados/exemplo_aderencia.csv) | Proporções de várias categorias |
 | [`exemplo_mcnemar.csv`](dados/exemplo_mcnemar.csv) | Respostas binárias pareadas |
 | [`exemplo_escalas.csv`](dados/exemplo_escalas.csv) | Recodificação de itens, escores e consistência interna |
+| [`exemplo_dimensoes.csv`](dados/exemplo_dimensoes.csv) | Oito indicadores contínuos, PCA e atividade de AFE |
+| [`exemplo_multinomial.csv`](dados/exemplo_multinomial.csv) | Resposta nominal de três categorias e probabilidades |
+| [`exemplo_ordinal.csv`](dados/exemplo_ordinal.csv) | Resposta ordenada e chances proporcionais |
 
-Os capítulos 4 a 9 incluem **28 exercícios comentados**. Os capítulos novos acrescentam **12 figuras em TikZ/PGFPlots**, com fórmulas explicadas passo a passo. Os cálculos novos podem ser reproduzidos com Python 3, NumPy e SciPy:
+Os 12 capítulos incluem **68 exercícios comentados** e **45 figuras em TikZ/PGFPlots**, com fórmulas e explicações. A revisão 1.3.0 acrescenta 26 dessas figuras e 40 exercícios, além de aprofundar os capítulos anteriores. Os cálculos dos exemplos podem ser reproduzidos com Python 3, NumPy e SciPy:
 
 ```bash
 python scripts/calcular_exemplos.py
+python scripts/calcular_dimensoes.py
+python scripts/calcular_categoricos.py
 ```
 
-O script lê os CSVs e exibe os resultados, sem modificar os dados nem acessar a rede. O [dicionário](dados/README.md) registra as opções e os valores esperados.
+Esses scripts são calculadores didáticos: leem os CSVs e exibem os resultados, sem modificar os dados nem acessar a rede. O [dicionário](dados/README.md) registra as opções, a construção dos bancos e os valores esperados. O repositório não mantém suíte de testes automatizados.
 
 ## Referências e materiais complementares
 
@@ -59,9 +67,11 @@ As figuras explicativas novas são de elaboração própria em TikZ/PGFPlots. As
 
 - [Página da apostila no Balaio Científico](https://www.balaiocientifico.com/2022/11/apostila-de-jamovi.html).
 - [Sobre o Balaio Científico](https://www.balaiocientifico.com/p/sobre-o-balaio-cientifico.html).
-- [Videoaulas no YouTube](https://www.youtube.com/@BalaioCientifico).
+- [Videoaulas no YouTube](https://www.youtube.com/channel/UCzHAqwm3RSDM-YKdxd4XYTg).
+- [Playlist de jamovi](https://www.youtube.com/playlist?list=PL9yRFhroUHDAC_XfMQH7mRiHshp63qI1B).
+- [Trilhas por capítulo: blog, vídeo e prática](docs/trilhas-balaio.md).
 
-A edição web e o PDF podem receber revisões em momentos diferentes. Confira a data de atualização de cada material.
+Cada capítulo conecta a leitura a posts e vídeos do Balaio Científico, com atividades próprias da apostila. Os links e metadados selecionados foram conferidos em 25/10/2026. Posts e videoaulas podem usar outros bancos ou versões do programa; consulte as fontes oficiais para os métodos e as opções da versão utilizada. A edição web e o PDF podem receber revisões em momentos diferentes.
 
 ## Versões da apostila
 
@@ -71,7 +81,7 @@ O arquivo [`VERSION`](VERSION) identifica a edição em preparação; [`CHANGELO
 - **MENOR:** novos temas ou ampliações de conteúdo.
 - **CORREÇÃO:** ajustes de texto, cálculos, referências ou links.
 
-A `v1.0.0` identifica a revisão inicial já compilada, e a `v1.1.0` registra a ampliação dos capítulos de inferência e modelos. A edição em preparação, `v1.2.0`, acrescenta os fundamentos visuais e o capítulo de escores; sua tag será criada automaticamente quando o novo PDF for publicado pelo Actions.
+As edições `v1.0.0`, `v1.1.0` e `v1.2.0` estão publicadas. A edição em preparação, `v1.3.0`, revisa os nove capítulos anteriores e acrescenta dimensões, regressões multinomial e ordinal e projetos integradores. Sua tag será criada automaticamente quando o novo PDF for publicado pelo Actions.
 
 Para consultar uma edição fixa, abra a [lista de tags](https://github.com/erickfaria/apostilaJamovi/tags), selecione a versão e acesse `apostila_jamovi.pdf`. Cada tag inclui os fontes e o PDF daquela edição. A versão da `main` continua sendo atualizada no mesmo endereço público.
 

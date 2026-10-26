@@ -2,6 +2,21 @@
 
 As versões seguem `MAIOR.MENOR.CORREÇÃO`. As tags `vX.Y.Z` preservam os fontes e o PDF da mesma edição. O arquivo [`VERSION`](VERSION) informa a versão preparada para publicação.
 
+## 1.3.0 — 2026-10-25
+
+- Revisão completa dos nove capítulos anteriores, preservando o template e o tom didático.
+- Aprofundamento de tipos de medida, ausentes, formatos largo/longo, filtros, quantis, acumulada empírica, boxplot, Q–Q e densidade.
+- Tamanhos de efeito com denominadores explícitos, equivalência/TOST, decomposição e contrastes da ANOVA, correlação, diagnósticos, classificação e erro de medida.
+- Novos capítulos sobre componentes principais e AFE; regressões multinomial e ordinal; trilhas de estudo e projetos integradores.
+- Três bancos fictícios adicionais, com dicionários e calculadores didáticos somente de leitura.
+- 26 novas figuras em TikZ/PGFPlots e 40 exercícios adicionais: 45 figuras e 68 exercícios nos 12 capítulos.
+- 35 novas referências metodológicas verificadas de jamovi, R, psych, NIST, effectsize, TOSTER e artigo original de rotação varimax.
+- Trilhas por capítulo com posts publicados e vídeos do Balaio Científico; correção dos links de filtros e salvar/exportar, e adoção do endereço estável do canal.
+- Projetos com entregáveis .omv, dicionário e relatório, incluindo uma atividade opcional descritiva com o CNES.
+- README, catálogo de recursos e versão atualizados; nenhuma suíte de testes adicionada.
+
+A tag `v1.3.0` será criada automaticamente após a publicação bem-sucedida do PDF, preservando o endereço atual da apostila.
+
 ## 1.2.0 — 2026-10-25
 
 - Dois novos capítulos: probabilidade, amostragem e estimação; escores e confiabilidade de questionários.
@@ -13,7 +28,7 @@ As versões seguem `MAIOR.MENOR.CORREÇÃO`. As tags `vX.Y.Z` preservam os fonte
 - O script didático passa a se chamar `scripts/calcular_exemplos.py` e contém somente cálculos sobre os dados dos capítulos.
 - README e roteiro de estudo atualizados para nove capítulos, nove bases e 28 exercícios comentados.
 
-A tag `v1.2.0` é criada pelo Actions após a publicação bem-sucedida do PDF, no mesmo commit dos fontes e do PDF da edição.
+A tag `v1.2.0` identifica os fontes e o PDF publicados dessa edição.
 
 ## 1.1.0 — 2026-10-25
 

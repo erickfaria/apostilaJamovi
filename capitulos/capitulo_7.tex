@@ -83,6 +83,48 @@ A aproximação qui-quadrado exige atenção às frequências \textbf{esperadas}
 
 Cada observação precisa contribuir de modo compatível com a hipótese de independência. Se a mesma pessoa responde antes e depois a uma pergunta binária, os registros são pareados. O teste de McNemar trata uma pergunta desse tipo; a tabela de grupos independentes discutida aqui não é uma substituição adequada.
 
+\subsection{Resíduos: onde estão os afastamentos?}
+
+Uma estatística global soma contribuições de todas as células. O resíduo de Pearson de uma célula é:
+\[
+r_{ij}=\frac{O_{ij}-E_{ij}}{\sqrt{E_{ij}}}.
+\]
+Em A/Sim, ele vale $(30-22{,}5)/\sqrt{22{,}5}\approx1{,}581$. O sinal positivo indica mais respostas Sim do que o esperado sob independência; o negativo, menos. Os quadrados desses resíduos somam o qui-quadrado de Pearson sem correção.
+
+Também podemos considerar um resíduo padronizado \textbf{ajustado}, levando em conta a estimação das margens. Para uma tabela de independência, uma expressão é:
+\[
+z_{ij}=\frac{O_{ij}-E_{ij}}
+{\sqrt{E_{ij}(1-p_{i+})(1-p_{+j})}},
+\]
+em que $p_{i+}$ e $p_{+j}$ são as proporções marginais da linha e da coluna. A documentação de \texttt{chisq.test} do R distingue resíduos de Pearson e resíduos padronizados \parencite{RQuiQuadrado}. Esses nomes podem variar entre programas: confira a fórmula antes de comparar números.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\small,align=center}]
+  \node at (1.8,2.8) {Sim};
+  \node at (5.4,2.8) {Não};
+  \node[left] at (-0.2,1.8) {A};
+  \node[left] at (-0.2,0.6) {B};
+  \fill[blue!20] (0,1.2) rectangle (3.6,2.4);
+  \fill[red!15] (3.6,1.2) rectangle (7.2,2.4);
+  \fill[red!15] (0,0) rectangle (3.6,1.2);
+  \fill[blue!20] (3.6,0) rectangle (7.2,1.2);
+  \draw (0,0) rectangle (7.2,2.4);
+  \draw (3.6,0) -- (3.6,2.4);
+  \draw (0,1.2) -- (7.2,1.2);
+  \node at (1.8,1.8) {$30$ versus $22{,}5$\\$z\approx+3{,}015$};
+  \node at (5.4,1.8) {$20$ versus $27{,}5$\\$z\approx-3{,}015$};
+  \node at (1.8,0.6) {$15$ versus $22{,}5$\\$z\approx-3{,}015$};
+  \node at (5.4,0.6) {$35$ versus $27{,}5$\\$z\approx+3{,}015$};
+\end{tikzpicture}
+\caption{Contagens observadas versus esperadas e resíduos ajustados da tabela A/B. Azul indica excesso e vermelho, falta em relação ao modelo de independência. As quatro células não representam quatro descobertas independentes. Elaboração própria.}
+\label{fig:residuos-contingencia}
+\end{figure}
+
+Nesta tabela $2\times2$, margens fixadas deixam apenas um grau de liberdade: o excesso em uma célula determina os sinais das demais. Em tabelas maiores, uma inspeção dos resíduos ajuda a descrever o padrão, mas decisões por célula também precisam considerar a multiplicidade. Um corte como $|z|>1{,}96$ não fornece, sozinho, controle simultâneo de todas as comparações.
+
+Essas contas usam \textbf{frequências de observações independentes}. Pesos de uma amostra complexa não são automaticamente contagens de repetições independentes; a soma dos pesos pode ser um total populacional estimado. Se os pesos vierem de um plano amostral com estratos e conglomerados, use procedimentos compatíveis com esse plano, em vez de inserir os pesos no campo Contagens e interpretar o total como tamanho amostral.
+
 \section{Magnitude da associação}
 
 O valor de $p$ não quantifica o tamanho da associação. Uma opção para tabelas nominais é o V de Cramér:
@@ -271,13 +313,49 @@ As probabilidades ajustadas de uma a cinco horas são aproximadamente $0{,}175$,
 
 O painel pode apresentar desvio, AIC e medidas como o pseudo-$R^2$ de McFadden \parencite{JamoviLogisticaCodigo}. Um pseudo-$R^2$ não é a mesma fração da soma de quadrados explicada pela regressão linear. Compare medidas entre modelos apenas quando suas definições, respostas e amostras forem compatíveis.
 
-Transformar probabilidades em classificações exige escolher um limiar. Com limiar 0,50, uma pessoa com probabilidade 0,49 recebe uma categoria diferente de outra com 0,51, apesar da pequena diferença entre elas. Sensibilidade, especificidade e acurácia dependem desse limiar e da composição do banco. A área sob a curva ROC avalia discriminação ao longo de limiares; não demonstra, sozinha, que probabilidades previstas estejam bem calibradas.
+Transformar probabilidades em classificações exige escolher um limiar. Com limiar 0,50, uma pessoa com probabilidade 0,49 recebe uma categoria diferente de outra com 0,51, apesar da pequena diferença entre elas. Sensibilidade e especificidade condicionam a avaliação ao resultado observado; a acurácia também depende da proporção de cada resultado no banco. O limiar e as características dos casos avaliados precisam acompanhar essas medidas. A área sob a curva ROC avalia discriminação ao longo de limiares; não demonstra, sozinha, que probabilidades previstas estejam bem calibradas.
 
 Para avaliar calibração, precisamos confrontar as probabilidades previstas e as frequências observadas em uma avaliação adequada; a documentação de calibração probabilística do scikit-learn apresenta essa distinção \parencite{SKLearnCalibracao}. Para uso preditivo real, também precisamos de dados de validação ou de um procedimento de reamostragem que considere a escolha do modelo. Os 60 casos construídos aqui servem ao ensino do ajuste, e não à validação de uma ferramenta para decidir sobre pessoas.
 
 É possível incluir outros preditores contínuos em Covariáveis e categóricos em Fatores. Com múltiplos termos, cada OR é condicional aos demais termos do modelo e às referências escolhidas; com interações, a comparação depende também dos valores envolvidos. A relação linear exigida para um preditor contínuo é na escala do logit, e a independência das unidades precisa vir do desenho. Uma tabela binária não torna essas condições automáticas.
 
 Um relato inicial pode ser: ``No exemplo fictício, ajustou-se uma regressão logística binária para conclusão da tarefa, evento 1 e referência 0, em função de horas. A OR por hora foi $2{,}17$, IC95\% de Wald $[1{,}38;3{,}40]$, em 60 observações independentes.'' Em uma aplicação real, acrescente as condições de obtenção dos dados, os diagnósticos, os ausentes e a avaliação compatível com a finalidade do modelo.
+
+\subsection{Por que uma acurácia alta pode enganar?}
+
+Vamos usar o evento Sim como positivo. Na avaliação de uma classificação, \textbf{verdadeiros positivos} (VP) são eventos previstos como Sim; \textbf{falsos negativos} (FN) são eventos previstos como Não. Entre os não eventos, \textbf{verdadeiros negativos} (VN) são previsões Não, e \textbf{falsos positivos} (FP), previsões Sim. As medidas usuais são:
+\[
+\text{Sensibilidade}=\frac{VP}{VP+FN},\quad
+\text{Especificidade}=\frac{VN}{VN+FP},\quad
+\text{Acurácia}=\frac{VP+VN}{VP+FN+VN+FP}.
+\]
+Imagine outro conjunto fictício com 100 pessoas, sendo cinco eventos e 95 não eventos. Uma regra que responde Não para todas acerta 95 pessoas e tem acurácia de 95\%, mas não identifica evento algum: sua sensibilidade é zero. A especificidade é 100\%. Esses números descrevem a mesma regra, com denominadores diferentes.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\small,align=center}]
+  \node at (1.7,2.9) {Observado Sim};
+  \node at (5.1,2.9) {Observado Não};
+  \node[left] at (-0.1,1.8) {Previsto Sim};
+  \node[left] at (-0.1,0.6) {Previsto Não};
+  \fill[gray!10] (0,1.2) rectangle (6.8,2.4);
+  \fill[red!15] (0,0) rectangle (3.4,1.2);
+  \fill[blue!15] (3.4,0) rectangle (6.8,1.2);
+  \draw (0,0) rectangle (6.8,2.4);
+  \draw (3.4,0) -- (3.4,2.4);
+  \draw (0,1.2) -- (6.8,1.2);
+  \node at (1.7,1.8) {VP = 0};
+  \node at (5.1,1.8) {FP = 0};
+  \node at (1.7,0.6) {FN = 5};
+  \node at (5.1,0.6) {VN = 95};
+\end{tikzpicture}
+\caption{Matriz de uma regra hipotética que classifica todos como Não. O acerto global de 95\% convive com falha em todos os cinco eventos. Este exemplo não é a saída do ajuste logístico do CSV. Elaboração própria.}
+\label{fig:classificacao-majoritaria}
+\end{figure}
+
+Se mudarmos apenas a proporção de eventos, mantendo sensibilidade e especificidade, a acurácia muda. O valor preditivo positivo, $VP/(VP+FP)$, também depende da frequência de eventos na população avaliada; nessa regra sem qualquer previsão positiva, ele não é calculável porque o denominador é zero.
+
+No exemplo de regressão logística, explique como o limiar foi escolhido e em quais dados as medidas foram avaliadas. Um limiar adequado depende da pergunta e das consequências das duas direções de erro. Se ele for escolhido e avaliado nos mesmos casos, a avaliação poderá ser otimista. A discussão de calibração acima acrescenta outra pergunta: se o modelo prevê probabilidades de 20\%, elas correspondem a frequências próximas de 20\% em observações comparáveis?
 
 \section{Vamos praticar: perguntas e comentários}
 
@@ -286,6 +364,8 @@ Um relato inicial pode ser: ``No exemplo fictício, ajustou-se uma regressão lo
   \item Uma variável com três categorias e proporções de referência iguais pede um teste de aderência ou uma tabela de independência entre duas variáveis?
   \item No exemplo pareado, quantas pessoas mudaram de Não para Sim e quantas fizeram a mudança inversa? Por que só comparar os totais marginais não descreve todos os pares?
   \item Uma OR de $2{,}17$ por hora significa que a probabilidade aumenta 117 pontos percentuais?
+  \item Um resíduo positivo de A/Sim indica que a contagem observada é maior ou menor que a esperada sob independência?
+  \item Uma classificação pode ter acurácia de 95\% e sensibilidade zero? Explique usando a figura~\ref{fig:classificacao-majoritaria}.
 \end{enumerate}
 
 \subsection*{Comentários das respostas}
@@ -295,4 +375,14 @@ Um relato inicial pode ser: ``No exemplo fictício, ajustou-se uma regressão lo
   \item Um teste de aderência, pois temos uma variável e uma distribuição de referência. Para duas variáveis cruzadas, a pergunta seria outra.
   \item Dezesseis mudaram de Não para Sim e quatro de Sim para Não. Os totais marginais mostram o saldo, mas ocultam quantas pessoas mudaram em cada sentido; os pares discordantes sustentam McNemar.
   \item Não. A OR multiplica as chances. No exemplo, passar de três para quatro horas muda a probabilidade ajustada de 50\% para aproximadamente 68,4\%, segundo o modelo.
+  \item Maior. O sinal acompanha $O-E$; a magnitude padronizada depende também da definição e do denominador usados.
+  \item Sim. Prever Não para todas as 100 pessoas acerta os 95 não eventos, mas perde os cinco eventos. Os denominadores e a finalidade da avaliação precisam ser apresentados.
 \end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+
+Para rever as contagens e a escolha dos denominadores, leia \href{https://www.balaiocientifico.com/2026/10/dados-categoricos-no-jamovi-frequencias.html}{Dados categóricos no Jamovi: frequências, percentuais e associações}.
+
+Para localizar a análise de tabelas na interface, veja \href{https://www.youtube.com/watch?v=z_NvuE6S14Q}{Jamovi - Tabelas de Contigência no Jamovi - Aula 17}.
+
+\textbf{Vamos praticar:} Abra \texttt{exemplo\_frequencias.csv}, use \texttt{frequencia} em Contagens e confirme o total de 100. Relate o percentual de Sim dentro de cada grupo e o percentual do grupo A entre as respostas Sim, identificando os dois denominadores.

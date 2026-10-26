@@ -49,6 +49,39 @@ O resultado clássico é $F(2,15)\approx2{,}799$, $p\approx0{,}093$. Com $\alpha
 
 Para a versão de Welch, você deve encontrar aproximadamente $F=2{,}652$ e $p=0{,}119$. Os graus de liberdade do denominador são aproximados e diferem dos da ANOVA clássica. Nenhum dos resultados demonstra que as três atividades sejam equivalentes.
 
+\subsection{Decompondo a variação, sem decorar a tabela}
+
+Vamos acompanhar uma observação do grupo Leitura. Sua nota 50 está abaixo da média geral $64{,}556$. Podemos separar esse afastamento em duas partes: o afastamento da média do seu grupo em relação à média geral e o afastamento da pessoa em relação ao grupo:
+\[
+\underbrace{50-64{,}556}_{-14{,}556}
+=\underbrace{59{,}167-64{,}556}_{-5{,}389}
++\underbrace{50-59{,}167}_{-9{,}167}.
+\]
+A identidade vale para cada observação: $y_{ij}-\bar y=(\bar y_j-\bar y)+(y_{ij}-\bar y_j)$. Somando os quadrados e usando o fato de que os resíduos de cada grupo somam zero, obtemos a decomposição clássica:
+\[
+\underbrace{\sum_j\sum_i(y_{ij}-\bar y)^2}_{SQ_{\mathrm{total}}}
+=\underbrace{\sum_jn_j(\bar y_j-\bar y)^2}_{SQ_{\mathrm{entre}}}
++\underbrace{\sum_j\sum_i(y_{ij}-\bar y_j)^2}_{SQ_{\mathrm{dentro}}}.
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\small,align=center}]
+  \node[draw,rounded corners,text width=3.2cm,minimum height=1cm] (total) at (0,0)
+    {Variação total\\$SQ=1256{,}444$};
+  \node[draw,fill=blue!10,text width=3.3cm,minimum height=1cm] (entre) at (6,1)
+    {Médias dos grupos\\$SQ=341{,}444$; $gl=2$};
+  \node[draw,fill=gray!15,text width=3.3cm,minimum height=1cm] (dentro) at (6,-1)
+    {Resíduos nos grupos\\$SQ=915$; $gl=15$};
+  \draw[->,thick] (total) -- (entre);
+  \draw[->,thick] (total) -- (dentro);
+\end{tikzpicture}
+\caption{Decomposição da ANOVA clássica de um fator no arquivo de notas. As somas de quadrados e os graus de liberdade das duas parcelas somam os valores totais: $1256{,}444$ e 17. Elaboração própria.}
+\label{fig:decomposicao-anova}
+\end{figure}
+
+Para três médias, precisamos de dois graus de liberdade entre grupos; dentro deles restam $18-3=15$. Dividir cada soma de quadrados por seus graus de liberdade permite comparar as variações pela estatística $F$. Essa construção também explica por que a ANOVA é um modelo linear: cada grupo possui uma média ajustada, e o restante aparece nos resíduos. No capítulo~\ref{cap:regressao}, a codificação por indicadores reproduzirá essa representação de grupos.
+
 \section{Comparações múltiplas}
 
 O teste global não identifica quais pares diferem. Quando comparações entre pares fizerem parte do plano de análise, precisamos considerar o problema da multiplicidade: realizar muitos testes sem ajuste aumenta a possibilidade de obter ao menos uma rejeição indevida.
@@ -81,6 +114,16 @@ C=-\mu_{\mathrm{Leitura}}+\tfrac12\mu_{\mathrm{Video}}+
 Os pesos somam zero. Nos dados da apostila, a estimativa é $-59{,}167+(64{,}667+69{,}833)/2\approx8{,}083$ pontos. Aqui estamos comparando médias de grupos com pesos definidos, e não juntando arbitrariamente todas as pessoas de duas categorias em uma única categoria.
 
 A escolha do contraste deve acompanhar a pergunta substantiva. Se houver várias perguntas, planeje o controle de multiplicidade; chamar uma análise de ``planejada'' não elimina automaticamente esse problema. No painel geral de \textbf{ANOVA}, o jamovi oferece contrastes e comparações posteriores; confira a ordem dos níveis e a definição do contraste selecionado antes de atribuir significado ao coeficiente \parencite{JamoviAnovaFatorial}.
+
+\subsection{Estimativa e intervalo de um contraste}
+
+Para o contraste $C$ definido acima, a pergunta continua sendo uma diferença em pontos. Na ANOVA clássica de um fator com variância comum, o erro padrão de uma combinação de médias com pesos $c_j$ é:
+\[
+EP(\widehat C)=\sqrt{QM_{\mathrm{dentro}}\sum_j\frac{c_j^2}{n_j}}.
+\]
+Com pesos $-1$, $1/2$, $1/2$, seis pessoas por grupo e $QM_{\mathrm{dentro}}=61$, temos $EP\approx3{,}905$. Portanto, $t\approx8{,}083/3{,}905=2{,}070$, com 15 graus de liberdade. O IC95\% individual é aproximadamente $[-0{,}240;16{,}407]$ pontos, e $p\approx0{,}056$ no teste bilateral sem ajuste para outros contrastes.
+
+Esse intervalo é para \textbf{um contraste}, sob o modelo clássico. Não é um intervalo simultâneo para todos os pares nem se aplica automaticamente à ANOVA de Welch. O resultado reforça a diferença entre uma estimativa positiva, a sua precisão e uma decisão por nível de significância. Para uma família de contrastes, o planejamento deve contemplar a inferência conjunta.
 
 \section{ANOVA fatorial: duas características no mesmo modelo}
 \label{sec:anova-fatorial}
@@ -160,6 +203,32 @@ As diferenças amostrais de 4 e 14 pontos ajudam a explicar o resultado. Não ba
 
 Um relato possível é: ``No exemplo fictício balanceado, o modelo incluiu formato, prática e sua interação. A interação apresentou $F(1,20)=10{,}71$, $p=0{,}0038$, $\eta_p^2=0{,}349$. As diferenças com prática menos sem prática foram 4 pontos em Texto e 14 em Vídeo.'' Em dados reais, acrescente os intervalos das comparações, os diagnósticos e o desenho de obtenção dos dados.
 
+\subsection{Desenhos desbalanceados e médias marginais}
+
+No exemplo $2\times2$, cada combinação tem o mesmo número de pessoas. Em um banco desbalanceado, precisamos perguntar se queremos uma média que dê o mesmo peso a cada célula ou uma que preserve as frequências observadas. Imagine o formato Texto com 90 pessoas sem prática e 10 com prática, e o formato Vídeo com 10 sem prática e 90 com prática. Comparar médias brutas dos formatos também incorpora essa composição diferente.
+
+Por isso, informe o modelo e como as médias marginais foram ponderadas. A referência de ANOVA do jamovi apresenta os tipos de somas de quadrados e a ponderação das células \parencite{JamoviAnovaFatorial}. A opção selecionada deve corresponder à pergunta; não escolha a configuração que apenas produza o menor valor de $p$.
+
+Somas de quadrados do tipo I são \textbf{sequenciais}: avaliam o acréscimo de cada termo na ordem de entrada. Em desenhos desbalanceados, mudar essa ordem pode mudar a pergunta e o resultado. A documentação de \texttt{anova.lm} explica essa leitura por acréscimos e exige a mesma amostra para comparar modelos \parencite{RAnovaModelos}. As definições dos tipos II e III tratam o ajuste pelos demais termos de outra forma, sobretudo na presença de interação. Anote o tipo utilizado e os contrastes; o número do tipo, isoladamente, não é uma justificativa substantiva.
+
+\subsection{Eta quadrado e ômega quadrado}
+
+O jamovi oferece diferentes medidas de tamanho de efeito no painel geral de ANOVA \parencite{JamoviAnovaFatorial}. Além de $\eta^2$ e $\eta_p^2$, existe o $\omega^2$, que incorpora uma correção de viés. Na forma clássica de um fator:
+\[
+\widehat\omega^2=
+\frac{SQ_{\mathrm{entre}}-(g-1)QM_{\mathrm{dentro}}}
+{SQ_{\mathrm{total}}+QM_{\mathrm{dentro}}},
+\]
+em que $g$ é o número de grupos. Para o banco de notas, temos:
+\[
+\widehat\omega^2\approx
+\frac{341{,}444-2\times61}{1256{,}444+61}
+\approx0{,}167.
+\]
+O valor é menor que $\eta^2\approx0{,}272$ neste exemplo. Não são duas maneiras de arredondar o mesmo índice: são estimadores diferentes. A documentação de \texttt{effectsize} distingue essas medidas e suas dependências em relação ao modelo e às somas de quadrados \parencite{EffectsizeAnova}. Estimativas corrigidas podem até ser negativas em certas amostras; se o programa truncar o valor em zero, identifique a convenção.
+
+O símbolo $\omega^2$ da ANOVA e o $\omega$ de confiabilidade, discutido no capítulo~\ref{cap:confiabilidade}, representam quantidades distintas. Leia sempre a definição, em vez de atribuir significado apenas pela letra usada.
+
 \section{ANOVA de medidas repetidas}
 \label{sec:anova-repetidas}
 
@@ -182,6 +251,21 @@ Os campos de fatores, células e correções são descritos na referência ofici
 \subsection{Esfericidade e graus de liberdade}
 
 Para três ou mais níveis do fator intrassujeitos, a inferência univariada usual considera a \textbf{esfericidade}: as variâncias das diferenças entre cada par de ocasiões devem ser iguais. Neste exemplo, estamos falando das variâncias de Final menos Inicial, Seguimento menos Inicial e Seguimento menos Final. A condição não se resume à igualdade das variâncias de cada coluna isolada.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\small,align=center}]
+  \node[draw,minimum width=2.6cm] (i) at (0,1) {Inicial};
+  \node[draw,minimum width=2.6cm] (f) at (4,1) {Final};
+  \node[draw,minimum width=2.6cm] (s) at (8,1) {Seguimento};
+  \draw[->,blue,thick] (i) -- node[above] {$D_1$} (f);
+  \draw[->,blue,thick] (f) -- node[above] {$D_2$} (s);
+  \draw[->,red,thick] (0,0.6) -- (0,-0.3) -- node[below] {$D_3=\text{Seguimento}-\text{Inicial}$} (8,-0.3) -- (8,0.6);
+  \node at (4,-1.4) {$\operatorname{Var}(D_1)=\operatorname{Var}(D_2)=\operatorname{Var}(D_3)$};
+\end{tikzpicture}
+\caption{A esfericidade de três ocasiões se refere às variâncias das diferenças entre pares. Cada diferença é calculada preservando a mesma pessoa. As setas não representam observações independentes. Elaboração própria.}
+\label{fig:esfericidade-diferencas}
+\end{figure}
 
 O teste de Mauchly investiga essa condição, mas um valor de $p$ grande, especialmente com poucas pessoas, não a comprova. As correções de Greenhouse--Geisser e Huynh--Feldt ajustam os graus de liberdade por um fator $\varepsilon$. Com três ocasiões, um resultado que antes usava $gl_1=2$ e $gl_2=22$ passa a usar $2\varepsilon$ e $22\varepsilon$. Na correção usual, o valor de $F$ permanece igual e seu valor de $p$ é recalculado com esses graus de liberdade \parencite{JamoviAnovaRM}.
 
@@ -231,6 +315,8 @@ Friedman organiza os postos \textbf{dentro de cada pessoa}. Nos 12 conjuntos com
   \item No banco longitudinal, três colunas e 12 linhas significam 36 pessoas independentes? Qual é a unidade que precisamos preservar?
   \item Uma correção de Greenhouse--Geisser foi selecionada. Podemos relatar o valor de $p$ corrigido com os graus de liberdade não corrigidos?
   \item Após ajustar uma ANCOVA, as médias marginais precisam coincidir com as médias brutas?
+  \item Na ANOVA de um fator, por que $SQ_{\mathrm{entre}}+SQ_{\mathrm{dentro}}$ reproduz a soma de quadrados total?
+  \item O $\omega^2$ de uma ANOVA e o $\omega$ de um questionário representam a mesma quantidade?
 \end{enumerate}
 
 \subsection*{Comentários das respostas}
@@ -240,4 +326,14 @@ Friedman organiza os postos \textbf{dentro de cada pessoa}. Nos 12 conjuntos com
   \item Não. São 12 pessoas, cada uma com três medidas. Precisamos preservar o conjunto de medidas da mesma pessoa.
   \item Não. Informe o $F$, os graus de liberdade e o valor de $p$ da mesma versão da inferência, além da correção empregada.
   \item Não. São estimativas do modelo em uma configuração definida das covariáveis; a configuração precisa acompanhar sua interpretação.
+  \item Porque o afastamento de cada observação em relação à média geral se decompõe em afastamento entre médias e resíduo no grupo; ao somar, os produtos cruzados se anulam.
+  \item Não. O primeiro resume um tamanho de efeito no modelo de médias; o segundo depende de um modelo de medida para a confiabilidade de um escore.
 \end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+
+Para retomar a pergunta da comparação entre médias, consulte \href{https://www.balaiocientifico.com/2026/10/anova-no-jamovi-comparar-medias-com-uma.html}{ANOVA no Jamovi: comparar médias com uma pergunta bem definida}.
+
+Para a etapa exploratória antes da comparação, veja \href{https://www.youtube.com/watch?v=DN4d3LRc13k}{Jamovi - Boxplot no Jamovi - Aula 14}.
+
+\textbf{Vamos praticar:} Com \texttt{exemplo\_fatorial.csv}, compare as quatro combinações de fatores em um gráfico e calcule as médias de cada célula. Explique por que o ganho associado à prática é diferente entre Texto e Vídeo antes de interpretar a interação do modelo.

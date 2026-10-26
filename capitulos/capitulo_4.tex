@@ -174,6 +174,67 @@ Bonferroni compara cada valor de $p$ com $\alpha/m$, ou multiplica cada valor po
 
 Procedimentos voltados à taxa de falsas descobertas, como Benjamini--Hochberg, têm outro objetivo de controle e condições próprias. Eles não significam que cada resultado rejeitado tenha, individualmente, uma probabilidade de 5\% de ser falso. A documentação de \texttt{p.adjust} distingue essas famílias de procedimentos \parencite{RAjusteP}. No jamovi, use as opções de ajuste oferecidas pela análise correspondente e informe o método; não suponha que uma escolha em um painel ajustará automaticamente todos os testes da sessão.
 
+\section{Tamanho de efeito: qual é o denominador?}
+
+Vamos tornar concreta a padronização mencionada no início. Para uma amostra comparada com uma referência, uma definição é $d=(\bar{x}-\mu_0)/s$. Para a nota posterior contra 60, obtemos $d\approx4{,}556/8{,}597=0{,}530$. Isso expressa a diferença em unidades do desvio padrão das notas, enquanto a estimativa em pontos continua sendo $4{,}556$.
+
+Para dois grupos independentes sob a padronização pela variância comum, usamos:
+\[
+s_p=\sqrt{\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}},
+\qquad d=\frac{\bar{x}_1-\bar{x}_2}{s_p}.
+\]
+Em Leitura menos Vídeo, $s_p\approx7{,}404$ e $d\approx-5{,}50/7{,}404=-0{,}743$. Esse cálculo ilustra uma definição; não transforma Welch em um teste que suponha variâncias iguais. Se a padronização escolher outro desvio padrão, o índice poderá mudar. A documentação do pacote \texttt{effectsize} explicita as alternativas e a correção de Hedges para o viés em amostras pequenas \parencite{EffectsizeD}.
+
+No desenho pareado, uma definição útil é o $d_z$, que usa a variabilidade das \textbf{diferenças individuais}:
+\[
+d_z=\frac{\bar d}{s_d}=\frac{t}{\sqrt n}
+\approx\frac{12{,}889}{5{,}697}=2{,}262.
+\]
+A igualdade com $t/\sqrt n$ decorre diretamente da fórmula do teste pareado. Outros índices de medidas repetidas usam o desvio padrão inicial ou uma combinação das variâncias das ocasiões; eles respondem a padronizações diferentes \parencite{EffectsizePareado}. Assim, não compare $2{,}262$ e $-0{,}743$ como se a diferença entre seus módulos medisse a superioridade de uma atividade: as perguntas, unidades de comparação e escalas de padronização mudaram.
+
+No jamovi, solicite tamanho de efeito e seu intervalo de confiança quando disponíveis, além da diferença não padronizada \parencite{JamoviTIndependente,JamoviTPareado}. No relatório, nomeie a medida, sua orientação e o denominador. Não obtenha um suposto IC de $d$ apenas dividindo os limites do IC da diferença por um desvio padrão tratado como conhecido: a incerteza da padronização também precisa ser considerada pelo método de intervalo.
+
+\section{Ausência de evidência e equivalência}
+\label{sec:equivalencia}
+
+Suponha que uma equipe considere diferenças menores que 5 pontos pouco relevantes para uma decisão específica. Essa margem precisa de uma justificativa anterior aos resultados; aqui, vamos usar $[-5;5]$ somente para ensinar a lógica. Uma pergunta de equivalência é se a diferença populacional $\Delta$ está \textbf{dentro} dessas margens:
+\[
+H_0:\Delta\leq-5\ \text{ou}\ \Delta\geq5,
+\qquad H_1:-5<\Delta<5.
+\]
+Observe que essa hipótese nula difere de $H_0:\Delta=0$. Rejeitar uma diferença nula e demonstrar equivalência são decisões sobre perguntas distintas.
+
+O procedimento de dois testes unilaterais, conhecido como TOST, testa cada limite. Na versão usual com testes t e $\alpha=0{,}05$ em cada teste unilateral, a equivalência corresponde a um IC bilateral de \textbf{90\%} inteiramente contido nas margens. A documentação oficial do TOSTER descreve essa correspondência \parencite{TOSTERHipoteses}. Isso não é uma instrução para trocar o IC95\% de uma análise convencional por IC90\% depois de olhar os resultados.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.48cm,y=1cm,every node/.style={font=\small}]
+  \fill[green!12] (-5,0.6) rectangle (5,3.6);
+  \draw[dashed] (-5,0.4) -- (-5,3.7);
+  \draw[dashed] (5,0.4) -- (5,3.7);
+  \draw[dotted] (0,0.4) -- (0,3.7);
+  \draw[->] (-10,0) -- (10,0) node[right] {Diferença};
+  \foreach \x in {-10,-5,0,5,10} {
+    \draw (\x,0.1) -- (\x,-0.1) node[below] {$\x$};
+  }
+  \draw[blue,very thick] (-2,3) -- (3,3);
+  \fill[blue] (0.5,3) circle (2pt);
+  \node[right] at (6,3) {A: contido};
+  \draw[red,very thick] (-8,2) -- (7,2);
+  \fill[red] (-0.5,2) circle (2pt);
+  \node[right] at (6,2.4) {B: impreciso};
+  \draw[black,very thick] (5.5,1) -- (9,1);
+  \fill (7.25,1) circle (2pt);
+  \node[left] at (-5.5,1) {C: fora da faixa};
+\end{tikzpicture}
+\caption{IC90\% esquemáticos para uma pergunta de equivalência com margens $-5$ e 5. A atende ao critério de contenção; B e C não atendem. São situações construídas, sem relação numérica com os CSVs. Elaboração própria.}
+\label{fig:equivalencia-margens}
+\end{figure}
+
+Na situação B, a estimativa está perto de zero, mas a incerteza inclui diferenças relevantes nos dois sentidos. A proximidade da estimativa não basta. Na situação C, o intervalo está além da margem superior. Não demonstrar equivalência também não demonstra, por si só, que toda diferença seja relevante: precisamos ler o intervalo e identificar o teste realizado.
+
+Antes de usar um módulo de equivalência, registre o contraste, a escala, as margens, o desenho e o nível de decisão. Essa preparação é parte da pergunta científica. Para a comparação Leitura versus Vídeo, a conclusão já obtida permanece: o teste de Welch e seu IC95\% não fornecem uma demonstração de equivalência.
+
 \section{Vamos praticar: perguntas e comentários}
 
 Antes de consultar os comentários, escreva uma resposta curta para cada situação.
@@ -183,6 +244,8 @@ Antes de consultar os comentários, escreva uma resposta curta para cada situaç
   \item O teste de Welch produziu $p=0{,}227$ para Leitura versus Vídeo. Isso demonstra equivalência?
   \item Um teste de Mann--Whitney apresentou evidência de diferença. Podemos escrever automaticamente que as medianas populacionais diferem?
   \item Em três testes planejados, os valores de $p$ foram $0{,}010$, $0{,}030$ e $0{,}040$. Quais rejeitamos a 5\% usando Holm?
+  \item Por que precisamos identificar o denominador ao relatar um tamanho de efeito padronizado?
+  \item Um IC90\% de $[-2;3]$ atende ao critério de equivalência para margens $[-5;5]$? E um de $[-8;7]$?
 \end{enumerate}
 
 \subsection*{Comentários das respostas}
@@ -192,4 +255,14 @@ Antes de consultar os comentários, escreva uma resposta curta para cada situaç
   \item Não. O IC95\% da diferença, $[-15{,}037;4{,}037]$, inclui valores em ambos os sentidos. Uma pergunta de equivalência exige margens justificadas e análise própria.
   \item Não sem condições adicionais. Precisamos examinar o desenho e a forma das distribuições e identificar a quantidade que o teste permite interpretar.
   \item Apenas a primeira hipótese, pois os valores ajustados são $0{,}030$, $0{,}060$ e $0{,}060$. A família deve incluir os testes pertinentes, inclusive os que não tiveram resultados favoráveis.
+  \item Porque o desvio padrão das diferenças, o de uma ocasião e o combinado entre grupos definem escalas distintas. O símbolo $d$ sozinho não resolve essa escolha.
+  \item O primeiro sim, pois está inteiramente dentro das margens, sob as condições do procedimento. O segundo não: inclui diferenças externas à faixa e indica imprecisão para essa pergunta.
 \end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+
+Para conectar as hipóteses ao procedimento no programa, leia \href{https://www.balaiocientifico.com/2026/10/testes-de-hipoteses-no-jamovi-como.html}{Testes de hipóteses no Jamovi: como começar a interpretar o valor-p} e \href{https://www.balaiocientifico.com/2024/07/como-realizar-teste-t-no-jamovi.html}{Como Realizar Teste T no Jamovi}.
+
+Sobre a exibição do resultado, a demonstração complementar é \href{https://www.youtube.com/watch?v=IG0fWWklM3A}{Duvida - Aumentar casas decimais do Valor P no Jamovi}.
+
+\textbf{Vamos praticar:} No teste bilateral da nota posterior contra 60, escreva a hipótese, a diferença estimada e o intervalo de confiança. Compare duas apresentações do mesmo valor de $p$, com quantidades distintas de casas decimais: a mudança de formato não acrescenta informação à amostra nem altera a evidência estatística.

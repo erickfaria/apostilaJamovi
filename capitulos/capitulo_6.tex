@@ -13,6 +13,51 @@ O jamovi oferece Pearson, Spearman e Kendall na \textbf{Matriz de correlação (
 
 Uma correlação de Pearson próxima de zero não exclui toda relação possível: duas variáveis podem ter uma associação curva e correlação linear pequena. Por isso, examine um gráfico de dispersão antes de resumir a relação em um único coeficiente.
 
+\subsection{Calculando e interpretando uma correlação}
+
+Para pares completos $(x_i,y_i)$, o coeficiente de Pearson é:
+\[
+r=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}
+{\sqrt{\sum_i(x_i-\bar x)^2\sum_i(y_i-\bar y)^2}}.
+\]
+O numerador acompanha a covariação: pessoas acima da média em horas e acima da média em nota contribuem com um produto positivo. O denominador padroniza a escala. Assim, $r$ não tem unidade e permanece igual se trocarmos horas por minutos mediante uma transformação linear positiva. Trocar a unidade muda a inclinação da regressão, como veremos adiante.
+
+Para \texttt{horas} e \texttt{depois}, obtemos $r\approx0{,}840$, em 18 pares. Na inferência usual de Pearson para pares independentes sob um modelo normal bivariado, o teste de $H_0:\rho=0$ usa:
+\[
+t=r\sqrt{\frac{n-2}{1-r^2}},\qquad gl=n-2.
+\]
+Neste caso, $t\approx6{,}183$, com 16 graus de liberdade. O parâmetro $\rho$ é a correlação populacional; $r$ é sua estimativa. A documentação de \texttt{cor.test} apresenta esse teste e o intervalo aproximado por transformação de Fisher \parencite{RCorrelacao}. Para o exemplo, o IC95\% por esse método é aproximadamente $[0{,}613;0{,}939]$.
+
+A relação positiva é clara nos dados construídos, mas o intervalo não autoriza tratá-la como uma constante exata da população. Também não significa que uma pessoa estude mais \textit{porque} sua nota é alta ou que uma mudança nas horas produza necessariamente a mudança prevista na nota. Amostragem, desenho e variáveis omitidas continuam relevantes.
+
+\subsection{Uma relação forte pode ter correlação zero}
+
+Considere os cinco pares $(-2,4)$, $(-1,1)$, $(0,0)$, $(1,1)$ e $(2,4)$. Eles seguem exatamente $y=x^2$. Os produtos centrados se compensam, e a correlação de Pearson é zero. A figura~\ref{fig:correlacao-curva} mostra por que a expressão ``sem relação'' seria inadequada para descrever esse conjunto.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.76\textwidth,height=5.5cm,
+  xlabel={$x$},ylabel={$y$},xmin=-2.4,xmax=2.4,ymin=-0.4,ymax=4.7,
+  xtick={-2,-1,0,1,2},ytick={0,1,2,3,4},grid=major
+]
+  \addplot[blue,thick,domain=-2:2,samples=80] {x*x};
+  \addplot[only marks,mark=*,red] coordinates {(-2,4) (-1,1) (0,0) (1,1) (2,4)};
+\end{axis}
+\end{tikzpicture}
+\caption{Cinco pares construídos com relação quadrática perfeita e correlação de Pearson zero. A curva descreve uma relação que não é linear nem monotônica em todo o intervalo. Elaboração própria.}
+\label{fig:correlacao-curva}
+\end{figure}
+
+Spearman também não transforma toda relação curva em uma associação monotônica: neste exemplo simétrico, os postos não crescem continuamente de um extremo ao outro. Escolher Pearson ou Spearman começa pela relação que queremos descrever. Confira a dispersão, os empates, os limites da escala e observações influentes antes de interpretar o coeficiente.
+
+\subsection{Quantas pessoas há em cada correlação?}
+
+Em uma matriz com $k$ variáveis, existem $k(k-1)/2$ pares distintos: seis variáveis produzem 15 correlações. Esse número ajuda a reconhecer a multiplicidade quando todos os testes são examinados. Se as perguntas forem exploratórias, apresente a matriz completa e sua finalidade; se forem confirmatórias, defina as comparações principais e o ajuste pertinente, retomando o capítulo~\ref{cap:hipoteses}.
+
+Solicite o número de casos no painel de correlação \parencite{JamoviCorrelacao}. Com ausentes, diferentes pares podem utilizar pessoas diferentes. O coeficiente de horas com nota anterior e o de horas com nota posterior podem então refletir, além de associações distintas, alterações na composição da amostra. Registre a regra efetivamente usada e confira a amostra antes de comparar coeficientes ou combiná-los em outros modelos.
+
 \section{O modelo de uma reta}
 
 Escrevemos o modelo simples como:
@@ -82,6 +127,45 @@ A independência dos erros também precisa ser justificada pelo desenho. Notas r
 
 Observe possíveis casos influentes e confira os registros originais. Um ponto pode ser extremo em uma variável e não ter grande influência sobre a reta, ou pode mudar bastante o ajuste. Não exclua casos apenas para aumentar $R^2$ ou diminuir o valor de $p$.
 
+
+\subsection{Lendo os resíduos do nosso exemplo}
+
+Um resíduo positivo informa que a nota observada ficou acima da média ajustada; um negativo, abaixo. Para a primeira pessoa, a nota foi 50 e a previsão com uma hora foi $49{,}764+5{,}221\approx54{,}985$. Portanto, $e_1\approx-4{,}985$ pontos. Ele tem a mesma unidade da resposta.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.88\textwidth,height=6cm,
+  xlabel={Nota ajustada (pontos)},ylabel={Resíduo (pontos)},
+  xmin=53,xmax=78,ymin=-10,ymax=10,grid=major,
+  legend style={at={(0.5,1.03)},anchor=south,legend columns=3,font=\small}
+]
+  \addplot[black,dashed,domain=53:78,samples=2] {0};
+  \addlegendentry{Zero}
+  \addplot[only marks,blue,mark=*] coordinates {
+    (54.984615,-4.984615) (60.205128,-4.205128) (60.205128,-5.205128)
+    (65.425641,-4.425641) (70.646154,-7.646154) (75.866667,-5.866667)};
+  \addlegendentry{Leitura}
+  \addplot[only marks,red,mark=square*] coordinates {
+    (54.984615,-0.984615) (60.205128,-0.205128) (60.205128,1.794872)
+    (65.425641,0.574359) (70.646154,-0.646154) (75.866667,0.133333)};
+  \addlegendentry{Vídeo}
+  \addplot[only marks,green!50!black,mark=triangle*] coordinates {
+    (54.984615,3.015385) (60.205128,3.794872) (60.205128,6.794872)
+    (65.425641,7.574359) (70.646154,4.353846) (75.866667,6.133333)};
+  \addlegendentry{Oficina}
+\end{axis}
+\end{tikzpicture}
+\caption{Resíduos do modelo simples nota posterior em horas, identificados por grupo. O modelo não incluiu o grupo: a figura ajuda a perceber uma estrutura que a reta única deixa nos resíduos. Elaboração própria a partir do CSV.}
+\label{fig:residuos-notas}
+\end{figure}
+
+Todos os resíduos de Leitura são negativos, enquanto os de Oficina são positivos. Isso sugere examinar como o grupo participa da pergunta e do modelo, em vez de considerar somente o $R^2=0{,}705$. Um diagnóstico indica algo a investigar; não decide sozinho qual interpretação causal atribuir ao grupo. O NIST destaca o papel dos gráficos de resíduos na avaliação de modelos \parencite{NISTDiagnostico}.
+
+No ajuste por mínimos quadrados com intercepto, os resíduos somam zero, salvo arredondamento. Isso acontece pela própria estimação e \textbf{não comprova} normalidade, independência ou ausência de viés de seleção. Os erros $\varepsilon_i$ do modelo não são observados diretamente; os resíduos são calculados após estimar os parâmetros.
+
+Para interpretar a reta como média condicional, especificamos $E(\varepsilon_i\mid X_i)=0$ no modelo simples; na múltipla, a condição envolve o conjunto de preditores. Homogeneidade da variância e normalidade dos erros entram na inferência clássica correspondente. Uma reta pode ser calculada mesmo quando essas condições não são adequadas; conseguir um resultado numérico não encerra sua avaliação.
 
 \section{Regressão múltipla: incluindo a nota anterior}
 \label{sec:regressao-multipla}
@@ -199,6 +283,8 @@ Se forem usados fatores ou interações, informe as referências e o valor dos d
   \item Por que a inclinação de horas pode mudar de $5{,}221$ para $3{,}444$ quando acrescentamos a nota anterior?
   \item Podemos lançar Leitura, Vídeo e Oficina como 1, 2 e 3 em uma covariável sem mudar a pergunta?
   \item Qual intervalo é apropriado para expressar a incerteza de uma nova nota individual: o da média ou o de predição?
+  \item Nos cinco pares da figura~\ref{fig:correlacao-curva}, $r=0$ permite concluir ausência de relação?
+  \item Os resíduos somam zero em uma regressão com intercepto. Isso verifica as suposições do modelo?
 \end{enumerate}
 
 \subsection*{Comentários das respostas}
@@ -208,4 +294,14 @@ Se forem usados fatores ou interações, informe as referências e o valor dos d
   \item Os coeficientes descrevem comparações diferentes: marginal em relação à nota anterior no modelo simples e condicional a ela no múltiplo. A relação entre os preditores participa dessa mudança.
   \item Não. Essa codificação impõe uma relação linear entre códigos numéricos. Para categorias sem essa estrutura, use Fatores e identifique a referência.
   \item O intervalo de predição individual, que incorpora a dispersão das novas observações além da incerteza da média estimada.
+  \item Não. Existe uma relação quadrática exata, $y=x^2$; a correlação de Pearson resume a associação linear.
+  \item Não. A soma zero decorre das equações de mínimos quadrados com intercepto. Desenho, gráficos e diagnóstico precisam ser examinados separadamente.
 \end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+
+Para revisar a escolha da resposta e a leitura dos coeficientes, leia \href{https://www.balaiocientifico.com/2026/10/regressao-linear-no-jamovi-variaveis.html}{Regressão linear no Jamovi: variáveis, coeficientes e limites}.
+
+Para construir a visualização exploratória da relação, acompanhe \href{https://www.youtube.com/watch?v=K507gYOjBMA}{Jamovi - Gráfico de Dispersão no Jamovi - Aula 15}.
+
+\textbf{Vamos praticar:} Faça o gráfico de \texttt{horas} e \texttt{depois}, ajuste o modelo simples e estime a média para três horas. Compare essa previsão com os pontos observados e escreva por que a inclinação não demonstra um efeito causal de estudar mais.

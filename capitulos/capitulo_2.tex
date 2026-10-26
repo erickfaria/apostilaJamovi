@@ -1,35 +1,20 @@
 \chapter{Manipulação de Dados no Jamovi}
 
-O foco deste capítulo é a manipulação de dados, uma habilidade essencial para qualquer pessoa que esteja interessada em análise de dados. Vamos explorar as diversas funções e recursos do Jamovi para tratar, organizar e manipular conjuntos de dados. Se você já se perguntou como criar e gerenciar categorias, transformar dados ou manipular variáveis no Jamovi, este capítulo irá te guiar através desses processos passo a passo.
+\label{cap:manipulacao}
 
-No capítulo anterior você deu os primeiros passos e apresentamos a você a interface do Jamovi para manipulação de dados. Nesse capítulo discutiremos o fluxo de trabalho ideal para o tratamento de um conjunto de dados. O objetivo é garantir que você tenha uma compreensão sólida das ferramentas disponíveis e de como usá-las eficientemente.
+Antes de calcular uma média ou ajustar um modelo, precisamos saber o que cada linha representa, como as variáveis foram registradas e quais observações entrarão na análise. Vamos preparar os dados sem perder o caminho de volta aos registros originais. Criar uma categoria, declarar um código de ausência e excluir uma observação são decisões com consequências diferentes.
 
-Em seguida, abordaremos como criar novas categorias a partir de variáveis existentes. Isso pode ser útil em uma variedade de contextos, como quando você deseja agrupar respostas de pesquisas ou classificar dados em grupos específicos. Também ensinaremos a transformar variáveis, permitindo que você mude o formato dos seus dados de uma maneira que melhor atenda às suas necessidades analíticas.
+Ao longo do capítulo, usaremos capturas e exemplos de bancos apresentados nas videoaulas. As imagens registram a interface disponível quando foram produzidas; os nomes traduzidos e a posição de alguns botões podem mudar. Para praticar com um arquivo que acompanha a apostila, use também \texttt{dados/exemplo\_notas.csv}.
 
-Finalmente, traremos exemplos práticos para aplicar o conhecimento adquirido. O intuito é promover a familiarização com as ferramentas do software e reforçar a compreensão das funcionalidades abordadas.
+\section{Introdução à manipulação de dados}
 
-Lembre-se, a manipulação eficaz dos dados é a base de qualquer análise de qualidade. Por isso, este capítulo desempenha um papel fundamental no seu aprendizado sobre o uso do Jamovi. Esperamos que ao final desta etapa, você se sinta confiante para manipular conjuntos de dados e prepará-los para a análise de uma maneira eficiente e eficaz.
+Quando recebemos uma planilha, vale começar por uma pergunta simples: ``O que esta tabela está contando?'' Uma linha pode ser uma pessoa, uma visita da mesma pessoa ou uma combinação de categorias com uma frequência. Se confundirmos essas estruturas, até um cálculo executado corretamente poderá representar outro problema.
 
-\section{Introdução à Manipulação de Dados}
-Nesta seção, apresentaremos o papel crucial da manipulação de dados na análise de dados. Exploraremos seu propósito, benefícios e relevância no contexto do software Jamovi.
+A preparação envolve conferir os registros, resolver erros confirmados, documentar ausências e criar as variáveis necessárias. Não vamos tratar toda observação incomum como erro. Duas linhas parecidas podem ser uma duplicação acidental ou duas medições legítimas; a identificação da pessoa e da ocasião ajuda a decidir.
 
-Deixe-me contar algo importante antes de começarmos a falar sobre análises estatísticas complexas. Sabe aquele momento em que você recebe um conjunto de dados e se pergunta "por onde começo"? Pois é, antes de criar aqueles gráficos impressionantes ou realizar testes estatísticos sofisticados, existe uma etapa fundamental que muitas vezes passa despercebida: a manipulação de dados.
+O jamovi permite realizar boa parte dessa preparação pela interface. Para tarefas como relacionar dois bancos por uma chave ou reorganizar milhares de registros, pode ser útil empregar outra ferramenta antes da análise. Nesse caso, preserve a tabela recebida e registre as operações realizadas. Não é obrigatório abrir o banco em outro programa antes de usar o jamovi.
 
-Quando eu comecei a trabalhar com análise de dados, confesso que subestimava essa etapa. Achava que era apenas uma questão de abrir a planilha e começar a analisar. Mas rapidamente aprendi que dados do mundo real raramente vêm organizados e prontos para uso. Eles chegam com erros de digitação, valores faltantes, formatos inconsistentes e tantos outros problemas que, se não tratados adequadamente, podem comprometer toda a análise posterior.
-
-A preparação dos dados começa pela conferência dos registros e de seu significado. Ela envolve desde a limpeza básica (corrigir erros, eliminar duplicatas), passando pela transformação de variáveis (converter formatos, criar novas variáveis a partir das existentes), até filtragem, agregação e reestruturação dos dados. Parece trabalhoso? Sim, pode ser. Mas acredite, este investimento inicial economiza horas de frustração mais tarde.
-
-O Jamovi, felizmente, nos ajuda bastante nessa jornada. Ele oferece várias ferramentas que facilitam a manipulação básica e intermediária dos dados. Você pode criar e transformar variáveis, recodificar valores, filtrar observações, tratar dados ausentes e muito mais, tudo através de uma interface amigável que não exige conhecimentos avançados de programação.
-
-No entanto, é importante que você saiba que, como qualquer software, o Jamovi tem suas limitações. Quando trabalhamos com conjuntos de dados muito grandes ou precisamos fazer operações de reestruturação complexas, podemos enfrentar alguns desafios. O desempenho depende do volume de dados, das análises e dos recursos do computador. Operações mais complexas de reestruturação podem exigir ferramentas complementares.
-
-Por isso, em muitos dos meus projetos, acabo utilizando uma abordagem híbrida. Uso o Excel ou Google Sheets para algumas limpezas iniciais e organização básica, principalmente quando preciso fazer verificações visuais rápidas ou ajustes em massa. Para manipulações mais complexas, recorro ocasionalmente ao R ou Python, especialmente em projetos maiores. Só então importo os dados para o Jamovi para a análise estatística final.
-
-Não se preocupe se você não tem experiência com essas outras ferramentas. O Jamovi é perfeitamente capaz de lidar com a maioria das situações que você encontrará, especialmente em contextos acadêmicos e pesquisas de pequeno a médio porte. E neste capítulo, vou compartilhar com você algumas dicas e truques que aprendi ao longo dos anos para contornar as limitações do software.
-
-O mais importante é entender que a manipulação de dados não é apenas uma etapa técnica, mas uma parte fundamental do processo analítico que influencia diretamente a qualidade dos seus resultados. Quanto mais limpos e bem organizados estiverem seus dados, mais confiáveis serão suas análises e conclusões.
-
-Nas próximas páginas, vamos explorar juntos como realizar essas tarefas no Jamovi, com exemplos práticos e orientações passo a passo. Meu objetivo é que, ao final deste capítulo, você se sinta confiante para organizar os dados e documentar as decisões necessárias para uma análise reproduzível.
+Vamos trabalhar com três camadas: os dados recebidos, uma cópia preparada e o projeto de análise. Essa organização permite corrigir uma regra sem tentar reconstruir manualmente o arquivo original. Uma preparação cuidadosa reduz erros evitáveis; a validade das conclusões continua dependendo também do desenho do estudo e dos procedimentos escolhidos.
 
 \section{Interface do Jamovi}
 
@@ -43,7 +28,7 @@ Ao abrir o Jamovi pela primeira vez, você se deparará com uma tela dividida em
     \item \textbf{Área de Resultados (direita):} É a seção onde serão exibidos todos os outputs das análises, como tabelas, gráficos e estatísticas. Esta área, inicialmente identificada pelo logotipo do Jamovi sobre fundo branco, será preenchida conforme você executa análises.
 \end{itemize}
 
-Na parte superior da interface, encontramos a barra de ferramentas principal com quatro menus essenciais:
+Na parte superior da interface, encontramos as ferramentas de arquivo e as abas de trabalho. Vamos distinguir as funções mais usadas:
 
 \begin{itemize}
     \item \textbf{Menu Arquivo:} Localizado no extremo superior esquerdo, permite criar um novo banco de dados, abrir arquivos existentes, importar dados de outros formatos, salvar seu trabalho e exportar resultados. Logo abaixo deste menu, você encontrará um histórico dos arquivos recentemente abertos, facilitando o acesso rápido a projetos em andamento.
@@ -64,14 +49,14 @@ Na parte superior da interface, encontramos a barra de ferramentas principal com
 
 Um diferencial interessante do Jamovi é seu \textbf{Editor de Resultados}, acessível através do menu ``Editar''. Esta funcionalidade transforma a área de resultados em um documento editável, semelhante a um relatório técnico. Você pode adicionar textos explicativos, títulos formatados, links e até fórmulas matemáticas entre suas análises. Por exemplo, é possível inserir a famosa equação $E=mc^2$ usando a função de fórmulas, criar cabeçalhos para seções do seu relatório, ou adicionar textos em itálico para destacar conceitos importantes.
 
-Esta capacidade de documentação integrada elimina a necessidade de exportar resultados para outro software antes de elaborar seu relatório final, tornando seu fluxo de trabalho mais eficiente.
+As anotações ficam próximas das análises e ajudam a retomar as decisões. Para a redação final de uma pesquisa, você também pode copiar tabelas e gráficos para o editor de sua preferência.
 
-O design do Jamovi prioriza a simplicidade sem sacrificar a funcionalidade. Embora a interface possa parecer minimalista à primeira vista, ela contém todas as ferramentas necessárias para análises estatísticas robustas. Como veremos ao longo desta apostila, o Jamovi consegue ser simultaneamente acessível para iniciantes e poderoso para usuários avançados.
+Ao clicar novamente em uma análise no painel de resultados, suas opções reaparecem. Assim, podemos conferir as variáveis e configurações de uma saída anterior, em vez de tentar adivinhá-las somente pela tabela \parencite{JamoviAnalises}.
 
 À medida que nos aprofundarmos em cada funcionalidade nas próximas seções, recomendo que você explore a interface por conta própria. Familiarizar-se com a localização das ferramentas agora facilitará significativamente seu trabalho quando começarmos a realizar análises estatísticas propriamente ditas.
 
 \begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
-  Preparei um vídeo apresentando a Interface do Jamovi, que vai te ajudar a dar os primeiros passos nessa incrível ferramenta estatística. Depois de ler a seção da apostila, não deixe de conferir essa videoaula, tenho certeza de que você vai adorar e aprender muito. Clique no link abaixo e aproveite!\\
+  A videoaula mostra a organização da interface. Acompanhe com o programa aberto e localize a planilha, as opções da análise e o painel de resultados.\\
   \textcolor{red}{\faYoutube} \href{https://youtu.be/bV9hlHPLe5I?si=h43c1jAG01oxltOB}{Jamovi - Interface do Jamovi}
 \end{tcolorbox}
 
@@ -84,11 +69,11 @@ A importação de dados é um dos primeiros passos fundamentais para começar a 
 Antes de iniciar a importação propriamente dita, é fundamental realizar uma preparação prévia dos seus dados. Esta etapa, muitas vezes negligenciada, pode poupar tempo e evitar problemas durante as análises subsequentes:
 
 \begin{itemize}
-    \item \textbf{Limpe seus dados em uma planilha}: Abra seus dados em softwares como Excel ou Google Sheets antes de importá-los para o Jamovi.
+    \item \textbf{Preserve a origem}: Guarde uma cópia do arquivo recebido antes de editar. Use uma planilha ou outra ferramenta quando a organização inicial exigir; essa etapa não é obrigatória para todo banco.
     \item \textbf{Remova células mescladas}: Arquivos com células mescladas frequentemente causam problemas durante a importação.
     \item \textbf{Trate valores ausentes}: Identifique e padronize como os dados ausentes estão representados.
     \item \textbf{Verifique a consistência}: Certifique-se de que as variáveis estão no formato adequado (numérico, texto, data).
-    \item \textbf{Salve em formato compatível}: Preferencialmente, salve os dados em formato CSV para garantir melhor compatibilidade.
+    \item \textbf{Escolha o formato}: CSV é simples de compartilhar, mas não conserva descrições, rótulos e regras de ausentes como um arquivo estatístico. Confira quais informações precisam acompanhar os valores.
 \end{itemize}
 
 Esta preparação prévia é especialmente importante quando trabalhamos com dados de fontes oficiais, como IBGE, que frequentemente vêm com formatações específicas que podem dificultar a importação direta.
@@ -147,7 +132,7 @@ O Jamovi suporta diversos formatos de arquivo, incluindo:
     \item Arquivos do próprio Jamovi (.omv)
 \end{itemize}
 
-Entre esses formatos, o CSV é geralmente recomendado por sua simplicidade e compatibilidade universal, minimizando problemas de importação.
+CSV é útil para compartilhar tabelas simples, mas pode perder metadados e sofrer diferenças de delimitador, codificação e separador decimal. Um identificador como \texttt{0012} deve continuar sendo \texttt{0012} quando os zeros fizerem parte do código. Confira a tabela importada e preserve também o dicionário dos dados.
 
 \begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
   Para ver este processo em ação, confira meu tutorial em vídeo sobre importação de dados no Jamovi. O vídeo demonstra passo a passo como importar diferentes tipos de arquivos e resolver problemas comuns de importação.\\
@@ -205,9 +190,9 @@ Após adicionar a variável, é importante configurá-la adequadamente:
     \begin{itemize}
         \item Use nomes curtos e descritivos.
         \item Evite espaços (use underscore ``\_'' se necessário);
-        \item Não use acentos ou caracteres especiais.
+        \item Para facilitar a troca com outros programas, prefira nomes sem acentos; mantenha a descrição completa em português.
         \item Prefira letras minúsculas.
-        \item Não inicie com números.
+        \item Prefira iniciar com uma letra, especialmente se o banco também for usado por código.
         \item Mantenha um padrão de nomenclatura.
     \end{itemize}
     \item Adicione uma descrição à variável no campo apropriado.
@@ -321,8 +306,8 @@ Vamos explorar cada um deles em detalhes:
     \item \textbf{Características}:
     \begin{itemize}
         \item Possuem uma ordem intrínseca (um valor é "maior" ou "menor" que outro)
-        \item As distâncias entre categorias não são necessariamente iguais ou significativas
-        \item Não permitem operações aritméticas entre seus valores
+        \item As distâncias entre categorias não são necessariamente iguais
+        \item Uma diferença entre códigos não mede automaticamente uma diferença na característica estudada
     \end{itemize}
     \item \textbf{Exemplos}:
     \begin{itemize}
@@ -331,7 +316,7 @@ Vamos explorar cada um deles em detalhes:
         \item Grau de satisfação (insatisfeito, neutro, satisfeito)
         \item Escala Likert (discordo totalmente, discordo, neutro, concordo, concordo totalmente)
     \end{itemize}
-    \item \textbf{Operações permitidas}: Todas as da nominal, mais comparações de ordem ($<$, $>$, $\leq$, $\geq$)
+    \item \textbf{Resumos úteis}: Frequências e comparações de ordem ($<$, $>$, $\leq$, $\geq$); mediana e quantis podem ser expressos pelas categorias ordenadas. Um item de concordância e o escore de vários itens exigem discussões próprias, retomadas no capítulo~\ref{cap:confiabilidade}.
 \end{itemize}
 
 \subsection{Variáveis Contínuas}
@@ -398,7 +383,7 @@ Para determinar qual o tipo de medida apropriado para cada variável, faça as s
 A configuração correta dos tipos de medida afeta diretamente:
 
 \begin{itemize}
-    \item \textbf{Quais testes estatísticos estarão disponíveis}: Por exemplo, testes paramétricos geralmente requerem variáveis contínuas.
+    \item \textbf{Quais campos aceitarão a variável}: Uma resposta quantitativa entra em campos diferentes dos fatores categóricos. A configuração da coluna não verifica todos os pressupostos de um modelo.
     \item \textbf{Como os dados serão visualizados}: O tipo de gráfico sugerido pelo Jamovi depende do tipo de medida.
     \item \textbf{Que resumos estatísticos serão calculados}: Médias e desvios padrão são apropriados para variáveis contínuas, mas não para nominais.
     \item \textbf{A precisão dos resultados}: Análises com tipos de medida incorretos podem levar a conclusões errôneas.
@@ -412,11 +397,11 @@ A configuração correta dos tipos de medida afeta diretamente:
 \section{Criação de Categorias}
 Nessa seção, discutiremos como criar e gerenciar categorias no Jamovi. Isso é particularmente útil ao lidar com variáveis categóricas e dados de pesquisa.
 
-Para ilustrar como isso é feito, usaremos o Dataset de População - IBGE como exemplo. Este dataset contém dados sobre a população dos municípios brasileiros, com informações coletadas nos censos de 2010 e 2022, bem como projeções populacionais realizadas pelo IBGE. Os dados de população são especialmente adequados para a criação de categorias, já que podem ser agrupados de várias maneiras.
+As capturas desta seção usam uma tabela de população municipal com a variável \texttt{pop\_ibge\_2022}. Elas ilustram a configuração de uma transformação. Ao aplicar o procedimento a dados do IBGE, guarde a tabela de origem, a data de referência e seu dicionário; contagens de um censo, estimativas e projeções são produtos diferentes e não devem ser identificados como se fossem a mesma medida.
 
 Neste tutorial, iremos focar em como usar esse dataset para criar categorias populacionais que representam cidades grandes, médias e pequenas. Este é um exemplo comum de como os dados populacionais são categorizados para análises demográficas, urbanísticas ou sociais.
 
-Para começar, precisamos definir quais são os critérios para uma cidade ser considerada grande, média ou pequena. Essa definição pode variar dependendo do contexto, mas para os fins deste tutorial, iremos definir as categorias da seguinte forma: cidades pequenas são aquelas com população de até 20.000 habitantes, cidades médias possuem mais de 20.000 e até 100.000 habitantes, e cidades grandes são aquelas com mais de 100.000 habitantes.\footnote{Por favor, note que essa classificação é puramente ilustrativa e serve apenas para o propósito deste tutorial. Essa divisão de categorias não possui uma base científica rigorosa e pode variar consideravelmente dependendo do contexto específico. É importante ressaltar que, em sua própria análise, você está livre para definir suas próprias categorias com base nos critérios que considerar mais relevantes para o seu estudo.}
+Para começar, precisamos definir quais são os critérios para uma cidade ser considerada grande, média ou pequena. Essa definição pode variar dependendo do contexto, mas para os fins deste tutorial, iremos definir as categorias da seguinte forma: cidades pequenas são aquelas com população de até 20.000 habitantes, cidades médias possuem mais de 20.000 e até 100.000 habitantes, e cidades grandes são aquelas com mais de 100.000 habitantes.\footnote{As faixas são uma convenção didática desta apostila e não uma classificação oficial do IBGE. Em uma pesquisa, justifique os limites conforme a pergunta e preserve a variável populacional original.}
 
 Após a importação dos dados, o primeiro passo para criar categorias no Jamovi é utilizar a opção "Transformar Variáveis". Existem duas maneiras de acessar essa funcionalidade.
 
@@ -435,7 +420,7 @@ Por favor, note que a escolha do método para acessar a opção de transformaç�
     \label{fig:criar_categoria_jamovi}
 \end{figure}
 
-No exemplo que vamos tratar neste tutorial, estaremos utilizando a variável \textit{pop\_ibge\_2022}. Esta variável refere-se à população dos municípios brasileiros conforme estimado no censo do IBGE de 2022. Esta variável contínua será transformada em uma variável categórica que representa cidades grandes, médias e pequenas, de acordo com os critérios de classificação que definimos anteriormente.
+No exemplo que vamos tratar neste tutorial, estaremos utilizando a variável \textit{pop\_ibge\_2022}. Neste exemplo, ela representa a população dos municípios registrada no Censo de 2022; confira o nome, a unidade e a referência temporal no arquivo que estiver usando. Esta variável contínua será transformada em uma variável categórica que representa cidades grandes, médias e pequenas, de acordo com os critérios de classificação que definimos anteriormente.
 
 Agora, precisamos configurar a nova variável categórica que será criada. Nesta etapa, você deverá escolher um nome para a nova variável. No nosso exemplo, chamaremos essa variável de \textit{cat\_pop\_2022}, mas sinta-se livre para escolher o nome que preferir. 
 
@@ -445,7 +430,7 @@ Além disso, é uma boa prática incluir uma descrição para a variável, que e
 
 \begin{figure}[H]
     \centering
-    \caption{Configurando a nova variável categoórica}
+    \caption{Configurando a nova variável categórica}
     \includegraphics[width=\textwidth]{imagens/cap_2/criar_categoria_jamovi_2.png}
     \label{fig:criar_categoria_jamovi_2}
 \end{figure}
@@ -469,7 +454,7 @@ Finalmente, o passo 3 é onde você seleciona a opção "Adicionar condição de
 
 \begin{figure}[H]
     \centering
-    \caption{Configura as categorias para criação das categorias}
+    \caption{Nome e condições da transformação}
     \includegraphics[width=\textwidth]{imagens/cap_2/criar_categoria_jamovi_4.png}
     \label{fig:criar_categoria_jamovi_4}
 \end{figure}
@@ -593,7 +578,7 @@ Uma vez que as descrições tenham sido adicionadas, elas se tornam parte integr
 
 \subsection{Considerações finais}
 
-A adição de descrições às variáveis pode parecer uma tarefa simples e até mesmo opcional, mas é uma prática que distingue análises de dados amadoras de análises profissionais. Uma boa documentação não apenas facilita seu próprio trabalho, mas também demonstra rigor metodológico e consideração pelos futuros leitores ou colaboradores do seu projeto.
+As descrições ajudam a compreender o banco meses depois da coleta e permitem que outra pessoa confira suas decisões. Elas precisam acompanhar os valores: um nome curto como \texttt{idade} não informa, sozinho, se a unidade é anos ou meses.
 
 Adote o hábito de adicionar descrições claras às suas variáveis logo após importar ou criar um novo conjunto de dados. Este pequeno investimento de tempo inicial economizará horas de confusão e retrabalho no futuro, especialmente em projetos mais extensos ou que envolvam múltiplos colaboradores.
 
@@ -613,7 +598,7 @@ Filtros permitem selecionar apenas uma parte dos seus dados para análise, sem r
 \begin{itemize}
     \item Você precisa analisar um subgrupo específico (ex: apenas mulheres ou apenas participantes de determinada faixa etária)
     \item Você deseja comparar resultados entre diferentes subgrupos
-    \item Você quer excluir temporariamente casos com valores extremos ou ausentes
+    \item Você precisa aplicar critérios de elegibilidade definidos e documentados, preservando as linhas excluídas
     \item Você precisa testar hipóteses em segmentos específicos da sua amostra
 \end{itemize}
 
@@ -666,7 +651,7 @@ Uma das características mais úteis do Jamovi é a visualização instantânea 
 \begin{itemize}
     \item As linhas que não atendem aos critérios do filtro ficarão sombreadas na visualização de dados
     \item Você pode rolar pela planilha para verificar quais observações estão sendo incluídas ou excluídas
-    \item As análises estatísticas realizadas após a aplicação do filtro considerarão apenas as observações não sombreadas
+    \item As análises existentes também são atualizadas quando o filtro muda. Confira o novo $n$ antes de interpretar qualquer saída.
 \end{itemize}
 
 \subsection{Combinando múltiplos critérios}
@@ -722,15 +707,15 @@ Ao trabalhar com filtros no Jamovi, lembre-se de:
 \end{itemize}
 
 \begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
-  Para ver na prática como criar e utilizar filtros no Jamovi, confira meu tutorial em vídeo. Nele, demonstro como criar filtros simples e complexos, e como combinar múltiplos critérios para realizar análises mais específicas.\\
-  \textcolor{red}{\faYoutube} \href{https://youtu.be/U6sFx7vQhdc?si=rpdJF2qgNyWCO11a}{Como Criar Filtros no Jamovi}
+  Para uma demonstração visual da ferramenta de filtros, acompanhe a aula abaixo. Reproduza uma condição no banco de exemplo e confira quantas observações permanecem na análise.\\
+  \textcolor{red}{\faYoutube} \href{https://www.youtube.com/watch?v=D_HNd7RnRO0}{Jamovi - Criar filtro de variáveis - Aula 10}
 \end{tcolorbox}
 
 \section{Variáveis calculadas e valores ausentes}
 
 \subsection{Calculando uma mudança individual}
 
-Abra \texttt{exemplo\_notas.csv}, disponível na pasta \texttt{dados} do repositório. Na aba \textbf{Dados}, escolha \textbf{Calcular (Compute)}, dê à nova variável o nome \texttt{mudanca} e use a fórmula:
+Abra \texttt{exemplo\_notas.csv}, disponível na pasta \texttt{dados} do repositório. Na aba \textbf{Dados}, crie uma variável calculada por \textbf{Adicionar (Add)} e escolha inserir ou acrescentar em \textbf{Variável calculada (Computed variable)}; o comando \textbf{Calcular (Compute)} também pode aparecer na faixa de ferramentas. Dê à nova variável o nome \texttt{mudanca} e use a fórmula \parencite{JamoviCalculadas}:
 \begin{verbatim}
 depois - antes
 \end{verbatim}
@@ -836,7 +821,7 @@ Além do tipo de dado, é importante configurar corretamente o tipo de medida de
     \item \textbf{Contínua}: Para medidas numéricas com significado quantitativo (ex: altura, temperatura).
 \end{itemize}
 
-Esta configuração é crucial pois determina quais análises estatísticas serão disponibilizadas para cada variável no Jamovi.
+Essa configuração orienta o uso da variável nos campos de análise. Selecionar o tipo correto ajuda a evitar erros, mas não substitui a justificativa estatística do procedimento.
 
 \subsection{Melhores práticas para organização de variáveis}
 
@@ -874,7 +859,7 @@ Para salvar seu projeto no Jamovi:
     \item Confirme clicando em \textbf{Salvar}.
 \end{enumerate}
 
-O arquivo será salvo com a extensão .omv, que é o formato nativo do Jamovi. Este formato preserva todas as informações do seu projeto, incluindo dados, análises e configurações.
+O projeto será salvo com a extensão \texttt{.omv}, o formato nativo do jamovi. Esse formato preserva os dados, as análises e suas configurações. Guarde separadamente documentos externos e anotações que não foram incorporados ao projeto.
 
 \subsection{Separando projeto, dados e resultados}
 
@@ -893,7 +878,160 @@ Mantenha uma cópia dos dados originais, do projeto \texttt{.omv} e do relatóri
 \end{itemize}
 
 \begin{tcolorbox}[colback=white,colframe=red,title={\faPlayCircle \ Dica de Conteúdo}]
-  Para ver como salvar e exportar dados no Jamovi na prática, confira meu tutorial em vídeo. Nele, mostro passo a passo todas as opções de salvamento e exportação, além de dicas úteis para preservar seu trabalho.\\
-  \textcolor{red}{\faYoutube} \href{https://youtu.be/NIpt0wIq5pc?si=cqwzo5swixILk2rU}{Salvar e Exportar Dados no Jamovi}
+  Para acompanhar as ferramentas de salvamento e exportação, veja a aula abaixo. Confira as opções oferecidas pela sua versão e reabra o arquivo salvo para verificar o que foi preservado.\\
+  \textcolor{red}{\faYoutube} \href{https://www.youtube.com/watch?v=tspLxfl3uZk}{Jamovi - Salvar e Exportar Dados - Aula 4}
 \end{tcolorbox}
 
+
+\section{Uma linha representa o quê? Formatos largo e longo}
+\label{sec:estrutura-dados}
+
+Considere duas pessoas medidas antes e depois de uma atividade. No \textbf{formato largo}, guardamos uma linha por pessoa e uma coluna para cada ocasião. No \textbf{formato longo}, guardamos uma linha por combinação de pessoa e ocasião. A informação pode ser equivalente, mas a análise precisa reconhecer a repetição da mesma pessoa. A figura~\ref{fig:formato-largo-longo} acompanha os mesmos quatro valores fictícios nas duas formas.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[anchor=north,draw,inner sep=7pt] (largo) at (0,0) {\begin{tabular}{rrr}id & antes & depois\\\hline 1 & 45 & 50\\2 & 52 & 56\end{tabular}};
+  \node[anchor=north,draw,inner sep=7pt] (longo) at (7,0) {\begin{tabular}{rlr}id & tempo & nota\\\hline 1 & antes & 45\\1 & depois & 50\\2 & antes & 52\\2 & depois & 56\end{tabular}};
+  \node[above] at (0,0.2) {Largo: 2 linhas};
+  \node[above] at (7,0.2) {Longo: 4 linhas};
+  \draw[<->,thick] (2.2,-0.7) -- (4.6,-0.7) node[midway,above] {reestruturar};
+  \node[align=center] at (3.5,-2.7) {Duas pessoas nas duas tabelas.\\O identificador preserva a ligação entre medidas.};
+\end{tikzpicture}
+\caption{A quantidade de linhas depende da organização do banco. Os números são dos dois primeiros registros do exemplo de notas. Elaboração própria.}
+\label{fig:formato-largo-longo}
+\end{figure}
+
+Nos testes pareados e na ANOVA de medidas repetidas apresentados nesta apostila, usaremos colunas separadas por ocasião. Outros procedimentos e módulos podem solicitar o formato longo. Confira a documentação da análise antes de reorganizar o arquivo. Uma mesma pessoa ter duas linhas não é um erro quando a estrutura prevê duas ocasiões.
+
+Nunca ordene \texttt{antes} e \texttt{depois} separadamente. Isso criaria pares de pessoas diferentes. Ao combinar arquivos, verifique a chave de identificação: a primeira linha de uma planilha não é necessariamente a mesma pessoa da primeira linha de outra. A operação de \textbf{Importar} vários arquivos no jamovi empilha suas linhas; ela não realiza uma junção de colunas por identificador \parencite{JamoviAtualizarDados}.
+
+\section{Ausentes: configurar, contar e interpretar}
+\label{sec:ausentes-preparacao}
+
+\subsection{Declarando um código especial}
+
+Suponha que o dicionário de uma pesquisa use \texttt{999} para indicar que a nota não foi obtida. Esse valor pode ser importado como um número e entrar indevidamente na média. Para declarar a ausência, abra o editor da variável, selecione \textbf{Valores ausentes (Missing values)}, clique em \textbf{Adicionar valor ausente (Add Missing Value)} e defina a regra \texttt{== 999}. A documentação oficial apresenta esse procedimento para códigos especiais \parencite{JamoviVariaveisDados}.
+
+A regra deve corresponder ao significado do registro. Não declare zero como ausente em uma prova na qual zero é uma nota possível. Evite também regras amplas, como tratar todos os valores maiores que 100 como ausência, antes de verificar o domínio e os documentos de origem. Elas poderiam esconder erros de digitação que precisam de correção.
+
+No editor de fórmulas, a ausência é representada por \texttt{NA}. Para criar um indicador de falta de nota posterior, podemos usar a função \texttt{IFMISSING}, que distingue a célula ausente de uma célula preenchida \parencite{JamoviFuncoes}:
+\begin{verbatim}
+IFMISSING(depois, 1, 0)
+\end{verbatim}
+Nesse indicador, 1 significa ``nota posterior ausente'' e 0 significa ``nota presente''. Selecione seu tipo como nominal e consulte as frequências para contar os casos. O indicador registra a ausência; ele não recupera a nota desconhecida.
+
+\subsection{Uma demonstração em cópia do banco}
+
+Salve uma cópia de \texttt{exemplo\_notas.csv} em \texttt{.omv}. Somente nessa cópia, apague a nota \texttt{depois} da pessoa com \texttt{id} igual a 2, mantendo a nota \texttt{antes}. Em Descritivas, solicite o número válido e os ausentes de cada variável. A nota anterior terá 18 valores válidos; a posterior, 17 valores válidos e um ausente. Para a diferença \texttt{depois - antes}, restarão 17 valores válidos, pois a subtração exige os dois componentes.
+
+A nova média de \texttt{depois} será aproximadamente 65,06; a média das 17 diferenças completas será aproximadamente 13,41. Esses números se alteram porque tiramos uma informação específica, não porque o programa ``corrigiu'' a amostra. Restaure o dado ou reabra o exemplo original ao terminar.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[draw,rounded corners,text width=4.3cm,align=center,minimum height=1cm] (banco) at (0,2.5) {18 pessoas na cópia\\1 nota posterior apagada};
+  \node[draw,text width=3cm,align=center,minimum height=1cm] (antes) at (-3,0) {Resumo de antes\\18 valores válidos};
+  \node[draw,text width=3cm,align=center,minimum height=1cm] (depois) at (1,0) {Resumo de depois\\17 valores válidos};
+  \node[draw,text width=3cm,align=center,minimum height=1cm] (pares) at (5,0) {Diferença pareada\\17 pares completos};
+  \draw[->] (banco) -- (antes);
+  \draw[->] (banco) -- (depois);
+  \draw[->] (banco) -- (pares);
+\end{tikzpicture}
+\caption{Número de pessoas no banco e número de observações usadas são quantidades diferentes. Elaboração própria.}
+\label{fig:ausentes-e-denominadores}
+\end{figure}
+
+\subsection{A escolha do denominador}
+
+Para uma variável com $n_{\mathrm{validos}}$ respostas e $n_{\mathrm{ausentes}}$ ausências, podemos descrever a proporção de ausência por:
+\[
+\widehat p_{\mathrm{ausencia}}=
+\frac{n_{\mathrm{ausentes}}}{n_{\mathrm{validos}}+n_{\mathrm{ausentes}}}.
+\]
+Na cópia, ela vale $1/18\approx5{,}6\%$ para a nota posterior. Já uma porcentagem entre respostas válidas usa 17 no denominador. Informe a base de cada percentual e examine se as ausências se concentram em algum grupo ou ocasião.
+
+Uma análise que exige todas as variáveis de cada registro pode usar somente \textbf{casos completos}. Outra pode calcular cada resumo com os valores disponíveis daquela variável. Esses critérios respondem a conjuntos diferentes. Confira as opções e o $n$ da saída em vez de supor que todas as tabelas se referem às mesmas pessoas.
+
+Excluir registros incompletos ou preencher ausências envolve hipóteses sobre por que a informação falta. Imagine que pessoas com maior dificuldade tenham deixado de realizar a prova posterior: descrevê-la apenas entre quem compareceu poderá oferecer uma visão diferente da turma inteira. Uma tabela de ausências ajuda a investigar o problema, mas os valores observados, sozinhos, não demonstram o motivo de todas as perdas. Para um estudo real, planeje o tratamento das ausências com orientação metodológica apropriada e descreva seus limites.
+
+\section{Receitas de cálculo com significado explícito}
+\label{sec:receitas-calculos}
+
+Uma coluna calculada precisa de um nome, uma unidade, uma expressão e uma regra de validade. Vamos comparar algumas receitas usando o exemplo de notas. Os comandos abaixo pertencem ao editor do jamovi; não são comandos para colar diretamente no console R.
+
+\subsection{Mudança absoluta e mudança relativa}
+
+A diferença $d_i=y_{i,\mathrm{depois}}-y_{i,\mathrm{antes}}$ mede uma mudança em pontos. A mudança relativa em porcentagem é outra quantidade:
+\[
+ r_i=100\frac{y_{i,\mathrm{depois}}-y_{i,\mathrm{antes}}}
+ {y_{i,\mathrm{antes}}}.
+\]
+Para passar de 45 a 50 pontos, temos 5 pontos de mudança e aproximadamente $11{,}1\%$ em relação aos 45 pontos iniciais. A segunda fórmula só é definida quando o denominador é diferente de zero e sua interpretação exige uma escala na qual essa razão faça sentido. Uma diferença entre porcentagens, como 45\% e 50\%, corresponde a 5 \textbf{pontos percentuais}; o aumento relativo é aproximadamente 11,1\%.
+
+Crie primeiro a diferença e confira pessoas individualmente. Se a mudança relativa fizer sentido para seu problema e todos os valores iniciais forem positivos, a expressão é:
+\begin{verbatim}
+100 * (depois - antes) / antes
+\end{verbatim}
+Uma coluna ser numericamente calculável não basta para justificar a medida: não interprete razões entre notas arbitrárias ou escalas com zero convencional sem discutir seu significado.
+
+\subsection{Centrar e padronizar não são a mesma operação}
+
+Centrar subtrai uma referência; padronizar também divide por uma medida de dispersão. Para a nota posterior, podemos escrever:
+\[
+ c_i=x_i-\bar x,
+ \qquad z_i=\frac{x_i-\bar x}{s},\quad s>0.
+\]
+O desvio centrado continua em pontos; o escore $z$ informa quantos desvios padrão amostrais o valor está acima ou abaixo da média do conjunto usado. Não é uma probabilidade, e $z=2$ não significa que a pessoa está ``duas vezes melhor''.
+
+As funções de coluna e sua combinação com cálculos por linha são apresentadas na documentação oficial \parencite{JamoviFuncoesLinhaColuna}. Podemos criar as expressões:
+\begin{verbatim}
+depois - VMEAN(depois)
+(depois - VMEAN(depois)) / VSTDEV(depois)
+Z(depois)
+\end{verbatim}
+As duas últimas expressões representam a padronização usual. Se todos os valores forem iguais, $s=0$ e não podemos usar essa divisão. Antes de interpretar um $z$, confira qual conjunto e quais filtros definem a referência.
+
+No banco completo, a nota 50 fica aproximadamente $1{,}69$ desvio padrão abaixo da média: $(50-64{,}556)/8{,}597\approx-1{,}69$. Alterar a unidade das notas de pontos para décimos de ponto altera a média e o DP, mas mantém esse $z$.
+
+\subsection{Referências por grupo e transformação reutilizável}
+
+A expressão \texttt{VMEAN(depois, group\_by=grupo)} produz, em cada linha, a média correspondente ao grupo daquela pessoa \parencite{JamoviFuncoesLinhaColuna}. Portanto, não confunda um desvio em relação à média geral com um desvio em relação à média do próprio grupo. A referência deve acompanhar a interpretação.
+
+Quando a mesma regra for aplicada a várias colunas, prefira definir uma transformação reutilizável. Nela, \texttt{\$source} representa a coluna de origem, e as condições de recodificação são avaliadas em ordem: a primeira verdadeira define o resultado \parencite{JamoviTransformadas}. No exemplo populacional, confira especialmente os limites 20.000, 20.001, 100.000 e 100.001. Mudar a ordem das condições pode alterar a classificação, mesmo que os mesmos limites estejam escritos no painel.
+
+Transformar uma variável quantitativa em faixas também descarta diferenças dentro de cada faixa. Duas cidades com 21 mil e 99 mil habitantes ficam na mesma categoria didática. Preserve a população original e justifique os limites; as faixas não constituem uma classificação oficial do IBGE.
+
+\section{Filtros globais, divisão por grupos e análise de sensibilidade}
+
+Um filtro ativo restringe os registros usados nas análises do projeto. Já \textbf{Dividir por (Split by)}, em Descritivas, organiza os resumos por categorias sem redefinir, por si só, o filtro global. Use essa segunda opção quando quiser ver os três grupos lado a lado. Ela não é uma configuração universal de todas as análises e não equivale a realizar um teste entre os grupos \parencite{JamoviDescritivas}.
+
+Para exercitar a seleção, ative o filtro \texttt{horas >= 3} no banco original: você deverá manter nove pessoas, três em cada grupo. Desative-o e confira o retorno das 18 pessoas. Se quiser apenas as pessoas de Leitura com pelo menos três horas, escreva \texttt{grupo == 'Leitura' and horas >= 3}: restarão três pessoas. O número de linhas serve como uma primeira verificação de que a expressão corresponde à intenção.
+
+Valores extremos merecem investigação. Um filtro baseado em distância da média depende da própria amostra; não demonstra que uma observação é falsa. Evite apagar pontos até obter um valor de $p$ desejado. Quando uma exclusão metodologicamente justificada puder afetar a conclusão, compare o resultado principal com uma análise de sensibilidade, documentando as duas configurações. Essa comparação avalia a dependência da conclusão em relação à escolha; ela não autoriza esconder a configuração menos favorável.
+
+\section{Atividade guiada: preparar antes de analisar}
+
+\begin{enumerate}
+  \item No arquivo original, crie \texttt{mudanca = depois - antes}. Qual valor aparece para a primeira pessoa? Uma média entre as duas notas responde à mesma pergunta?
+  \item Ative \texttt{horas >= 3}. Quantas pessoas entram? Em seguida, acrescente a condição de pertencer ao grupo Leitura e confira o novo número.
+  \item Em uma cópia, apague a nota posterior da pessoa 2. Por que o número válido de notas anteriores difere do número de diferenças? Calcule a fração de notas posteriores ausentes.
+  \item Um arquivo de acompanhamento tem as pessoas em outra ordem. Podemos colar sua coluna de notas na primeira planilha sem conferir o identificador? Explique o risco.
+\end{enumerate}
+
+\subsection{Comentários para conferir o raciocínio}
+
+\begin{enumerate}
+  \item A diferença é $50-45=5$ pontos. A média é $(50+45)/2=47{,}5$ pontos e resume o nível das duas notas, sem representar a mudança.
+  \item O primeiro filtro mantém nove pessoas. Com \texttt{grupo == 'Leitura' and horas >= 3}, ficam três. Desative os filtros antes de seguir exemplos que usam as 18 pessoas.
+  \item A nota anterior continua conhecida para as 18 pessoas, mas só existem 17 pares completos. A fração de ausência posterior é $1/18\approx5{,}6\%$. A pessoa continua no banco, mesmo quando sua informação não pode entrar em um cálculo específico.
+  \item Não. A posição da linha não é uma chave de identidade. É necessário conferir a correspondência por identificador e, se houver repetição, também por ocasião, evitando atribuir a nota de uma pessoa a outra.
+\end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+
+Para acompanhar a preparação do banco e a seleção de registros, consulte \href{https://www.balaiocientifico.com/2026/10/valores-ausentes-no-jamovi-como-tratar.html}{Valores ausentes no Jamovi: como tratar códigos como 9999} e \href{https://www.balaiocientifico.com/2026/10/filtros-no-jamovi-selecionar-dados.html}{Filtros no Jamovi: selecionar dados, organizar e salvar o projeto}.
+
+Para localizar os filtros na interface, acompanhe \href{https://www.youtube.com/watch?v=D_HNd7RnRO0}{Jamovi - Criar filtro de variáveis - Aula 10}.
+
+\textbf{Vamos praticar:} No banco completo, ative \texttt{horas >= 3} e confira as nove pessoas selecionadas. Desative o filtro e confirme o retorno das 18. Em uma cópia, declare um código de ausência conforme seu dicionário e compare os números válidos e ausentes antes de analisar.
