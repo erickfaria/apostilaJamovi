@@ -300,6 +300,52 @@ Se permitirmos correlação entre erros, o denominador muda. Se a estrutura tive
 
 No jamovi, solicite ômega junto ao alfa para praticar a leitura, mas registre o procedimento e suas suposições. Um ômega alto também não prova o modelo nem substitui evidências sobre a interpretação do escore. Não apresentaremos um valor calculado de ômega como resultado esperado sem ajustar e avaliar o modelo correspondente.
 
+\section{Erro de medida e precisão de um escore}
+\label{sec:erro-medida-escore}
+
+Voltemos ao modelo clássico $X=T+E$, com erros de média zero e não correlacionados com $T$. Se a confiabilidade no domínio de repetições definido for $\rho_{XX}=\operatorname{Var}(T)/\operatorname{Var}(X)$, então:
+\[
+\operatorname{Var}(E)=\operatorname{Var}(X)(1-\rho_{XX}),
+\qquad \sigma_E=\sigma_X\sqrt{1-\rho_{XX}}.
+\]
+Essa relação permite representar um \textbf{erro padrão de medida} na unidade do escore. Em um modelo hipotético com DP observado 10 e confiabilidade $0{,}84$, temos $\sigma_E=10\sqrt{0{,}16}=4$ pontos. O número depende de qual fonte de erro e de quais repetições a confiabilidade representa; não basta substituir qualquer coeficiente disponível na fórmula.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.86\textwidth,height=5.8cm,
+  xlabel={Erro no escore (pontos)},ylabel={Densidade},
+  xmin=-16,xmax=16,ymin=0,ymax=0.23,grid=major,
+  legend style={at={(0.5,1.03)},anchor=south,font=\small,legend columns=3}
+]
+  \addplot[blue,thick,domain=-16:16,samples=140]
+    {exp(-(x/8)^2/2)/(8*sqrt(2*pi))};
+  \addlegendentry{$\rho=0{,}36$, $\sigma_E=8$}
+  \addplot[red,dashed,thick,domain=-16:16,samples=140]
+    {exp(-(x/4)^2/2)/(4*sqrt(2*pi))};
+  \addlegendentry{$\rho=0{,}84$, $\sigma_E=4$}
+  \addplot[black,dotted,very thick,domain=-16:16,samples=160]
+    {exp(-(x/2)^2/2)/(2*sqrt(2*pi))};
+  \addlegendentry{$\rho=0{,}96$, $\sigma_E=2$}
+\end{axis}
+\end{tikzpicture}
+\caption{Três modelos hipotéticos de erro normal, com DP observado fixado em 10. A curva se estreita quando a confiabilidade do modelo aumenta. A normalidade foi escolhida para o desenho e não é consequência da definição de confiabilidade. Elaboração própria.}
+\label{fig:precisao-escore}
+\end{figure}
+
+Não confunda esse erro com o \textbf{erro padrão de uma média amostral}. A expressão $s_X/\sqrt n$, discutida no capítulo~\ref{cap:probabilidade}, trata da variabilidade da média entre amostras sob certas condições. O erro de medida se refere à precisão do escore no modelo de medição. Acrescentar participantes pode melhorar a estimação da média sem tornar as respostas de cada participante mais precisas.
+
+A precisão também pode variar ao longo da escala; uma única medida global não descreve necessariamente todas as faixas de escore. Se uma aplicação envolve decisões individuais ou classificação por pontos de corte, consulte as evidências e o manual do instrumento para aquele uso. Os Standards relacionam a avaliação da precisão às interpretações e decisões pretendidas \parencite{Standards2014}. Nosso questionário fictício não fornece esse suporte.
+
+\section{Consistência interna e estrutura são perguntas diferentes}
+
+Um alfa ou ômega resume relações sob uma definição, mas a escolha de quais itens formam um escore exige examinar também seu conteúdo e sua estrutura. No modelo fatorial, itens são relacionados a variáveis latentes e a componentes específicos; na análise de componentes principais, construímos combinações das variáveis observadas para resumir sua variação. Os objetivos se aproximam em certas aplicações, mas os modelos não são idênticos.
+
+No capítulo~\ref{cap:dimensoes}, vamos desenvolver essa distinção e os respectivos procedimentos no jamovi. Antes disso, retenha uma regra prática de leitura: um agrupamento estatístico de itens precisa de interpretação substantiva; receber um nome no gráfico não prova que um fator represente o conceito desejado.
+
+Um total com pesos iguais e um escore derivado de coeficientes de um modelo também não são automaticamente a mesma medida. Documente como o escore foi calculado, em que dados o modelo foi estimado e se a regra é aplicável às pessoas que serão avaliadas. A possibilidade de calcular um número vem antes da questão principal: qual interpretação esse número sustenta?
+
 \section{Como relatar e dar continuidade}
 
 Um relato do exercício pode dizer: ``Nos 30 registros fictícios completos, foram examinados cinco itens de resposta de 1 a 5. O terceiro item foi recodificado por $6-X$ antes da pontuação. O alfa não padronizado foi $0{,}904$, e as correlações item--resto variaram de $0{,}642$ a $0{,}843$. Os valores ilustram o procedimento e não constituem evidência de validação do questionário.''
@@ -330,6 +376,8 @@ Em uma pesquisa, descreva os enunciados ou o instrumento original, o sistema de 
   \item O alfa de $0{,}904$ demonstra que o questionário é unidimensional e validado?
   \item O item 4 aumenta o alfa para $0{,}906$ quando excluído. Devemos removê-lo automaticamente?
   \item A consistência interna obtida em uma única aplicação demonstra estabilidade dos escores ao longo do tempo?
+  \item Em um modelo com DP observado 10 e confiabilidade $0{,}84$, qual é o DP do erro de medida?
+  \item Por que aumentar a amostra de 30 para 120 pessoas não garante que cada escore individual tenha menos erro de medida?
 \end{enumerate}
 
 \subsection*{Comentários das respostas}
@@ -341,4 +389,14 @@ Em uma pesquisa, descreva os enunciados ou o instrumento original, o sistema de 
   \item Não. O coeficiente resume uma relação entre itens sob condições; estrutura e interpretação para um uso pedem outras evidências.
   \item Não. A diferença é pequena e precisa ser examinada com o conteúdo e a finalidade do item, além da incerteza e da possibilidade de confirmação em novos dados.
   \item Não. A estabilidade temporal requer um desenho com medidas em ocasiões adequadas; ela não se identifica somente pela relação entre itens na mesma aplicação.
+  \item $10\sqrt{1-0{,}84}=4$ pontos, sob o modelo e o domínio de erro especificados.
+  \item O tamanho amostral participa da precisão de estimativas populacionais. A precisão da medida individual depende do instrumento, das condições e do modelo de erro, que não melhoram automaticamente com mais pessoas.
 \end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+
+Para rever as operações que antecedem o cálculo de um escore, leia \href{https://www.balaiocientifico.com/2026/10/como-criar-uma-variavel-calculada-no.html}{Como criar uma variável calculada no Jamovi: soma e média} e \href{https://www.balaiocientifico.com/2026/10/valores-ausentes-no-jamovi-como-tratar.html}{Valores ausentes no Jamovi: como tratar códigos como 9999}.
+
+Para localizar a ferramenta de cálculo de variáveis, acompanhe \href{https://www.youtube.com/watch?v=NBvQphd9FqI}{Jamovi - Calculadora Variáveis - Aula 9}.
+
+\textbf{Vamos praticar:} Em \texttt{exemplo\_escalas.csv}, corrija o item invertido e calcule total e média. Confira o primeiro registro manualmente e descreva a regra para respostas ausentes antes de examinar a confiabilidade. O tutorial de cálculo apoia a operação; a interpretação dos coeficientes continua exigindo as condições discutidas neste capítulo.

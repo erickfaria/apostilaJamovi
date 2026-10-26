@@ -308,6 +308,81 @@ A semente permite repetir o experimento no mesmo ambiente. A documentação de \
 
 Aumentar o número de reamostras reduz a variação de Monte Carlo do cálculo, mas não aumenta a amostra de pessoas. Além disso, o bootstrap simples não corrige seleção inadequada nem serve indistintamente para dependência, séries temporais ou conglomerados. Para um antes/depois, reamostre a pessoa com seu par completo, ou a diferença individual quando ela for a unidade da análise. Sortear as duas colunas separadamente destruiria a estrutura do problema.
 
+\section{Simulação: observando o procedimento de estimação}
+\label{sec:simulacao-cobertura}
+
+No bootstrap, sorteamos registros da amostra observada. Em uma simulação paramétrica, nós especificamos um modelo e geramos observações a partir dele. A diferença importa: na simulação conhecemos o valor do parâmetro porque nós mesmos o escolhemos. Podemos, então, observar como um procedimento se comporta em repetições.
+
+Vamos simular uma população normal com média 60 e DP 10. Em cada repetição, geraremos uma nova amostra de 18 observações independentes, calcularemos sua média e construiremos um intervalo t de 95\%. O código usa \texttt{rnorm} para gerar dados normais e \texttt{qt} para o quantil t, funções da distribuição documentadas oficialmente pelo R \parencite{RNormal,RTStudent}.
+
+\begin{verbatim}
+set.seed(20261025)
+n <- 18
+B <- 2000
+mu <- 60
+sigma <- 10
+
+resultados <- replicate(B, {
+    x <- rnorm(n, mean = mu, sd = sigma)
+    ep <- sd(x) / sqrt(n)
+    margem <- qt(0.975, df = n - 1) * ep
+    c(media = mean(x),
+      inferior = mean(x) - margem,
+      superior = mean(x) + margem)
+})
+
+mean(resultados["media", ])
+sd(resultados["media", ])
+mean(resultados["inferior", ] <= mu &
+     resultados["superior", ] >= mu)
+
+a <- seq_len(30)
+plot(a, resultados["media", a],
+     xlab = "Repeticao", ylab = "Media e IC95%",
+     ylim = range(resultados[2:3, a]), pch = 19)
+segments(a, resultados["inferior", a],
+         a, resultados["superior", a])
+abline(h = mu, lty = 2)
+\end{verbatim}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\small,align=center}]
+  \node[draw,rounded corners,text width=2.7cm,minimum height=1.1cm] (pop) at (0,0)
+    {Modelo conhecido\\$N(60,10^2)$};
+  \node[draw,text width=2.7cm,minimum height=1.1cm] (amostra) at (4,0)
+    {Gerar 18 valores\\independentes};
+  \node[draw,text width=2.7cm,minimum height=1.1cm] (ic) at (8,0)
+    {Calcular a média\\e o intervalo t};
+  \draw[->,thick] (pop) -- (amostra);
+  \draw[->,thick] (amostra) -- (ic);
+  \draw[->,blue,thick] (8,-0.7) -- (8,-1.5) -- node[below] {Repetir o processo; guardar cada resultado} (0,-1.5) -- (0,-0.7);
+\end{tikzpicture}
+\caption{Uma simulação produz novas amostras de um modelo especificado. Como a média populacional foi fixada em 60, podemos conferir em quantos intervalos ela é incluída. Elaboração própria.}
+\label{fig:simulacao-intervalos}
+\end{figure}
+
+\subsection{O que esperamos encontrar?}
+
+A média das 2.000 médias deve ficar próxima de 60, e seu desvio padrão deve ficar próximo de $10/\sqrt{18}\approx2{,}357$. O valor não precisa ser exatamente igual porque o experimento tem um número finito de repetições. A terceira saída é a proporção de intervalos que cobriram 60; ela deve ficar próxima de 0,95 sob o modelo normal usado.
+
+A simulação também tem incerteza de Monte Carlo. Se a cobertura do procedimento for 0,95 e as 2.000 repetições forem independentes, o erro padrão da proporção simulada de cobertura será aproximadamente:
+\[
+EP_{\mathrm{MC}}=\sqrt{\frac{0{,}95(1-0{,}95)}{2000}}
+\approx0{,}0049.
+\]
+Assim, uma cobertura simulada ligeiramente diferente de 95\% não demonstra, por si só, falha no método. Aumentar $B$ melhora a precisão dessa avaliação por simulação. Aumentar $n$ modifica a amostra dentro de cada repetição e a precisão de cada estimativa; são mudanças distintas.
+
+O gráfico mostra apenas as primeiras 30 repetições para facilitar a leitura. Mesmo com um procedimento correto de 95\%, não há obrigação de que exatamente 28 ou 29 desses 30 intervalos cubram a média. Cada execução oferece uma realização do mecanismo descrito na figura~\ref{fig:cobertura-intervalos}.
+
+\subsection{Ligando a simulação à análise no jamovi}
+
+No Rj, a simulação acima funciona sem depender das colunas do banco aberto. Para examinar uma única amostra simulada no painel de descritivas ou de teste t, gere um vetor e organize-o em uma coluna própria, preservando os dados originais. A média de referência deve continuar sendo 60 se essa for a pergunta definida.
+
+Uma extensão didática é mudar $n$ para 72 e manter o restante. O EP teórico passa a $10/\sqrt{72}\approx1{,}179$, metade do anterior. O nível de cobertura nominal continua sendo 95\%; o que tende a diminuir é a largura dos intervalos. Outra extensão é gerar dados de um modelo não normal, explicitar qual modelo foi escolhido e estudar a aproximação. Isso avalia o procedimento \textbf{naquele cenário}, sem estabelecer uma garantia para qualquer banco real.
+
+Esse exercício faz uma ponte entre fórmula, gráfico e repetição. Quando estivermos diante de um único estudo, não conheceremos a média verdadeira como conhecemos aqui. Precisaremos justificar o desenho e as suposições em vez de conferir diretamente se o intervalo observado acertou o alvo.
+
 \section{Vamos praticar: perguntas e comentários}
 
 \begin{enumerate}
@@ -317,6 +392,8 @@ Aumentar o número de reamostras reduz a variação de Monte Carlo do cálculo, 
   \item Uma amostra maior corrige necessariamente o viés de seleção?
   \item Um IC95\% da média contém 95\% das notas individuais?
   \item Ao passar de 5.000 para 20.000 reamostras bootstrap, quadruplicamos o número de participantes?
+  \item Na simulação de cobertura, qual é a diferença entre aumentar $B$ e aumentar $n$?
+  \item Se quadruplicarmos $n$ mantendo o modelo, precisamos reduzir o nível de confiança para obter intervalos mais estreitos?
 \end{enumerate}
 
 \subsection*{Comentários das respostas}
@@ -328,4 +405,14 @@ Aumentar o número de reamostras reduz a variação de Monte Carlo do cálculo, 
   \item Não. Uma estimativa pode ficar menos dispersa e continuar sistematicamente afastada da população de interesse.
   \item Não. Ele expressa a incerteza do procedimento de estimação da média; a distribuição das pessoas é outra questão.
   \item Não. Continuamos usando as mesmas pessoas, com mais repetições do algoritmo de reamostragem.
+  \item $B$ controla a quantidade de repetições e a precisão de Monte Carlo da avaliação; $n$ controla o tamanho de cada amostra e participa da precisão das médias.
+  \item Não. Mantidas as demais condições, o EP cai pela metade com o mesmo nível nominal. O ganho vem do tamanho amostral, não da redução do nível de confiança.
 \end{enumerate}
+
+\section{Para continuar no Balaio Científico}
+
+Para conectar o uso de código ao raciocínio de inferência, consulte \href{https://www.balaiocientifico.com/2025/04/como-usar-r-no-jamovi.html}{Como usar R no Jamovi?} e \href{https://www.balaiocientifico.com/2026/10/testes-de-hipoteses-no-jamovi-como.html}{Testes de hipóteses no Jamovi: como começar a interpretar o valor-p}.
+
+Para acompanhar a escrita de comandos no programa, veja \href{https://www.youtube.com/watch?v=TsnW7xN6Wfs}{Jamovi - Escrevendo códigos em R no Jamovi - Aula 19}.
+
+\textbf{Vamos praticar:} Execute o exemplo de reamostragem do capítulo no Rj com a semente indicada. Repita usando outra semente e compare os limites obtidos. Explique por que aumentar o número de reamostras não acrescenta novas pessoas ao conjunto observado.
